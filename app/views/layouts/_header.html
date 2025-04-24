@@ -1,0 +1,26 @@
+{% from "header/macro.njk" import header %}
+
+
+{% block header %}
+
+{{ header({
+"showNav": "false",
+"showSearch": "true",
+"showHeaderActionLinks": "false",
+"logoPath": "assets/images",
+"searchAction": "/search",
+"searchInputName": "q",
+"logoAltText": "Department for Education",
+"homeHref": "https://business-analysis.education.gov.uk",
+"selectedNav": view,
+"service": {
+"name": "",
+"serviceUrl": "/"
+},
+"headerActionLinks": [
+],
+"primaryLinks": [
+]
+})
+}}
+{% endblock %}

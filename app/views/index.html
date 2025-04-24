@@ -1,0 +1,1153 @@
+{% extends "layouts/layout.html" %}
+
+{% set serviceNav = "Home" %}
+{% set path = "" %}
+{% set title = "Register of services" %}
+{% set description = "Discover and integrate with Department for Education services" %}
+
+{% set mainClasses = 'govuk-!-padding-top-0 govuk-!-padding-bottom-0' %}
+
+{% block content %}
+    <div class="app-container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="govuk-width-container">
+                <div class="hero__content">
+                    <div class="hero__text">
+                        <h1 class="hero__title">{{title}}</h1>
+                        <p class="hero__subtitle">{{description}}</p>
+                        <div class="hero__actions">
+                            <a href="/sso" class="hero__button hero__button--primary">Explore Services</a>
+                            <a href="/integrate" class="hero__button hero__button--secondary">Connect with data</a>
+                        </div>
+                    </div>
+                    <div class="hero__visual">
+                        <div class="hero__stats">
+                            <div class="hero__stat">
+                                <span class="hero__stat-number">20</span>
+                                <span class="hero__stat-label">Service Categories</span>
+                            </div>
+                            <div class="hero__stat">
+                                <span class="hero__stat-number">300+</span>
+                                <span class="hero__stat-label">Services</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="govuk-width-container">
+                <div class="features__content">
+                    <div class="features__text">
+                        <h2 class="features__title">Why use the Register of Services?</h2>
+                        <p class="features__description">The Register of Services is a unified platform for accessing Department for Education services and data.</p>
+                    </div>
+                    <div class="features__grid">
+                        <div class="feature-card">
+                            <div class="feature-card__icon">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 8V16C21 18.7614 18.7614 21 16 21H8C5.23858 21 3 18.7614 3 16V8C3 5.23858 5.23858 3 8 3H16C18.7614 3 21 5.23858 21 8Z" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M7 13L10 16L17 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <h3 class="feature-card__title">Direct API access</h3>
+                            <p class="feature-card__description">Access all DfE services through API endpoints using PowerBI, Excel, and other tools</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-card__icon">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 8V12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <h3 class="feature-card__title">Real-time information</h3>
+                            <p class="feature-card__description">Access live information about services and products provided by the DfE.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-card__icon">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 19H15M9 15H15M9 11H15M5 5H19C19.5523 5 20 5.44772 20 6V18C20 18.5523 19.5523 19 19 19H5C4.44772 19 4 18.5523 4 18V6C4 5.44772 4.44772 5 5 5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <h3 class="feature-card__title">Accurate Decisions</h3>
+                            <p class="feature-card__description">Make informed decisions using up-to-date service information and analytics</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Integration Section -->
+        <section class="integration" id="integrate">
+            <div class="govuk-width-container">
+                <div class="integration__content">
+                    <div class="integration__text">
+                        <h2 class="integration__title">Easy integration</h2>
+                        <p class="integration__description">Integrate with ease using our comprehensive guides and SDKs</p>
+                        <div class="dfe-grid-container">
+                            <div class="dfe-card">
+                                <div class="dfe-card-container">
+                                    <div class="integration__tool-header">
+                                        <img src="/assets/images/growth.png" alt="PowerBI" class="integration__tool-icon">
+                                        <h3 class="govuk-heading-m">
+                                            <a href="#" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">Power BI</a>
+                                        </h3>
+                                    </div>
+                                    <p>Connect your Power BI dashboards to DfE services data.</p>
+                                </div>
+                            </div>
+                            <div class="dfe-card">
+                                <div class="dfe-card-container">
+                                    <div class="integration__tool-header">
+                                        <img src="/assets/images/excel.png" alt="Excel" class="integration__tool-icon">
+                                        <h3 class="govuk-heading-m">
+                                            <a href="#" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">Excel</a>
+                                        </h3>
+                                    </div>
+                                    <p>Import and analyze DfE data directly in Microsoft Excel.</p>
+                                </div>
+                            </div>
+                            <div class="dfe-card">
+                                <div class="dfe-card-container">
+                                    <div class="integration__tool-header">
+                                        <img src="/assets/images/api.png" alt="REST API" class="integration__tool-icon">
+                                        <h3 class="govuk-heading-m">
+                                            <a href="#" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">REST API</a>
+                                        </h3>
+                                    </div>
+                                    <p>Full API reference for direct integration with DfE services.</p>
+                                </div>
+                            </div>
+                            <div class="dfe-card">
+                                <div class="dfe-card-container">
+                                    <div class="integration__tool-header">
+                                        <img src="/assets/images/python.png" alt="Python" class="integration__tool-icon">
+                                        <h3 class="govuk-heading-m">
+                                            <a href="#" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">Python</a>
+                                        </h3>
+                                    </div>
+                                    <p>Use Python to integrate with DfE services.</p>
+                                </div>
+                            </div>
+                            <div class="dfe-card">
+                                <div class="dfe-card-container">
+                                    <div class="integration__tool-header">
+                                        <img src="/assets/images/developer.png" alt="Node.js" class="integration__tool-icon">
+                                        <h3 class="govuk-heading-m">
+                                            <a href="#" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">Node.js</a>
+                                        </h3>
+                                    </div>
+                                    <p>Build Node.js applications with DfE services.</p>
+                                </div>
+                            </div>
+                            <div class="dfe-card">
+                                <div class="dfe-card-container">
+                                    <div class="integration__tool-header">
+                                        <img src="/assets/images/c-sharp.png" alt="C#" class="integration__tool-icon">
+                                        <h3 class="govuk-heading-m">
+                                            <a href="#" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">C#</a>
+                                        </h3>
+                                    </div>
+                                    <p>Integrate DfE services in your .NET applications.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Schema Section -->
+        <section class="schema">
+            <div class="govuk-width-container">
+                <div class="schema__content">
+                    <div class="schema__text">
+                        <h2 class="schema__title">Easy to use schema</h2>
+                        <p class="schema__description">Our services follow a consistent schema designed for UK government services, making integration and interoperability seamless across departments</p>
+                        <div class="schema__features">
+                            <div class="schema__feature">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span>Standardized data structure</span>
+                            </div>
+                            <div class="schema__feature">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span>Cross-department compatibility</span>
+                            </div>
+                            <div class="schema__feature">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span>Version controlled</span>
+                            </div>
+                        </div>
+                        <a href="#" class="schema__link">View schema documentation</a>
+                    </div>
+                    <div class="schema__visual">
+                        <div class="schema__code">
+                            <pre><code>{
+  "service": {
+    "id": "string",
+    "name": "string",
+    "description": "string",
+    "category": "string",
+    "status": "string",
+    "owner": "string",
+    "lastUpdated": "date",
+    "endpoints": ["string"],
+    "metadata": {
+      "tags": ["string"],
+      "dependencies": ["string"],
+      "compliance": ["string"]
+    }
+  }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+<style>
+/* App Container */
+.app-container {
+    min-height: 100vh;
+    background: #f8f8f8;
+}
+
+/* Header */
+.app-header {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.app-header__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+}
+
+.app-header__left {
+    flex: 1;
+}
+
+.app-header__title {
+    font-size: 1.5rem;
+    margin: 0;
+    color: #0b0c0c;
+}
+
+.app-header__subtitle {
+    font-size: 1rem;
+    color: #505a5f;
+    margin: 0.25rem 0 0;
+}
+
+.app-header__right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Search */
+.search-container {
+    position: relative;
+    width: 400px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 2px solid #e5e5e5;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #1d70b8;
+    box-shadow: 0 0 0 3px rgba(29, 112, 184, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #505a5f;
+}
+
+/* Main Content */
+.app-main {
+    padding: 2rem 0;
+}
+
+.app-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+}
+
+/* Sidebar */
+.app-sidebar {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    height: fit-content;
+}
+
+.app-sidebar__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.app-sidebar__title {
+    font-size: 1.25rem;
+    margin: 0;
+    color: #0b0c0c;
+}
+
+.clear-filters {
+    color: #1d70b8;
+    background: none;
+    border: none;
+    font-size: 0.875rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.clear-filters:hover {
+    background: #f3f3f3;
+}
+
+/* Filter Sections */
+.filter-section {
+    margin-bottom: 2rem;
+}
+
+.filter-section__title {
+    font-size: 1rem;
+    margin: 0 0 1rem;
+    color: #0b0c0c;
+}
+
+.category-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.category-filter {
+    padding: 0.75rem 1rem;
+    border: none;
+    background: none;
+    text-align: left;
+    font-size: 1rem;
+    color: #505a5f;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.category-filter:hover {
+    background: #f3f3f3;
+    color: #0b0c0c;
+}
+
+.category-filter.active {
+    background: #1d70b8;
+    color: white;
+}
+
+/* Content Area */
+.app-content {
+    min-width: 0;
+}
+
+.content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.results-summary {
+    font-size: 1.125rem;
+    color: #505a5f;
+}
+
+.view-options {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.view-option {
+    padding: 0.5rem;
+    border: 2px solid #e5e5e5;
+    border-radius: 4px;
+    background: white;
+    color: #505a5f;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.view-option:hover {
+    border-color: #1d70b8;
+    color: #1d70b8;
+}
+
+.view-option.active {
+    border-color: #1d70b8;
+    color: #1d70b8;
+    background: #f3f3f3;
+}
+
+/* Card Grid */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Service Cards */
+.service-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.service-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.service-card__content {
+    padding: 1.5rem;
+    flex-grow: 1;
+}
+
+.service-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.service-card__title {
+    font-size: 1.25rem;
+    margin: 0;
+    color: #0b0c0c;
+}
+
+.service-card__category {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.75rem;
+    background: #f3f3f3;
+    border-radius: 1rem;
+    color: #505a5f;
+}
+
+.service-card__description {
+    font-size: 1rem;
+    color: #505a5f;
+    margin: 0 0 1rem;
+    line-height: 1.5;
+}
+
+.service-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.service-card__tag {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.75rem;
+    background: #f3f3f3;
+    border-radius: 1rem;
+    color: #505a5f;
+}
+
+.service-card__tag--more {
+    background: #e6f4ff;
+    color: #1d70b8;
+    cursor: pointer;
+}
+
+.service-card__tag--more:hover {
+    background: #d9eefd;
+}
+
+.service-card__action {
+    border-top: 1px solid #f3f3f3;
+    padding: 1rem 1.5rem;
+}
+
+.service-card__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    color: #1d70b8;
+    font-weight: 600;
+    padding: 0.5rem;
+    margin: -0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.service-card__link:hover {
+    color: #003078;
+    text-decoration: none;
+    background-color: #f8f8f8;
+}
+
+.service-card__link:focus {
+    outline: none;
+    background-color: #f8f8f8;
+    box-shadow: 0 0 0 3px #ffdd00;
+}
+
+.service-card__link:focus:not(:focus-visible) {
+    box-shadow: none;
+}
+
+.service-card__link:focus-visible {
+    outline: none;
+    background-color: #f8f8f8;
+    box-shadow: 0 0 0 3px #ffdd00;
+}
+
+.service-card__link svg {
+    margin-left: 0.5rem;
+    transition: transform 0.2s ease;
+}
+
+.service-card__link:hover svg {
+    transform: translateX(2px);
+}
+
+/* No results */
+.no-results {
+    text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+.service-card.dfe-card--hidden {
+    display: none;
+}
+
+/* Filter Toggle Button */
+.filter-toggle {
+    display: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 48.0625em) {
+    .app-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .app-header__content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .app-header__right {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .search-container {
+        width: 100%;
+    }
+
+    .app-sidebar {
+        display: none;
+        margin-bottom: 1.5rem;
+    }
+
+    .app-sidebar.is-visible {
+        display: block;
+    }
+
+    .filter-toggle {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        background: white;
+        border: 2px solid #e5e5e5;
+        border-radius: 4px;
+        font-size: 1rem;
+        color: #505a5f;
+        cursor: pointer;
+    }
+
+    .filter-toggle:hover {
+        border-color: #1d70b8;
+        color: #1d70b8;
+    }
+
+    .filter-toggle[aria-expanded="true"] {
+        border-color: #1d70b8;
+        color: #1d70b8;
+        margin-bottom: 1rem;
+    }
+
+    .filter-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 6px;
+        background: #1d70b8;
+        color: white;
+        border-radius: 10px;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .filter-count:empty {
+        display: none;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .content-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, #1d70b8 0%, #003078 100%);
+    color: white;
+    padding: 6rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.hero__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.hero__text {
+    max-width: 600px;
+}
+
+.hero__title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem;
+    line-height: 1.2;
+}
+
+.hero__subtitle {
+    font-size: 1.5rem;
+    margin: 0 0 2.5rem;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
+.hero__actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.hero__button {
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.hero__button--primary {
+    background: white;
+    color: #1d70b8;
+}
+
+.hero__button--primary:hover {
+    background: #f8f8f8;
+    transform: translateY(-1px);
+}
+
+.hero__button--secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero__button--secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.hero__stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.hero__stat {
+    text-align: center;
+}
+
+.hero__stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.hero__stat-label {
+    font-size: 0.875rem;
+    opacity: 0.9;
+}
+
+/* Features Section */
+.features {
+    padding: 6rem 0;
+    background: #f3f2f1;
+    margin-bottom: 4rem;
+}
+
+.features__content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    align-items: start;
+}
+
+.features__text {
+    position: sticky;
+    top: 2rem;
+}
+
+.features__title {
+    font-size: 2.5rem;
+    margin: 0 0 1.5rem;
+    color: #0b0c0c;
+    line-height: 1.2;
+}
+
+.features__description {
+    font-size: 1.25rem;
+    color: #505a5f;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.features__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+/* Integration Section */
+.integration {
+    padding: 4rem 0;
+    background: #ffffff;
+    margin-bottom: 4rem;
+}
+
+.integration__content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+.integration__text {
+    max-width: 100%;
+}
+
+.integration__title {
+    font-size: 2.5rem;
+    margin: 0 0 1.5rem;
+    color: #0b0c0c;
+    line-height: 1.2;
+}
+
+.integration__description {
+    font-size: 1.25rem;
+    color: #505a5f;
+    margin: 0 0 3rem;
+    line-height: 1.5;
+}
+
+.integration__tool-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.integration__tool-header .govuk-heading-m {
+    margin-bottom: 0;
+}
+
+.integration__tool-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+@media (max-width: 48.0625em) {
+    .integration__content {
+        gap: 2rem;
+    }
+
+    .integration__title {
+        font-size: 2rem;
+    }
+
+    .integration__description {
+        font-size: 1.125rem;
+        margin-bottom: 2rem;
+    }
+}
+
+/* Schema Section */
+.schema {
+    padding: 6rem 0;
+    background: #f3f2f1;
+}
+
+.schema__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.schema__text {
+    max-width: 600px;
+}
+
+.schema__title {
+    font-size: 2.5rem;
+    margin: 0 0 1.5rem;
+    color: #0b0c0c;
+    line-height: 1.2;
+}
+
+.schema__description {
+    font-size: 1.25rem;
+    color: #505a5f;
+    margin: 0 0 2rem;
+    line-height: 1.5;
+}
+
+.schema__features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.schema__feature {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #0b0c0c;
+    font-size: 1.125rem;
+}
+
+.schema__feature svg {
+    color: #1d70b8;
+}
+
+.schema__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #1d70b8;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.125rem;
+}
+
+.schema__link:hover {
+    text-decoration: underline;
+}
+
+.schema__code {
+    background: #f8f8f8;
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+}
+
+.schema__code pre {
+    margin: 0;
+    color: #0b0c0c;
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    overflow-x: auto;
+}
+
+/* Update hero stats grid */
+.hero__stats {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* Update integration tools grid */
+.integration__tools {
+    grid-template-columns: repeat(6, 1fr);
+}
+
+@media (max-width: 48.0625em) {
+    .schema__content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .schema__text {
+        max-width: none;
+    }
+
+    .integration__tools {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const search = document.getElementById('search');
+    const cards = document.querySelectorAll('.service-card');
+    const container = document.getElementById('card-container');
+    const resultsCount = document.getElementById('results-count');
+    const categoryFilters = document.querySelectorAll('.category-filter');
+    const clearFilters = document.querySelector('.clear-filters');
+
+    // Add no results message
+    const noResults = document.createElement('div');
+    noResults.className = 'no-results';
+    noResults.textContent = 'No matching services found';
+    noResults.style.display = 'none';
+    container.appendChild(noResults);
+
+    // Add ARIA labels to all links
+    cards.forEach(card => {
+        const title = card.querySelector('.service-card__title').textContent;
+        const link = card.querySelector('.service-card__link');
+        link.setAttribute('aria-label', `View details for ${title}`);
+    });
+
+    // Clear filters
+    clearFilters.addEventListener('click', () => {
+        // Reset all checkboxes
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+
+        // Reset category filters
+        categoryFilters.forEach(filter => {
+            filter.classList.remove('active');
+            if (filter.dataset.category === 'all') {
+                filter.classList.add('active');
+            }
+        });
+
+        // Reset search
+        search.value = '';
+        
+        // Update results
+        doSearch();
+    });
+
+    // Update service cards with consolidated categories
+    const categoryMapping = {
+        'users': ['users', 'life-stages', 'needs'],
+        'education': ['education'],
+        'management': ['management'],
+        'policy': ['policy', 'strategy'],
+        'technology': ['technology'],
+        'funding': ['funding'],
+        'geography': ['geography'],
+        'legal': ['legal'],
+        'organisations': ['organisations'],
+        'outcomes': ['outcomes'],
+        'performance': ['performance'],
+        'service': ['service'],
+        'timeframes': ['timeframes']
+    };
+
+    function doSearch() {
+        const query = search.value.toLowerCase();
+        const activeCategory = document.querySelector('.category-filter.active').dataset.category;
+        
+        let found = 0;
+        const total = cards.length;
+
+        cards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            const aka = (card.dataset.aka || '').toLowerCase();
+            const cardCategory = card.dataset.category;
+            
+            const matchesSearch = !query || text.includes(query) || aka.includes(query);
+            const matchesCategory = activeCategory === 'all' || 
+                                 (categoryMapping[activeCategory] && categoryMapping[activeCategory].includes(cardCategory));
+            
+            if (matchesSearch && matchesCategory) {
+                card.style.display = '';
+                found++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Update results count
+        if (!query && activeCategory === 'all') {
+            resultsCount.textContent = `Showing all service categories`;
+        } else {
+            resultsCount.textContent = `Showing ${found} of ${total} service categories`;
+        }
+
+        // Show/hide no results message
+        noResults.style.display = found === 0 ? 'block' : 'none';
+    }
+
+    // Category filter click handler
+    categoryFilters.forEach(filter => {
+        filter.addEventListener('click', () => {
+            categoryFilters.forEach(f => f.classList.remove('active'));
+            filter.classList.add('active');
+            doSearch();
+        });
+    });
+
+    // Checkbox filter handlers
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', doSearch);
+    });
+
+    // Search on input
+    search.addEventListener('input', doSearch);
+    
+    // Handle clear button
+    search.addEventListener('search', doSearch);
+
+    // Add tags to all cards
+    cards.forEach(card => {
+        const aka = card.dataset.aka ? card.dataset.aka.split(', ') : [];
+        const tagsContainer = card.querySelector('.service-card__tags');
+        
+        if (tagsContainer && aka.length > 0) {
+            // Clear existing tags
+            tagsContainer.innerHTML = '';
+            
+            // Show first 3 tags
+            aka.slice(0, 3).forEach(tag => {
+                const tagElement = document.createElement('span');
+                tagElement.className = 'service-card__tag';
+                tagElement.textContent = tag;
+                tagsContainer.appendChild(tagElement);
+            });
+
+            // Add "+X more" if there are more tags
+            if (aka.length > 3) {
+                const moreTag = document.createElement('span');
+                moreTag.className = 'service-card__tag service-card__tag--more';
+                moreTag.textContent = `+${aka.length - 3} more`;
+                tagsContainer.appendChild(moreTag);
+            }
+        }
+    });
+
+    // Mobile filter panel toggle
+    const filterToggle = document.querySelector('.filter-toggle');
+    const filterPanel = document.getElementById('filter-panel');
+    const filterCount = document.querySelector('.filter-count');
+
+    if (filterToggle && filterPanel) {
+        // Toggle filter panel
+        function toggleFilters() {
+            const isExpanded = filterToggle.getAttribute('aria-expanded') === 'true';
+            filterToggle.setAttribute('aria-expanded', !isExpanded);
+            filterPanel.classList.toggle('is-visible');
+        }
+
+        filterToggle.addEventListener('click', toggleFilters);
+
+        // Update filter count
+        function updateFilterCount() {
+            const activeFilters = document.querySelector('.category-filter.active');
+            const count = activeFilters.dataset.category === 'all' ? 0 : 1;
+            filterCount.textContent = count || '';
+        }
+
+        // Update count when filters change
+        categoryFilters.forEach(filter => {
+            filter.addEventListener('click', (e) => {
+                updateFilterCount();
+                // Close filter panel on mobile after selection
+                if (window.innerWidth <= 770) {
+                    toggleFilters();
+                }
+            });
+        });
+
+        clearFilters.addEventListener('click', () => {
+            filterCount.textContent = '';
+            // Close filter panel on mobile after clearing
+            if (window.innerWidth <= 770) {
+                toggleFilters();
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

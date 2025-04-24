@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="1.5; url=/{{prototypeVersion}}/dashboard">
+  <title>Sign in to your account</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", "Helvetica Neue", "Helvetica", Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      position: relative;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .background-svg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      object-fit: cover;
+    }
+
+    .sso-container {
+      width: 100%;
+      max-width: 440px;
+      position: relative;
+      z-index: 1;
+      margin: 0 auto;
+      padding: 44px 0;
+    }
+
+    .sso-card {
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      min-width: 320px;
+      min-height: 338px;
+      padding: 44px 50px 36px;
+    }
+
+    .sso-header {
+      margin-bottom: 16px;
+    }
+
+    .sso-logo {
+      height: 24px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .sso-title {
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 28px;
+      font-family: inherit;
+      color: #1b1b1b;
+      margin-top: 16px;
+      padding-bottom: 0;
+      margin-bottom: 12px;
+    }
+
+    .sso-input-group {
+      margin-bottom: 16px;
+      position: relative;
+      width: 100%;
+    }
+
+    .sso-input {
+      width: 100%;
+      height: 36px;
+      padding: 6px 10px;
+      border: none;
+      border-bottom: 1px solid rgba(0,0,0,0.6);
+      font-size: 15px;
+      line-height: 20px;
+      font-family: inherit;
+      color: #1b1b1b;
+      background-color: transparent;
+    }
+
+    .sso-input:focus {
+      outline: none;
+      border-bottom: 2px solid #0067b8;
+      margin-bottom: -1px;
+    }
+
+    .sso-input::placeholder {
+      color: #666;
+    }
+
+    .sso-footer {
+      position: relative;
+      margin-top: 20px;
+    }
+
+    .sso-link {
+      color: #0067b8;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 16px;
+      display: inline-block;
+      padding: 4px 0;
+    }
+
+    .sso-link:hover {
+      color: #004881;
+      text-decoration: underline;
+    }
+
+    .sso-button {
+      float: right;
+      min-width: 108px;
+      height: 32px;
+      padding: 4px 12px;
+      background: #0067b8;
+      color: white;
+      border: none;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 24px;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .sso-button:hover {
+      background: #005da6;
+    }
+
+    .sso-options {
+      margin-top: 32px;
+      text-align: left;
+      padding: 12px;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .sso-options-button {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #000;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 16px;
+      padding: 4px;
+      width: 100%;
+    }
+
+    .sso-options-button:hover {
+      background: #f3f3f3;
+    }
+
+    .key-icon {
+      width: 16px;
+      height: 16px;
+      opacity: 0.8;
+      margin-left: 4px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 0;
+        margin: 0;
+        height: 100vh;
+        background: #fff;
+      }
+
+      .background-svg {
+        display: none;
+      }
+
+      .sso-container {
+        height: 100vh;
+        max-width: 100%;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sso-card {
+        flex: 1;
+        box-shadow: none;
+        padding: 24px;
+        margin: 0;
+        width: 100%;
+      }
+
+      .sso-options {
+        margin: 0;
+        box-shadow: none;
+        border-top: 1px solid #e5e5e5;
+      }
+    }
+  </style>
+</head>
+<body>
+  <img src="/assets/images/Microsoft_login_screen.svg" alt="" class="background-svg" aria-hidden="true">
+  <div class="sso-container">
+    <div class="sso-card">
+      <div class="sso-header">
+        <img src="/assets/images/mslogo.png" alt="Microsoft" class="sso-logo">
+        <h1 class="sso-title">Sign in</h1>
+      </div>
+
+      <form class="sso-form" action="/dashboard" method="get">
+        <div class="sso-input-group">
+          <input type="email" id="email" name="email" class="sso-input" placeholder="Email or phone">
+        </div>
+
+        <div class="sso-footer">
+          <a href="/help" class="sso-link">Can't access your account?</a>
+          <button type="submit" class="sso-button">Next</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="sso-options">
+      <a href="/auth/options" class="sso-options-button">
+    
+        Sign-in options
+      </a>
+    </div>
+  </div>
+</body>
+</html>
