@@ -1324,6 +1324,32 @@ const servicesController = {
         res.render('reports/service.html', { service });
     },
 
+    getEditUptime: async (req, res) => {
+        const serviceId = req.params.serviceId;
+        const services = JSON.parse(fs.readFileSync(path.join(__dirname, '../common/data/services.json'), 'utf8'));
+        const service = services.find(s => String(s.id) === String(serviceId));
+        if (!service) {
+            return res.status(404).render('error', { message: 'Service not found', error: null });
+        }
+        res.render('reports/edit-uptime.html', { service });
+    },
+    postEditUptime: async (req, res) => {
+        const serviceId = req.params.serviceId;
+        const { uptime } = req.body;
+        const servicesPath = path.join(__dirname, '../common/data/services.json');
+        const services = JSON.parse(fs.readFileSync(servicesPath, 'utf8'));
+        const idx = services.findIndex(s => String(s.id) === String(serviceId));
+        if (idx === -1) {
+            return res.status(404).render('error', { message: 'Service not found', error: null });
+        }
+        // Update uptime value
+        if (!services[idx].reporting_metrics) services[idx].reporting_metrics = {};
+        if (!services[idx].reporting_metrics.availability_performance) services[idx].reporting_metrics.availability_performance = {};
+        services[idx].reporting_metrics.availability_performance.uptime = uptime;
+        fs.writeFileSync(servicesPath, JSON.stringify(services, null, 2), 'utf8');
+        res.redirect(`/reports/services/${serviceId}`);
+    },
+
 };
 
 module.exports = servicesController; 

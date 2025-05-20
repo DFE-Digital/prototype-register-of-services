@@ -92,6 +92,57 @@ const dashboardController = {
             const servicelines = require('../common/data/servicelines.json');
             const standardsData = require('../common/data/standards.json');
 
+            // --- Leaderboard logic ---
+            // Helper: get a numeric value or fallback
+            function safeNum(val, fallback = 0) {
+                if (typeof val === 'number') return val;
+                if (typeof val === 'string' && val.trim() !== '' && !isNaN(Number(val))) return Number(val);
+                return fallback;
+            }
+
+            // Calculate a 'score' for each service (example: average of uptime and csat)
+            const leaderboard = services.map(service => {
+                // Uptime (availability)
+                let uptime = safeNum(service.reporting_metrics?.availability_performance?.uptime, safeNum(service.Availability));
+                // CSAT (customer satisfaction)
+                let csat = safeNum(service.reporting_metrics?.customer_experience?.csat, safeNum(service.user_satisfaction));
+                // Number of standards met (higher is better)
+                let standards = safeNum(service.Standards);
+                // Accessibility
+                let accessibility = service.Accessibility || '';
+                let accessibility_score = 0;
+                if (accessibility.toLowerCase() === 'full') accessibility_score = 1;
+                else if (accessibility.toLowerCase() === 'partial') accessibility_score = 0.5;
+                // Issues count (accessibility issues)
+                let issues_count = safeNum(service.reporting_metrics?.security_risk?.accessibility_issues);
+                // Risks (open risks)
+                let risks = safeNum(service.reporting_metrics?.security_risk?.open_risks);
+                // Weighted score
+                let score = (accessibility_score * 3) + (csat * 2) + (standards * 1) + (uptime * 1) - (risks * 3) - (issues_count * 2);
+                return {
+                    name: service.name,
+                    service_owner: service.service_owner || '',
+                    service_line: service.service_line || '',
+                    uptime,
+                    csat,
+                    standards,
+                    accessibility,
+                    issues_count,
+                    risks,
+                    score,
+                };
+            });
+            // Top performers: highest score
+            const topPerformers = leaderboard
+                .filter(s => s.uptime && s.csat && s.standards)
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 5);
+            // Bottom performers: lowest score
+            const bottomPerformers = leaderboard
+                .filter(s => s.uptime && s.csat && s.standards)
+                .sort((a, b) => a.score - b.score)
+                .slice(0, 5);
+
             // 1. Total number of services
             const totalServices = services.length;
 
@@ -217,7 +268,9 @@ const dashboardController = {
                 prevMonthLabel: lastMonthLabel,
                 reportingClass: lastMonthReportingClass,
                 previousMonths,
-                standards: standardsData.standards
+                standards: standardsData.standards,
+                topPerformers,
+                bottomPerformers
             });
         } catch (error) {
             console.error('Error in dashboard controller:', error);

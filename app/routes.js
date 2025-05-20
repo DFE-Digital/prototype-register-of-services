@@ -101,5 +101,7 @@ router.post('/services/new/:step', servicesController.newServiceStepPost);
 // Add the new route
 router.get('/reports/services', servicesController.getServicesReport);
 router.get('/reports/services/:serviceId', servicesController.getSingleServiceReport);
+router.get('/reports/services/:serviceId/uptime', servicesController.getEditUptime);
+router.post('/reports/services/:serviceId/uptime', servicesController.postEditUptime);
 
 module.exports = router; 

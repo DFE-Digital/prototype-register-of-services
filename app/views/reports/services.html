@@ -7,37 +7,119 @@
 {% endblock %}
 
 {% block content %}
-<div class="govuk-width-container">
-    <h1 class="govuk-heading-xl">Service Reporting</h1>
-    <table class="govuk-table" id="services-table">
-        <thead>
-            <tr>
-                <th class="sortable" data-sort="name">Service Name <span class="sort-indicator"></span></th>
-                <th class="sortable" data-sort="status">Status <span class="sort-indicator"></span></th>
-                <th class="sortable" data-sort="last-reported">Last Reported <span class="sort-indicator"></span></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for service in services %}
-                {% set last_report = service.monthly_reporting and service.monthly_reporting.history and service.monthly_reporting.history[0] %}
-                <tr>
-                    <td data-sort-value="{{ service.name }}">
-                        <a href="/reports/services/{{ service.id }}">{{ service.name }}</a>
-                    </td>
-                    <td data-sort-value="{{ last_report and last_report.status or 'not_started' }}">
-                        {% if last_report and last_report.status == 'completed' %}
-                            <span class="govuk-tag govuk-tag--green">Complete</span>
-                        {% elif last_report and last_report.status == 'in_progress' %}
-                            <span class="govuk-tag govuk-tag--yellow">In progress</span>
-                        {% else %}
-                            <span class="govuk-tag govuk-tag--red">Not started</span>
-                        {% endif %}
-                    </td>
-                    <td data-sort-value="{{ last_report and last_report.month or '' }}">{{ last_report and last_report.month or '—' }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="govuk-width-container">
+
+        <div class="govuk-grid-row">
+
+            <div class="govuk-grid-column-one-quarter">
+                <nav class="dfe-vertical-nav">
+                    <a href="/reports" class="govuk-back-link govuk-!-margin-top-0 govuk-!-margin-bottom-9">Back to reports</a>
+                    <h2 class="govuk-heading-s">Active and overdue reports</h2>
+
+                    <ul class="dfe-vertical-nav__section">
+
+                        <li class="dfe-vertical-nav__section-item dfe-vertical-nav__section-item--current">
+                            <a class="dfe-vertical-nav__link" href="#" >{{ x | date('add', -1, 'month') | date('MMMM YYYY') }}</a>
+                        </li>
+
+                    </ul>
+
+                    <h2 class="govuk-heading-s">Upcoming reports</h2>
+
+                    <ul class="dfe-vertical-nav__section">
+                        <li class="dfe-vertical-nav__section-item ">
+                            <a class="dfe-vertical-nav__link" href="#" >{{ x | date('add', 0, 'month') | date('MMMM YYYY') }}</a>
+                        </li>
+
+                    </ul>
+
+                    <h2 class="govuk-heading-s">Submitted reports</h2>
+
+                    <ul class="dfe-vertical-nav__section">
+                        <li class="dfe-vertical-nav__section-item ">
+                            <a class="dfe-vertical-nav__link" href="#" >{{ x | date('add', -2, 'month') | date('MMMM YYYY') }}</a>
+                        </li>
+                        <li class="dfe-vertical-nav__section-item ">
+                            <a class="dfe-vertical-nav__link" href="#" >{{ x | date('add', -3, 'month') | date('MMMM YYYY') }}</a>
+                        </li>
+                        <li class="dfe-vertical-nav__section-item ">
+                            <a class="dfe-vertical-nav__link" href="#" >{{ x | date('add', -4, 'month') | date('MMMM YYYY') }}</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="govuk-grid-column-three-quarters">
+
+                <span class="govuk-caption-l">Reporting</span>
+                <h1 class="govuk-heading-xl">{{ x | date('add', -1, 'month') | date('MMMM YYYY') }}</h1>
+
+                <ul class="svc-list govuk-!-margin-bottom-5">
+                    <li class="svc-list-item">
+                        <div class="svc-list-main">
+                            <div class="svc-list-info">
+
+                                <div class="svc-list-meta">
+                                    <span>
+                                        <span class="svc-meta-label">Status</span>
+                                        <span class="svc-meta-value">
+                                            <span class="svc-meta-value-late">Late</span>
+                                        </span>
+                                    </span>
+                                    <span>
+                                        <span class="svc-meta-label">Submission</span>
+                                        <span class=" svc-meta-value-late">Not submiitted</span></span>
+                                    <span>
+                                        <span class="svc-meta-label">Progress</span>
+                                        <span class="svc-meta-value">0 of 5 returns completed</span>
+                                    </span>
+                                </span>
+                                <span>
+                                    <span class="svc-meta-label">Due by</span>{{ x | date('add', 0, 'month') | date('[7] MMMM YYYY') }}</span></span>
+
+                        </div>
+                    </div>
+
+                </li>
+            </ul>
+
+            <div class="dashboard-section">
+                <table class="govuk-table" id="services-table">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-sort="name">Service Name <span class="sort-indicator"></span></th>
+                            <th class="sortable" data-sort="status">Status <span class="sort-indicator"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for service in services %}
+                            {% set last_report = service
+                                .monthly_reporting and service
+                                .monthly_reporting
+                                .history and service
+                                .monthly_reporting
+                                .history[0] %}
+                            <tr>
+                                <td data-sort-value="{{ service.name }}">
+                                    <a href="/reports/services/{{ service.id }}">{{ service.name }}</a>
+                                </td>
+                                <td data-sort-value="{{ last_report and last_report.status or 'not_started' }}">
+                                    {% if last_report and last_report.status == 'completed' %}
+                                        <span class="govuk-tag govuk-tag--green">Complete</span>
+                                    {% elif last_report and last_report.status == 'in_progress' %}
+                                        <span class="govuk-tag govuk-tag--yellow">In progress</span>
+                                    {% else %}
+                                        <span class="govuk-tag govuk-tag--red">Not started</span>
+                                    {% endif %}
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -67,9 +149,76 @@
         opacity: 1;
         color: #1d70b8;
     }
+    .svc-btn-primary,
+    .svc-btn-reset {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        box-sizing: border-box;
+        padding: 0 1.5em;
+        font-size: 1rem;
+        line-height: 1.2;
+        font-weight: 600;
+        border-radius: 4px;
+        border: 2px solid #1d70b8;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+        text-decoration: none;
+    }
+    .svc-btn-primary {
+        background: #1d70b8;
+        color: #fff;
+    }
+    .svc-btn-primary:focus,
+    .svc-btn-primary:hover {
+        background: #003078;
+        color: #fff;
+    }
+    .svc-btn-reset {
+        background: #fff;
+        color: #1d70b8;
+        margin-left: 0.5em;
+    }
+    .svc-btn-reset:focus,
+    .svc-btn-reset:hover {
+        background: #e8f1fa;
+        color: #003078;
+    }
+    .svc-filter-actions {
+        display: flex;
+        gap: 0.5em;
+        align-items: center;
+    }
+
+    .svc-list-meta .svc-meta-label {
+        margin-bottom: 5px;
+    }
+
+      .svc-meta-value-blue {
+        color: #003078;
+        font-weight: 600;
+        background-color: #ccd6e4;
+        padding: 0.25em 0.7em;
+        border-radius: 0.25em;
+        text-align: center;
+        min-width: fit-content !important;
+    }
+
+    .svc-meta-value-late {
+        color: #b10e1e;
+        font-weight: 600;
+        background-color: #f8d7da;
+        padding: 0.25em 0.7em;
+        border-radius: 0.25em;
+        text-align: center;
+        min-width: fit-content !important;
+    }
+
+
 </style>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const table = document.getElementById('services-table');
         const headers = table.querySelectorAll('th.sortable');
         let currentSort = {
@@ -80,7 +229,9 @@
             headers.forEach(header => {
                 const indicator = header.querySelector('.sort-indicator');
                 if (header.classList.contains('active')) {
-                    indicator.textContent = currentSort.direction === 'asc' ? '▲' : '▼';
+                    indicator.textContent = currentSort.direction === 'asc'
+                        ? '▲'
+                        : '▼';
                     indicator.style.color = '#1d70b8';
                     indicator.style.opacity = '1';
                 } else {
@@ -93,7 +244,9 @@
         function sortTable(column, direction) {
             const tbody = table.querySelector('tbody');
             const rows = Array.from(tbody.querySelectorAll('tr'));
-            const columnIndex = Array.from(headers).findIndex(h => h.dataset.sort === column);
+            const columnIndex = Array
+                .from(headers)
+                .findIndex(h => h.dataset.sort === column);
             rows.sort((a, b) => {
                 const aCell = a.children[columnIndex];
                 const bCell = b.children[columnIndex];
@@ -101,15 +254,25 @@
                 const bValue = bCell.dataset.sortValue;
                 // For status, sort by custom order
                 if (column === 'status') {
-                    const order = { 'completed': 2, 'in_progress': 1, 'not_started': 0 };
-                    return direction === 'asc' ? (order[aValue]||0) - (order[bValue]||0) : (order[bValue]||0) - (order[aValue]||0);
+                    const order = {
+                        'completed': 2,
+                        'in_progress': 1,
+                        'not_started': 0
+                    };
+                    return direction === 'asc'
+                        ? (order[aValue] || 0) - (order[bValue] || 0)
+                        : (order[bValue] || 0) - (order[aValue] || 0);
                 }
                 // For last-reported, sort by string (YYYY-MM)
                 if (column === 'last-reported') {
-                    return direction === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+                    return direction === 'asc'
+                        ? aValue.localeCompare(bValue)
+                        : bValue.localeCompare(aValue);
                 }
                 // For name, sort alphabetically
-                return direction === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+                return direction === 'asc'
+                    ? aValue.localeCompare(bValue)
+                    : bValue.localeCompare(aValue);
             });
             rows.forEach(row => tbody.appendChild(row));
         }
@@ -117,13 +280,17 @@
             header.addEventListener('click', () => {
                 const sortKey = header.dataset.sort;
                 if (currentSort.column === sortKey) {
-                    currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                    currentSort.direction = currentSort.direction === 'asc'
+                        ? 'desc'
+                        : 'asc';
                 } else {
                     currentSort.column = sortKey;
                     currentSort.direction = 'asc';
                 }
                 headers.forEach(h => h.classList.remove('active'));
-                header.classList.add('active');
+                header
+                    .classList
+                    .add('active');
                 sortTable(currentSort.column, currentSort.direction);
                 updateSortIndicators();
             });

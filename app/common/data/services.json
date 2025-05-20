@@ -147,7 +147,7 @@
       "history": [
         {
           "month": "2025-04",
-          "status": "completed",
+          "status": "in_progress",
           "completed_at": "2025-04-30T23:59:59Z"
         },
         {
@@ -176,7 +176,7 @@
         "first_contact_resolution": 91
       },
       "availability_performance": {
-        "uptime": 99.95,
+        "uptime": "99.6",
         "sla_compliance": 98.7,
         "mttd": "15m",
         "mttr": "1h 10m",
@@ -203,7 +203,8 @@
         "security_incidents": 0,
         "vuln_remediation_time": "4d",
         "compliance_metrics": "100%",
-        "open_risks": 1
+        "open_risks": 1,
+        "accessibility_issues": 7
       },
       "financial_business": {
         "cost_per_transaction": "0.12",
@@ -434,7 +435,8 @@
         "security_incidents": 0,
         "vuln_remediation_time": "1d",
         "compliance_metrics": "95%",
-        "open_risks": 3
+        "open_risks": 3,
+        "accessibility_issues": 2
       },
       "financial_business": {
         "cost_per_transaction": "0.19",
@@ -605,7 +607,7 @@
       },
       "availability_performance": {
         "uptime": 99.87,
-        "sla_compliance": 98.0,
+        "sla_compliance": 98,
         "mttd": "25m",
         "mttr": "1h 44m",
         "error_budget_burn": "2%",
@@ -631,7 +633,8 @@
         "security_incidents": 2,
         "vuln_remediation_time": "7d",
         "compliance_metrics": "90%",
-        "open_risks": 5
+        "open_risks": 5,
+        "accessibility_issues": 4
       },
       "financial_business": {
         "cost_per_transaction": "0.17",
@@ -851,7 +854,8 @@
         "security_incidents": 0,
         "vuln_remediation_time": "5d",
         "compliance_metrics": "94%",
-        "open_risks": 5
+        "open_risks": 5,
+        "accessibility_issues": 2
       },
       "financial_business": {
         "cost_per_transaction": "0.18",
@@ -1060,7 +1064,8 @@
         "security_incidents": 0,
         "vuln_remediation_time": "4d",
         "compliance_metrics": "96%",
-        "open_risks": 2
+        "open_risks": 2,
+        "accessibility_issues": 2
       },
       "financial_business": {
         "cost_per_transaction": "0.08",
@@ -2082,7 +2087,7 @@
       },
       "availability_performance": {
         "uptime": 99.91,
-        "sla_compliance": 96.0,
+        "sla_compliance": 96,
         "mttd": "20m",
         "mttr": "1h 5m",
         "error_budget_burn": "3%",
@@ -3447,7 +3452,7 @@
       },
       "availability_performance": {
         "uptime": 99.86,
-        "sla_compliance": 96.0,
+        "sla_compliance": 96,
         "mttd": "20m",
         "mttr": "1h 50m",
         "error_budget_burn": "8%",
@@ -3633,7 +3638,7 @@
       },
       "availability_performance": {
         "uptime": 99.82,
-        "sla_compliance": 96.0,
+        "sla_compliance": 96,
         "mttd": "16m",
         "mttr": "1h 37m",
         "error_budget_burn": "5%",
@@ -5138,7 +5143,7 @@
       },
       "availability_performance": {
         "uptime": 99.98,
-        "sla_compliance": 96.0,
+        "sla_compliance": 96,
         "mttd": "7m",
         "mttr": "1h 2m",
         "error_budget_burn": "9%",
@@ -6840,7 +6845,7 @@
       },
       "availability_performance": {
         "uptime": 99.97,
-        "sla_compliance": 95.0,
+        "sla_compliance": 95,
         "mttd": "25m",
         "mttr": "52m",
         "error_budget_burn": "4%",
@@ -7416,7 +7421,7 @@
       },
       "availability_performance": {
         "uptime": 99.84,
-        "sla_compliance": 97.0,
+        "sla_compliance": 97,
         "mttd": "23m",
         "mttr": "30m",
         "error_budget_burn": "5%",
@@ -8209,7 +8214,7 @@
       "jira": ""
     },
     "name": "Plan technology for your school",
-    "description": "This is a self-assessment service to determine how your school is using technology\u202fand what your school can do to use technology better in future.",
+    "description": "This is a self-assessment service to determine how your school is using technology and what your school can do to use technology better in future.",
     "public_url": "https://www.plan-technology-for-your-school.education.gov.uk",
     "created_at": "2025-05-09T00:00:00Z",
     "updated_at": "2025-05-09T00:00:00Z",

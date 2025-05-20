@@ -2,110 +2,124 @@
 {% set title = service.name %}
 {% set serviceNav = "Reports" %}
 
+{% block head %}
+    <link rel="stylesheet" href="/assets/css/reports.css">
+{% endblock %}
+
 {% block content %}
 <div class="govuk-width-container">
-    <a href="/reports/services" class="govuk-back-link">Back to all services</a>
-    <h1 class="govuk-heading-xl">{{ service.name }}</h1>
-
-    {% set groups = [
-        { "key": "customer_experience", "label": "Customer Experience", "metrics": [
-            { "key": "csat", "label": "CSAT (%)" },
-            { "key": "nps", "label": "NPS" },
-            { "key": "ces", "label": "CES" },
-            { "key": "first_contact_resolution", "label": "First-Contact Resolution (%)" }
-        ]},
-        { "key": "availability_performance", "label": "Availability & Performance", "metrics": [
-            { "key": "uptime", "label": "Uptime (%)" },
-            { "key": "sla_compliance", "label": "SLA Compliance (%)" },
-            { "key": "mttd", "label": "MTTD" },
-            { "key": "mttr", "label": "MTTR" },
-            { "key": "error_budget_burn", "label": "Error Budget Burn" },
-            { "key": "latency_p95", "label": "Latency (p95)" }
-        ]},
-        { "key": "usage_adoption", "label": "Usage & Adoption", "metrics": [
-            { "key": "active_users_mau", "label": "Active Users (MAU)" },
-            { "key": "new_signups", "label": "New Sign-ups" },
-            { "key": "churn_rate", "label": "Churn Rate" },
-            { "key": "session_length", "label": "Session Length" },
-            { "key": "transactions", "label": "Transactions" },
-            { "key": "conversion_rate", "label": "Conversion Rate" }
-        ]},
-        { "key": "operational_health", "label": "Operational Health", "metrics": [
-            { "key": "incident_count", "label": "Incident Count" },
-            { "key": "major_outages", "label": "Major Outages" },
-            { "key": "problem_backlog", "label": "Problem Backlog" },
-            { "key": "change_success_rate", "label": "Change Success Rate" },
-            { "key": "deployment_frequency", "label": "Deployment Frequency" },
-            { "key": "lead_time", "label": "Lead Time" }
-        ]},
-        { "key": "security_risk", "label": "Security & Risk", "metrics": [
-            { "key": "security_incidents", "label": "Security Incidents" },
-            { "key": "vuln_remediation_time", "label": "Vulnerability Remediation Time" },
-            { "key": "compliance_metrics", "label": "Compliance Metrics" },
-            { "key": "open_risks", "label": "Open Risks" }
-        ]},
-        { "key": "financial_business", "label": "Financial & Business Impact", "metrics": [
-            { "key": "cost_per_transaction", "label": "Cost per Transaction" },
-            { "key": "arpu", "label": "ARPU" },
-            { "key": "cost_of_downtime", "label": "Cost of Downtime" },
-            { "key": "roi_feature_releases", "label": "ROI of Feature Releases" }
-        ]},
-        { "key": "strategic_leading", "label": "Strategic & Leading Indicators", "metrics": [
-            { "key": "innovation_pipeline", "label": "Innovation Pipeline" },
-            { "key": "technical_debt", "label": "Technical Debt" },
-            { "key": "partner_performance", "label": "Partner Performance" },
-            { "key": "roadmap_progress", "label": "Roadmap Progress" }
-        ]}
-    ] %}
-
-    {% for group in groups %}
-        <div class="govuk-summary-card govuk-!-margin-bottom-6">
-            <div class="govuk-summary-card__title-wrapper">
-                <h2 class="govuk-summary-card__title">{{ group.label }}</h2>
-                {% set complete = true %}
-                {% for metric in group.metrics %}
-                    {% if not (service.reporting_metrics and service.reporting_metrics[group.key] and service.reporting_metrics[group.key][metric.key]) %}
-                        {% set complete = false %}
-                    {% endif %}
-                {% endfor %}
-                {% if complete %}
-                    <span class="govuk-tag govuk-tag--green">Complete</span>
-                {% else %}
-                    <span class="govuk-tag govuk-tag--yellow">Incomplete</span>
-                {% endif %}
-            </div>
-            <div class="govuk-summary-card__content">
-                <dl class="govuk-summary-list">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-quarter">
+            <nav class="dfe-vertical-nav">
+                <a href="/reports/services" class="govuk-back-link govuk-!-margin-top-0 govuk-!-margin-bottom-9">Back to services</a>
+                <h2 class="govuk-heading-s">Report sections</h2>
+                <ul class="dfe-vertical-nav__section">
+                    <li class="dfe-vertical-nav__section-item">
+                        <a class="dfe-vertical-nav__link" href="#">Customer experience</a>
+                    </li>
+                    <li class="dfe-vertical-nav__section-item">
+                        <a class="dfe-vertical-nav__link" href="#">Availability & performance</a>
+                    </li>
+                    <li class="dfe-vertical-nav__section-item">
+                        <a class="dfe-vertical-nav__link" href="#">Usage & adoption</a>
+                    </li>
+                    <li class="dfe-vertical-nav__section-item">
+                        <a class="dfe-vertical-nav__link" href="#">Operational health</a>
+                    </li>
+                    <li class="dfe-vertical-nav__section-item">
+                        <a class="dfe-vertical-nav__link" href="#">Security & risk</a>
+                    </li>
+                    <li class="dfe-vertical-nav__section-item">
+                        <a class="dfe-vertical-nav__link" href="#">Financial & business impact</a>
+                    </li>
+                    <li class="dfe-vertical-nav__section-item">
+                        <a class="dfe-vertical-nav__link" href="#">Milestones</a>
+                    </li>
+                    <li class="dfe-vertical-nav__section-item">
+                        <a class="dfe-vertical-nav__link" href="#submission">Submission</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="govuk-grid-column-three-quarters">
+            <span class="govuk-caption-l">{{ x | date('add', -1, 'month') | date('MMMM YYYY') }} service report</span>
+            <h1 class="govuk-heading-xl">{{ service.name }}</h1>
+            {% set groups = [
+                { "key": "customer_experience", "label": "Customer Experience", "metrics": [
+                    { "key": "csat", "label": "Customer satisfaction score (%)" },
+                    { "key": "nps", "label": "Net Performer Score" }
+                ]},
+                { "key": "availability_performance", "label": "Availability & Performance", "metrics": [
+                    { "key": "uptime", "label": "Uptime (%)" },
+                    { "key": "sla_compliance", "label": "SLA Compliance (%)" },
+                    { "key": "mttd", "label": "Mean Time To Detection" },
+                    { "key": "mttr", "label": "Mean Time To Resolution" },
+                    { "key": "latency_p95", "label": "Latency (p95)" }
+                ]},
+                { "key": "usage_adoption", "label": "Usage & Adoption", "metrics": [
+                    { "key": "active_users_mau", "label": "Monthly active users" },
+                    { "key": "transactions", "label": "Transactions" }
+                ]},
+                { "key": "operational_health", "label": "Operational Health", "metrics": [
+                    { "key": "incident_count", "label": "Incident Count" },
+                    { "key": "major_outages", "label": "Major Outages" },
+                    { "key": "problem_backlog", "label": "Problem Backlog" },
+                    { "key": "change_success_rate", "label": "Change Success Rate" },
+                    { "key": "deployment_frequency", "label": "Deployment Frequency" },
+                    { "key": "lead_time", "label": "Lead Time" }
+                ]},
+                { "key": "security_risk", "label": "Security & Risk", "metrics": [
+                    { "key": "security_incidents", "label": "Security Incidents" },
+                    { "key": "vuln_remediation_time", "label": "Vulnerability Remediation Time" },
+                    { "key": "compliance_metrics", "label": "Compliance Metrics" },
+                    { "key": "open_risks", "label": "Open Risks" },
+                    { "key": "accessibility_issues", "label": "Open accessibility issues" }
+                ]},
+                { "key": "financial_business", "label": "Financial & Business Impact", "metrics": [
+                    { "key": "cost_per_transaction", "label": "Cost per Transaction (£)" },
+                    { "key": "cost_of_downtime", "label": "Cost of downtime (£)" }
+                ]},
+                { "key": "strategic_leading", "label": "Strategic & Leading Indicators", "metrics": [
+                    { "key": "innovation_pipeline", "label": "Innovation Pipeline (# of features in beta, experiments running)" },
+                    { "key": "technical_debt", "label": "Technical Debt (Stories or effort logged against refactoring)" }
+                ]}
+            ] %}
+                 <div class="dashboard-section">
+            {% for group in groups %}
+                <h2 class="govuk-heading-m">{{ group.label }}</h2>
+                <ul class="govuk-task-list">
                     {% for metric in group.metrics %}
-                        <div class="govuk-summary-list__row">
-                            <dt class="govuk-summary-list__key">{{ metric.label }}</dt>
-                            <dd class="govuk-summary-list__value">
-                                {{ service.reporting_metrics[group.key][metric.key] or 'Not reported' }}
-                            </dd>
-                            <dd class="govuk-summary-list__actions">
-                                {% if service.reporting_metrics[group.key][metric.key] %}
-                                    <span class="govuk-tag govuk-tag--green">✓</span>
-                                {% else %}
-                                    <span class="govuk-tag govuk-tag--yellow">!</span>
+                        {% set value = service.reporting_metrics[group.key][metric.key] %}
+                        <li class="govuk-task-list__item govuk-task-list__item--with-link">
+                            <div class="govuk-task-list__name-and-hint">
+                                <a class="govuk-link govuk-task-list__link" href="/reports/services/{{ service.id }}/uptime" aria-describedby="uptime-status">
+                                    {{ metric.label }}
+                                </a>
+                                {% if value %}
+                                    <div class="govuk-task-list__hint">Value: {{ value }}</div>
                                 {% endif %}
-                            </dd>
-                        </div>
+                            </div>
+                            <div class="govuk-task-list__status" id="uptime-status">
+                                {% if value %}
+                                    Completed
+                                {% else %}
+                                    <strong class="govuk-tag govuk-tag--blue">Not started</strong>
+                                {% endif %}
+                            </div>
+                        </li>
                     {% endfor %}
-                </dl>
-            </div>
-        </div>
-    {% endfor %}
+                </ul>
+            {% endfor %}
 
-    <div class="govuk-summary-card govuk-!-margin-bottom-6">
-        <div class="govuk-summary-card__title-wrapper">
-            <h2 class="govuk-summary-card__title">Milestones</h2>
-        </div>
-        <div class="govuk-summary-card__content">
+             </div>
+
+ <div class="dashboard-section">
+            <h2 class="govuk-heading-m">Milestones</h2>
             <table class="govuk-table">
                 <thead>
                     <tr>
                         <th>Milestone</th>
-                        <th>Date</th>
+                        <th>Due</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -113,7 +127,7 @@
                     {% for milestone in service.reporting_metrics.milestones %}
                         <tr>
                             <td>{{ milestone.milestone }}</td>
-                            <td>{{ milestone.date }}</td>
+                            <td>{{ milestone.date | date('D MMMM yyyy') }}</td>
                             <td>
                                 {% if milestone.on_track %}
                                     <span class="govuk-tag govuk-tag--green">On track</span>
@@ -125,7 +139,195 @@
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
+        </div>   
+  
+
+
+ <div class="dashboard-section" id="submission">
+    <h2 class="govuk-heading-m">Submission</h2>
+    <p class="govuk-body">You can submit the return for this service when all sections are completed.</p>
+
+   <form action="/reports/services" method="get">
+    <button class="govuk-button" type="submit">Submit return</button>
+   </form>
+        
     </div>
-</div>
-{% endblock %} 
+ </div> </div></div>  </div>
+{% endblock %}
+
+<style>
+    .sortable {
+        cursor: pointer;
+        position: relative;
+        padding-right: 24px;
+        user-select: none;
+        color: inherit;
+        font-weight: normal;
+        vertical-align: middle;
+    }
+    .sortable .sort-indicator {
+        font-size: 1em;
+        opacity: 0.4;
+        pointer-events: none;
+        letter-spacing: -2px;
+        color: #0b0c0c;
+        min-width: 1.5em;
+        text-align: right;
+    }
+    .sortable.active {
+        font-weight: bold;
+        color: #1d70b8;
+    }
+    .sortable.active .sort-indicator {
+        opacity: 1;
+        color: #1d70b8;
+    }
+    .svc-btn-primary,
+    .svc-btn-reset {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        box-sizing: border-box;
+        padding: 0 1.5em;
+        font-size: 1rem;
+        line-height: 1.2;
+        font-weight: 600;
+        border-radius: 4px;
+        border: 2px solid #1d70b8;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+        text-decoration: none;
+    }
+    .svc-btn-primary {
+        background: #1d70b8;
+        color: #fff;
+    }
+    .svc-btn-primary:focus,
+    .svc-btn-primary:hover {
+        background: #003078;
+        color: #fff;
+    }
+    .svc-btn-reset {
+        background: #fff;
+        color: #1d70b8;
+        margin-left: 0.5em;
+    }
+    .svc-btn-reset:focus,
+    .svc-btn-reset:hover {
+        background: #e8f1fa;
+        color: #003078;
+    }
+    .svc-filter-actions {
+        display: flex;
+        gap: 0.5em;
+        align-items: center;
+    }
+
+    .svc-list-meta .svc-meta-label {
+        margin-bottom: 5px;
+    }
+
+      .svc-meta-value-blue {
+        color: #003078;
+        font-weight: 600;
+        background-color: #ccd6e4;
+        padding: 0.25em 0.7em;
+        border-radius: 0.25em;
+        text-align: center;
+        min-width: fit-content !important;
+    }
+
+    .svc-meta-value-late {
+        color: #b10e1e;
+        font-weight: 600;
+        background-color: #f8d7da;
+        padding: 0.25em 0.7em;
+        border-radius: 0.25em;
+        text-align: center;
+        min-width: fit-content !important;
+    }
+
+
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const table = document.getElementById('services-table');
+        const headers = table.querySelectorAll('th.sortable');
+        let currentSort = {
+            column: null,
+            direction: 'asc'
+        };
+        function updateSortIndicators() {
+            headers.forEach(header => {
+                const indicator = header.querySelector('.sort-indicator');
+                if (header.classList.contains('active')) {
+                    indicator.textContent = currentSort.direction === 'asc'
+                        ? '▲'
+                        : '▼';
+                    indicator.style.color = '#1d70b8';
+                    indicator.style.opacity = '1';
+                } else {
+                    indicator.textContent = '▲▼';
+                    indicator.style.color = '#0b0c0c';
+                    indicator.style.opacity = '0.4';
+                }
+            });
+        }
+        function sortTable(column, direction) {
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const columnIndex = Array
+                .from(headers)
+                .findIndex(h => h.dataset.sort === column);
+            rows.sort((a, b) => {
+                const aCell = a.children[columnIndex];
+                const bCell = b.children[columnIndex];
+                const aValue = aCell.dataset.sortValue;
+                const bValue = bCell.dataset.sortValue;
+                // For status, sort by custom order
+                if (column === 'status') {
+                    const order = {
+                        'completed': 2,
+                        'in_progress': 1,
+                        'not_started': 0
+                    };
+                    return direction === 'asc'
+                        ? (order[aValue] || 0) - (order[bValue] || 0)
+                        : (order[bValue] || 0) - (order[aValue] || 0);
+                }
+                // For last-reported, sort by string (YYYY-MM)
+                if (column === 'last-reported') {
+                    return direction === 'asc'
+                        ? aValue.localeCompare(bValue)
+                        : bValue.localeCompare(aValue);
+                }
+                // For name, sort alphabetically
+                return direction === 'asc'
+                    ? aValue.localeCompare(bValue)
+                    : bValue.localeCompare(aValue);
+            });
+            rows.forEach(row => tbody.appendChild(row));
+        }
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                const sortKey = header.dataset.sort;
+                if (currentSort.column === sortKey) {
+                    currentSort.direction = currentSort.direction === 'asc'
+                        ? 'desc'
+                        : 'asc';
+                } else {
+                    currentSort.column = sortKey;
+                    currentSort.direction = 'asc';
+                }
+                headers.forEach(h => h.classList.remove('active'));
+                header
+                    .classList
+                    .add('active');
+                sortTable(currentSort.column, currentSort.direction);
+                updateSortIndicators();
+            });
+        });
+        updateSortIndicators();
+    });
+</script>

@@ -13,7 +13,7 @@
 
                 <div class="dashboard-section">
 
-                    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Service reporting</h2>
+                    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Monthly service reporting returns</h2>
                     <p class="govuk-body">Completion of monthly service performance returns for {{ prevMonthLabel }}.</p>
 
                     <div class="dfe-dashboard-cards" id="last-month">
@@ -30,362 +30,581 @@
                         </div>
                     </div>
 
-                    <h2 class="govuk-heading-m govuk-!-margin-top-6 govuk-!-margin-bottom-2">Historical reporting</h2>
-                    <p class="govuk-body">Service performance returns for previous months.</p>
+                    <details class="govuk-details govuk-!-margin-top-5 govuk-!-margin-bottom-0">
+                        <summary class="govuk-details__summary">
+                            <span class="govuk-details__summary-text">
+      View last 3 months
+    </span>
+                        </summary>
+                        <div class="govuk-details__text">
 
-                    <div class="dfe-dashboard-cards dfe-dashboard-cards--historical">
-                        {% for month in previousMonths %}
-                            <div class="dfe-dashboard-card dfe-dashboard-card--reporting dfe-dashboard-card--historical">
-                                <div class="dfe-dashboard-reporting-row">
-                                    <div class="dfe-dashboard-reporting-percent {{ month.reportingClass }}">{{ month.reportingPercent }}%</div>
-                                    <a href="/services?reporting_month={{ month.label | replace(' ', '-') | lower }}" class="svc-btn-primary dfe-dashboard-reporting-btn dfe-dashboard-reporting-btn--historical">View</a>
-                                </div>
-                                <div class="dfe-dashboard-reporting-fraction dfe-dashboard-reporting-fraction--historical">{{ month.reportedCount }} / {{ month.totalServices }}</div>
-                                <div class="dfe-dashboard-reporting-label">{{ month.label }}</div>
-                                <div class="dfe-dashboard-reporting-bar dfe-dashboard-reporting-bar--historical">
-                                    <div class="dfe-dashboard-reporting-bar-fill {{ month.reportingClass }}" style="width: {{ month.reportingPercent }}%"></div>
-                                </div>
+                            <h2 class="govuk-heading-m govuk-!-margin-top-6 govuk-!-margin-bottom-2">Historical reporting</h2>
+                            <p class="govuk-body">Service performance returns for previous months.</p>
+
+                            <div class="dfe-dashboard-cards dfe-dashboard-cards--historical">
+                                {% for month in previousMonths %}
+                                    <div class="dfe-dashboard-card dfe-dashboard-card--reporting dfe-dashboard-card--historical">
+                                        <div class="dfe-dashboard-reporting-row">
+                                            <div class="dfe-dashboard-reporting-percent {{ month.reportingClass }}">{{ month.reportingPercent }}%</div>
+                                            <a href="/services?reporting_month={{ month.label | replace(' ', '-') | lower }}" class="svc-btn-primary dfe-dashboard-reporting-btn dfe-dashboard-reporting-btn--historical">View</a>
+                                        </div>
+                                        <div class="dfe-dashboard-reporting-fraction dfe-dashboard-reporting-fraction--historical">{{ month.reportedCount }} / {{ month.totalServices }}</div>
+                                        <div class="dfe-dashboard-reporting-label">{{ month.label }}</div>
+                                        <div class="dfe-dashboard-reporting-bar dfe-dashboard-reporting-bar--historical">
+                                            <div class="dfe-dashboard-reporting-bar-fill {{ month.reportingClass }}" style="width: {{ month.reportingPercent }}%"></div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
                             </div>
+
+                        </div>
+                    </details>
+                </div>
+           
+
+            <div class="dashboard-section" id="servie-leaderboard-top-performers">
+                <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Top performing services</h2>
+                <table class="govuk-table compact-table">
+                    <thead class="govuk-table__head">
+                        <tr class="govuk-table__row">
+                            <th class="govuk-table__header govuk-!-width-one-third">Service name</th>
+                            <th class="govuk-table__header">Service owner</th>
+                            <th class="govuk-table__header">Service line</th>
+                            <th class="govuk-table__header govuk-table__header--numeric">Uptime (%)</th>
+                            <th class="govuk-table__header govuk-table__header--numeric">CSAT</th>
+                            <th class="govuk-table__header govuk-table__header--numeric">Standards met</th>
+                            <th class="govuk-table__header">Accessibility</th>
+                            <th class="govuk-table__header govuk-table__header--numeric">Issues</th>
+                            <th class="govuk-table__header govuk-table__header--numeric">Risks</th>
+                        </tr>
+                    </thead>
+                    <tbody class="govuk-table__body">
+                        {% for svc in topPerformers %}
+                        <tr class="govuk-table__row">
+                            <td class="govuk-table__cell">{{ svc.name }}</td>
+                            <td class="govuk-table__cell">{{ svc.service_owner }}</td>
+                            <td class="govuk-table__cell">{{ svc.service_line }}</td>
+                            <td class="govuk-table__cell govuk-table__cell--numeric">{{ svc.uptime }}</td>
+                            <td class="govuk-table__cell govuk-table__cell--numeric">{{ svc.csat }}</td>
+                            <td class="govuk-table__cell govuk-table__cell--numeric">{{ svc.standards }}</td>
+                            <td class="govuk-table__cell">{{ svc.accessibility }}</td>
+                            <td class="govuk-table__cell govuk-table__cell--numeric">{{ svc.issues_count }}</td>
+                            <td class="govuk-table__cell govuk-table__cell--numeric">{{ svc.risks }}</td>
+                        </tr>
                         {% endfor %}
-                    </div>
+                    </tbody>
+                </table>
+            </div>
 
+            <div class="dashboard-section" id="servie-leaderboard-bottom-performers">
+                <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Lowest performing services</h2>
+                <table class="govuk-table compact-table">
+                    <thead class="govuk-table__head">
+                        <tr class="govuk-table__row">
+                            <th class="govuk-table__header govuk-!-width-one-third">Service name</th>
+                            <th class="govuk-table__header">Service owner</th>
+                            <th class="govuk-table__header">Service line</th>
+                            <th class="govuk-table__header govuk-table__header--numeric">Uptime (%)</th>
+                            <th class="govuk-table__header govuk-table__header--numeric">CSAT</th>
+                            <th class="govuk-table__header govuk-table__header--numeric">Standards met</th>
+                            <th class="govuk-table__header">Accessibility</th>
+                            <th class="govuk-table__header govuk-table__header--numeric">Issues</th>
+                            <th class="govuk-table__header govuk-table__header--numeric">Risks</th>
+                        </tr>
+                    </thead>
+                    <tbody class="govuk-table__body">
+                        {% for svc in bottomPerformers %}
+                        <tr class="govuk-table__row">
+                            <td class="govuk-table__cell">{{ svc.name }}</td>
+                            <td class="govuk-table__cell">{{ svc.service_owner }}</td>
+                            <td class="govuk-table__cell">{{ svc.service_line }}</td>
+                            <td class="govuk-table__cell govuk-table__cell--numeric">{{ svc.uptime }}</td>
+                            <td class="govuk-table__cell govuk-table__cell--numeric">{{ svc.csat }}</td>
+                            <td class="govuk-table__cell govuk-table__cell--numeric">{{ svc.standards }}</td>
+                            <td class="govuk-table__cell">{{ svc.accessibility }}</td>
+                            <td class="govuk-table__cell govuk-table__cell--numeric">{{ svc.issues_count }}</td>
+                            <td class="govuk-table__cell govuk-table__cell--numeric">{{ svc.risks }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="dashboard-section" id="standards-compliance">
+
+                <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Standards compliance</h2>
+                <p class="govuk-body">Overall standards compliance across all services.</p>
+
+                {% set at_risk_count = 0 %}
+                {% set ok_count = 0 %}
+                {% set compliant_total = 0 %}
+                {% for standard in standards %}
+                    {% set at_risk = standard["Non-compliant"] > 15 or standard["Not reported"] > 10 %}
+                    {% if at_risk %}
+                        {% set at_risk_count = at_risk_count + 1 %}
+                    {% else %}
+                        {% set ok_count = ok_count + 1 %}
+                    {% endif %}
+                    {% set compliant_total = compliant_total + standard['Compliant'] %}
+                {% endfor %}
+                {% set total_standards = standards | length %}
+
+                <div class="standards-summary-cards">
+                    <div class="standards-summary-card standards-summary-card--risk">
+                        <div class="standards-summary-card__count govuk-!-font-size-48 standards-summary-card__count--red">{{ at_risk_count }}</div>
+                        <div class="standards-summary-card__label">Standards at risk</div>
+                    </div>
+                    <div class="standards-summary-card standards-summary-card--ok">
+                        <div class="standards-summary-card__count govuk-!-font-size-48 standards-summary-card__count--green">{{ ok_count }}</div>
+                        <div class="standards-summary-card__label">Standards OK</div>
+                    </div>
+                    <div class="standards-summary-card standards-summary-card--overall">
+                        <div class="standards-summary-card__label">Top at-risk standards</div>
+                        <ul class="standards-summary-card__list">
+                            {% for standard in standards | sort(attribute='Non-compliant') | reverse %}
+                                {% if loop.index <= 3 %}
+                                    <li class="standards-summary-card__list-item">
+                                        <span class="standards-summary-card__standard-name">{{ standard.standard }}</span>
+                                        <span class="standards-summary-card__standard-count">
+                                            {{ standard["Non-compliant"] }} non-compliant
+                                            {% if standard["Not reported"] > 0 %}
+                                                ({{ standard["Not reported"] }} not reported)
+                                            {% endif %}
+                                        </span>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
 
-  <div class="dashboard-section" id="servie-leaderboqard">
-
-    table of services where services are top performers, for uptime, csat, etc
-
-
-    </div>
-
-     <div class="dashboard-section" id="servie-leaderboqard">
-
-    Another table of services for the worst performers (where data is available)
-    
-
-    </div>
-
-
-
-
-                <div class="dashboard-section" id="standards-compliance">
-
-                    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Standards compliance</h2>
-                    <p class="govuk-body">Overall standards compliance across all services.</p>
-
-                    <div class="service-panel-card service-panel-card__full govuk-!-margin-bottom-6">
-                        <div class="card-header">
-                            <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Standards compliance status</h3>
-                            <button class="info-button" onclick="openModal('standards-info')" aria-label="More about standards compliance">
-                                <span class="govuk-visually-hidden">More about standards compliance</span>
-                                <span class="material-symbols-outlined" aria-hidden="true">info</span>
-                            </button>
-                        </div>
-                        <div class="card-content">
-                            <table class="govuk-table govuk-!-margin-bottom-0 compact-table" id="standards-table">
-                                <thead class="govuk-table__head">
-                                    <tr class="govuk-table__row">
-                                        <th scope="col" class="govuk-table__header sortable" data-sort="standard">
-                                            <span class="header-flex"><span>Standard</span><span class="sort-indicator"></span></span>
-                                        </th>
-                                        <th scope="col" class="govuk-table__header govuk-table__header--numeric sortable" data-sort="compliant">
-                                            <span class="header-flex"><span>Services compliant</span><span class="sort-indicator"></span></span>
-                                        </th>
-                                        <th scope="col" class="govuk-table__header govuk-table__header--numeric sortable" data-sort="non-compliant">
-                                            <span class="header-flex"><span>Services not compliant</span><span class="sort-indicator"></span></span>
-                                        </th>
-                                        <th scope="col" class="govuk-table__header govuk-table__header--numeric sortable" data-sort="not-reported">
-                                            <span class="header-flex"><span>Services not reported</span><span class="sort-indicator"></span></span>
-                                        </th>
-                                        <th scope="col" class="govuk-table__header sortable" data-sort="risk">
-                                            <span class="header-flex"><span>Risk status</span><span class="sort-indicator"></span></span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="govuk-table__body">
-                                    {% for standard in standards %}
-                                        {% set at_risk = standard["Non-compliant"] >15 or standard["Not reported"] > 10 %}
+                <details class="govuk-details govuk-!-margin-top-6" data-module="govuk-details">
+                    <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">Detailed standards compliance</span>
+                    </summary>
+                    <div class="govuk-details__text">
+                        <div class="service-panel-card service-panel-card__full govuk-!-margin-bottom-6">
+                            <div class="card-header">
+                                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Standards compliance status</h3>
+                                <button class="info-button" onclick="openModal('standards-info')" aria-label="More about standards compliance">
+                                    <span class="govuk-visually-hidden">More about standards compliance</span>
+                                    <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <table class="govuk-table govuk-!-margin-bottom-0 compact-table" id="standards-table">
+                                    <thead class="govuk-table__head">
                                         <tr class="govuk-table__row">
-                                            <td class="govuk-table__cell" data-sort-value="{{ standard.standard }}">{{ standard.standard }}</td>
-                                            <td class="govuk-table__cell govuk-table__cell--numeric" data-sort-value="{{ standard.Compliant }}">{{ standard.Compliant }} / 50</td>
-                                            <td class="govuk-table__cell govuk-table__cell--numeric" data-sort-value="{{ standard["Non-compliant"] }}">{{ standard["Non-compliant"] }} / 50</td>
-                                            <td class="govuk-table__cell govuk-table__cell--numeric" data-sort-value="{{ standard["Not reported"] }}">{{ standard["Not reported"] }} / 50</td>
-                                            <td class="govuk-table__cell" data-sort-value="{{ 1 if at_risk else 0 }}">
-                                                {% if at_risk %}
-                                                    <span class="risk-tag risk-tag--red">At risk</span>
-                                                {% else %}
-                                                    <span class="risk-tag risk-tag--green">OK</span>
-                                                {% endif %}
-                                            </td>
+                                            <th scope="col" class="govuk-table__header sortable" data-sort="standard">
+                                                <span class="header-flex">
+                                                    <span>Standard</span>
+                                                    <span class="sort-indicator"></span></span>
+                                            </th>
+                                            <th scope="col" class="govuk-table__header govuk-table__header--numeric sortable" data-sort="compliant">
+                                                <span class="header-flex">
+                                                    <span>Services compliant</span>
+                                                    <span class="sort-indicator"></span></span>
+                                            </th>
+                                            <th scope="col" class="govuk-table__header govuk-table__header--numeric sortable" data-sort="non-compliant">
+                                                <span class="header-flex">
+                                                    <span>Services not compliant</span>
+                                                    <span class="sort-indicator"></span></span>
+                                            </th>
+                                            <th scope="col" class="govuk-table__header govuk-table__header--numeric sortable" data-sort="not-reported">
+                                                <span class="header-flex">
+                                                    <span>Services not reported</span>
+                                                    <span class="sort-indicator"></span></span>
+                                            </th>
+                                            <th scope="col" class="govuk-table__header sortable" data-sort="risk">
+                                                <span class="header-flex">
+                                                    <span>Risk status</span>
+                                                    <span class="sort-indicator"></span></span>
+                                            </th>
                                         </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody class="govuk-table__body">
+                                        {% for standard in standards %}
+                                            {% set at_risk = standard["Non-compliant"] >15 or standard["Not reported"] > 10 %}
+                                            <tr class="govuk-table__row">
+                                                <td class="govuk-table__cell" data-sort-value="{{ standard.standard }}">{{ standard.standard }}</td>
+                                                <td class="govuk-table__cell govuk-table__cell--numeric" data-sort-value="{{ standard.Compliant }}">{{ standard.Compliant }} / 50</td>
+                                                <td class="govuk-table__cell govuk-table__cell--numeric" data-sort-value="{{ standard["Non-compliant"] }}">{{ standard["Non-compliant"] }} / 50</td>
+                                                <td class="govuk-table__cell govuk-table__cell--numeric" data-sort-value="{{ standard["Not reported"] }}">{{ standard["Not reported"] }} / 50</td>
+                                                <td class="govuk-table__cell" data-sort-value="{{ 1 if at_risk else 0 }}">
+                                                    {% if at_risk %}
+                                                        <span class="risk-tag risk-tag--red">At risk</span>
+                                                    {% else %}
+                                                        <span class="risk-tag risk-tag--green">OK</span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </details>
             </div>
         </div>
     </div>
+</div>
 
-    <style>
-      
-        .header-flex {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-        }
-        .sortable {
-            cursor: pointer;
-            user-select: none;
-            color: inherit;
-            font-weight: normal;
-            vertical-align: middle;
-            padding-right: 0;
-        }
-        .sortable .sort-indicator {
-            font-size: 1em;
-            opacity: 0.4;
-            pointer-events: none;
-            letter-spacing: -2px;
-            color: #0b0c0c;
-            min-width: 1.5em;
-            text-align: right;
-        }
-        .sortable.active {
-            font-weight: bold;
-            color: #1d70b8;
-        }
-        .sortable.active .sort-indicator {
-            opacity: 1;
-            color: #1d70b8;
-        }
-        .risk-tag {
-            display: inline-block;
-            padding: 0.2em 0.8em;
-            border-radius: 6px;
-            font-size: 0.95em;
-            font-weight: 600;
-            color: #fff;
-            background: #b1b4b6;
-        }
-        .risk-tag--red {
-            background: #d4351c;
-        }
-        .risk-tag--green {
-            background: #00703c;
-        }
+<style>
 
-        /* Keep other existing styles */
-        .dfe-dashboard-cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        .dfe-dashboard-card {
-            background: #f4f8fb;
-            border-radius: 8px;
-            padding: 2rem 1.5rem;
-            min-width: 220px;
-            flex: 1 1 220px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-        .dfe-dashboard-card--reporting {
-            flex-basis: 100%;
-            background: #f4f8fb;
-            border: 1px solid #b1b4b6;
-            box-shadow: 0 2px 8px rgba(29,112,184,0.04);
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        .dfe-dashboard-reporting-row {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            margin-bottom: 0.5rem;
-        }
-        .dfe-dashboard-reporting-btn {
-            margin-left: auto;
-            font-size: 1.1rem;
-            padding: 0 1.5em;
-            height: 44px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .dfe-dashboard-reporting-percent {
-            font-size: 3rem;
-            font-weight: 700;
-            color: #1d70b8;
-            margin-bottom: 0.5rem;
-        }
-        .dfe-dashboard-reporting-fraction {
-            font-size: 1.25rem;
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-        }
-        .dfe-dashboard-reporting-label {
-            font-size: 1rem;
-            color: #505a5f;
-            margin-bottom: 1rem;
-        }
-        .dfe-dashboard-reporting-bar {
-            width: 100%;
-            height: 16px;
-            background: #b1b4b6;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-top: 0.5rem;
-        }
-        .dfe-dashboard-reporting-bar-fill {
-            height: 100%;
-            background: #1d70b8;
-            border-radius: 8px 0 0 8px;
-            transition: width 0.5s;
-        }
+    .header-flex {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+    .sortable {
+        cursor: pointer;
+        user-select: none;
+        color: inherit;
+        font-weight: normal;
+        vertical-align: middle;
+        padding-right: 0;
+    }
+    .sortable .sort-indicator {
+        font-size: 1em;
+        opacity: 0.4;
+        pointer-events: none;
+        letter-spacing: -2px;
+        color: #0b0c0c;
+        min-width: 1.5em;
+        text-align: right;
+    }
+    .sortable.active {
+        font-weight: bold;
+        color: #1d70b8;
+    }
+    .sortable.active .sort-indicator {
+        opacity: 1;
+        color: #1d70b8;
+    }
+    .risk-tag {
+        display: inline-block;
+        padding: 0.2em 0.8em;
+        border-radius: 6px;
+        font-size: 0.95em;
+        font-weight: 600;
+        color: #fff;
+        background: #b1b4b6;
+    }
+    .risk-tag--red {
+        background: #d4351c;
+    }
+    .risk-tag--green {
+        background: #00703c;
+    }
 
+    /* Keep other existing styles */
+    .dfe-dashboard-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    .dfe-dashboard-card {
+        background: #f4f8fb;
+        border-radius: 8px;
+        padding: 2rem 1.5rem;
+        min-width: 220px;
+        flex: 1 1 220px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .dfe-dashboard-card--reporting {
+        flex-basis: 100%;
+        background: #f4f8fb;
+        border: 1px solid #b1b4b6;
+        box-shadow: 0 2px 8px rgba(29,112,184,0.04);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .dfe-dashboard-reporting-row {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    .dfe-dashboard-reporting-btn {
+        margin-left: auto;
+        font-size: 1.1rem;
+        padding: 0 1.5em;
+        height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .dfe-dashboard-reporting-percent {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #1d70b8;
+        margin-bottom: 0.5rem;
+    }
+    .dfe-dashboard-reporting-fraction {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+    }
+    .dfe-dashboard-reporting-label {
+        font-size: 1rem;
+        color: #505a5f;
+        margin-bottom: 1rem;
+    }
+    .dfe-dashboard-reporting-bar {
+        width: 100%;
+        height: 16px;
+        background: #b1b4b6;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 0.5rem;
+    }
+    .dfe-dashboard-reporting-bar-fill {
+        height: 100%;
+        background: #1d70b8;
+        border-radius: 8px 0 0 8px;
+        transition: width 0.5s;
+    }
+
+    .dfe-dashboard-cards--historical {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    .dfe-dashboard-card--historical {
+        flex-basis: auto;
+        min-width: 0;
+        padding: 1.25rem 1rem;
+    }
+    .dfe-dashboard-reporting-btn--historical {
+        font-size: 0.9rem;
+        padding: 0 1em;
+        height: 32px;
+        min-width: 60px;
+    }
+    .dfe-dashboard-card--historical .dfe-dashboard-reporting-percent {
+        font-size: 2.25rem;
+        margin-bottom: 0.25rem;
+    }
+    .dfe-dashboard-reporting-fraction--historical {
+        font-size: 1rem;
+        margin-bottom: 0.15rem;
+    }
+    .dfe-dashboard-card--historical .dfe-dashboard-reporting-label {
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+    }
+    .dfe-dashboard-reporting-bar--historical {
+        height: 12px;
+        margin-top: 0.25rem;
+    }
+    @media (max-width: 1024px) {
         .dfe-dashboard-cards--historical {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin-top: 1rem;
+            grid-template-columns: repeat(2, 1fr);
         }
-        .dfe-dashboard-card--historical {
-            flex-basis: auto;
-            min-width: 0;
-            padding: 1.25rem 1rem;
+    }
+    @media (max-width: 640px) {
+        .dfe-dashboard-cards--historical {
+            grid-template-columns: 1fr;
         }
-        .dfe-dashboard-reporting-btn--historical {
-            font-size: 0.9rem;
-            padding: 0 1em;
-            height: 32px;
-            min-width: 60px;
-        }
-        .dfe-dashboard-card--historical .dfe-dashboard-reporting-percent {
-            font-size: 2.25rem;
-            margin-bottom: 0.25rem;
-        }
-        .dfe-dashboard-reporting-fraction--historical {
-            font-size: 1rem;
-            margin-bottom: 0.15rem;
-        }
-        .dfe-dashboard-card--historical .dfe-dashboard-reporting-label {
-            font-size: 0.9rem;
-            margin-bottom: 0.75rem;
-        }
-        .dfe-dashboard-reporting-bar--historical {
-            height: 12px;
-            margin-top: 0.25rem;
-        }
-        @media (max-width: 1024px) {
-            .dfe-dashboard-cards--historical {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        @media (max-width: 640px) {
-            .dfe-dashboard-cards--historical {
-                grid-template-columns: 1fr;
-            }
-        }
+    }
 
-          .govuk-table__header{
-            font-weight: 700;
-        }
-    </style>
+    .govuk-table__header {
+        font-weight: 700;
+    }
 
-    <!-- Initialize MoJ Frontend -->
-    <script src="/node_modules/@ministryofjustice/frontend/moj/all.js"></script>
-    <script>
-        window.MOJFrontend.initAll();
-    </script>
+    .standards-summary-cards {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        width: 100%;
+    }
+    .standards-summary-card {
+        background: #f4f8fb;
+        border-radius: 6px;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-width: 0;
+    }
+    .standards-summary-card--risk {
+        flex: 1 1 0;
+        border-left: 4px solid #d4351c;
+    }
+    .standards-summary-card--ok {
+        flex: 1 1 0;
+        border-left: 4px solid #00703c;
+    }
+    .standards-summary-card--overall {
+        flex: 2 1 0;
+        border-left: none;
+    }
+    .standards-summary-card__count {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        line-height: 1.2;
+    }
+    .standards-summary-card__label {
+        font-size: 0.9rem;
+        color: #505a5f;
+        line-height: 1.2;
+    }
+    .standards-summary-card__list {
+        list-style: none;
+        padding: 0;
+        margin: 0.75rem 0 0 0;
+        width: 100%;
+    }
+    .standards-summary-card__list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.35rem 0;
+        border-bottom: 1px solid #b1b4b6;
+        font-size: 0.9rem;
+        line-height: 1.2;
+    }
+    .standards-summary-card__list-item:last-child {
+        border-bottom: none;
+    }
+    .standards-summary-card__standard-name {
+        font-weight: 500;
+        color: #0b0c0c;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 60%;
+    }
+    .standards-summary-card__standard-count {
+        color: #d4351c;
+        font-weight: 500;
+        text-align: right;
+        white-space: nowrap;
+        margin-left: 0.5rem;
+    }
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const table = document.getElementById('standards-table');
-            const headers = table.querySelectorAll('th.sortable');
-            let currentSort = {
-                column: null,
-                direction: 'asc'
-            };
+    .standards-summary-card__count--red{
+        color: #d4351c;
+    }
 
-            function updateSortIndicators() {
-                headers.forEach(header => {
-                    const indicator = header.querySelector('.sort-indicator');
-                    if (header.classList.contains('active')) {
-                        indicator.textContent = currentSort.direction === 'asc' ? '▲' : '▼';
-                        indicator.style.color = '#1d70b8';
-                        indicator.style.opacity = '1';
-                    } else {
-                        indicator.textContent = '▲▼';
-                        indicator.style.color = '#0b0c0c';
-                        indicator.style.opacity = '0.4';
-                    }
-                });
-            }
+    .standards-summary-card__count--green{
+        color: #00703c;
+    }
+</style>
 
-            function sortTable(column, direction) {
-                const tbody = table.querySelector('tbody');
-                const rows = Array.from(tbody.querySelectorAll('tr'));
-                const columnIndex = Array.from(headers).findIndex(h => h.dataset.sort === column);
+<!-- Initialize MoJ Frontend -->
+<script src="/node_modules/@ministryofjustice/frontend/moj/all.js"></script>
+<script>
+    window
+        .MOJFrontend
+        .initAll();
+</script>
 
-                rows.sort((a, b) => {
-                    const aCell = a.children[columnIndex];
-                    const bCell = b.children[columnIndex];
-                    const aValue = aCell.dataset.sortValue;
-                    const bValue = bCell.dataset.sortValue;
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const table = document.getElementById('standards-table');
+        const headers = table.querySelectorAll('th.sortable');
+        let currentSort = {
+            column: null,
+            direction: 'asc'
+        };
 
-                    // For risk column, sort numerically (1 = At risk, 0 = OK)
-                    if (column === 'risk') {
-                        const aNum = parseInt(aValue);
-                        const bNum = parseInt(bValue);
-                        return direction === 'asc' ? aNum - bNum : bNum - aNum;
-                    }
-                    // For numeric columns, convert to numbers
-                    if (column !== 'standard') {
-                        const aNum = parseInt(aValue);
-                        const bNum = parseInt(bValue);
-                        return direction === 'asc' ? aNum - bNum : bNum - aNum;
-                    }
-                    // For text columns, use string comparison
-                    return direction === 'asc' 
-                        ? aValue.localeCompare(bValue)
-                        : bValue.localeCompare(aValue);
-                });
-
-                // Reorder the rows
-                rows.forEach(row => tbody.appendChild(row));
-            }
-
+        function updateSortIndicators() {
             headers.forEach(header => {
-                header.addEventListener('click', () => {
-                    const sortKey = header.dataset.sort;
-                    
-                    // Update sort direction
-                    if (currentSort.column === sortKey) {
-                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
-                    } else {
-                        currentSort.column = sortKey;
-                        currentSort.direction = 'asc';
-                    }
+                const indicator = header.querySelector('.sort-indicator');
+                if (header.classList.contains('active')) {
+                    indicator.textContent = currentSort.direction === 'asc'
+                        ? '▲'
+                        : '▼';
+                    indicator.style.color = '#1d70b8';
+                    indicator.style.opacity = '1';
+                } else {
+                    indicator.textContent = '▲▼';
+                    indicator.style.color = '#0b0c0c';
+                    indicator.style.opacity = '0.4';
+                }
+            });
+        }
 
-                    // Update header classes
-                    headers.forEach(h => {
-                        h.classList.remove('asc', 'desc', 'active');
-                    });
-                    header.classList.add(currentSort.direction, 'active');
+        function sortTable(column, direction) {
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const columnIndex = Array
+                .from(headers)
+                .findIndex(h => h.dataset.sort === column);
 
-                    // Sort the table
-                    sortTable(currentSort.column, currentSort.direction);
-                    updateSortIndicators();
-                });
+            rows.sort((a, b) => {
+                const aCell = a.children[columnIndex];
+                const bCell = b.children[columnIndex];
+                const aValue = aCell.dataset.sortValue;
+                const bValue = bCell.dataset.sortValue;
+
+                // For risk column, sort numerically (1 = At risk, 0 = OK)
+                if (column === 'risk') {
+                    const aNum = parseInt(aValue);
+                    const bNum = parseInt(bValue);
+                    return direction === 'asc'
+                        ? aNum - bNum
+                        : bNum - aNum;
+                }
+                // For numeric columns, convert to numbers
+                if (column !== 'standard') {
+                    const aNum = parseInt(aValue);
+                    const bNum = parseInt(bValue);
+                    return direction === 'asc'
+                        ? aNum - bNum
+                        : bNum - aNum;
+                }
+                // For text columns, use string comparison
+                return direction === 'asc'
+                    ? aValue.localeCompare(bValue)
+                    : bValue.localeCompare(aValue);
             });
 
-            // Set initial sort indicator
-            updateSortIndicators();
+            // Reorder the rows
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                const sortKey = header.dataset.sort;
+
+                // Update sort direction
+                if (currentSort.column === sortKey) {
+                    currentSort.direction = currentSort.direction === 'asc'
+                        ? 'desc'
+                        : 'asc';
+                } else {
+                    currentSort.column = sortKey;
+                    currentSort.direction = 'asc';
+                }
+
+                // Update header classes
+                headers.forEach(h => {
+                    h
+                        .classList
+                        .remove('asc', 'desc', 'active');
+                });
+                header
+                    .classList
+                    .add(currentSort.direction, 'active');
+
+                // Sort the table
+                sortTable(currentSort.column, currentSort.direction);
+                updateSortIndicators();
+            });
         });
-    </script>
+
+        // Set initial sort indicator
+        updateSortIndicators();
+    });
+</script>
 
 {% endblock %}
