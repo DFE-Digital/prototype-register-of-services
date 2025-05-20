@@ -1,0 +1,89 @@
+{% extends "layouts/layout.html" %}
+{% set title = "AI Assistant" %}
+
+{% block content %}
+<div class="govuk-width-container govuk-!-margin-top-6">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <h1 class="govuk-heading-xl">Hi there, <span class="ai-highlight">John</span></h1>
+            <h2 class="govuk-heading-l">What would you like to know?</h2>
+            <p class="govuk-body">Use one of the most common prompts below or use your own to begin.</p>
+        </div>
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-bottom-4">
+        <div class="govuk-grid-column-full ai-prompts">
+            <div class="ai-prompt-card" data-prompt="Write a to-do list for a personal project or task">📝 Write a to-do list for a personal project or task</div>
+            <div class="ai-prompt-card" data-prompt="Generate an email to reply to a job offer">✉️ Generate an email to reply to a job offer</div>
+            <div class="ai-prompt-card" data-prompt="Summarise this article or text for me in one paragraph">💬 Summarise this article or text for me in one paragraph</div>
+            <div class="ai-prompt-card" data-prompt="How does AI work in a technical capacity">⚙️ How does AI work in a technical capacity</div>
+        </div>
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-bottom-4">
+        <div class="govuk-grid-column-full">
+            <a href="#" class="ai-refresh govuk-link">⟳ Refresh Prompts</a>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <form id="ai-form" autocomplete="off" class="ai-prompt-box">
+                <label class="govuk-label govuk-label--m" for="ai-input">Ask whatever you want…</label>
+                <input type="text" id="ai-input" class="govuk-input" placeholder="Type your question or prompt" autocomplete="off">
+                <div class="ai-prompt-actions govuk-!-margin-top-2">
+                    <label class="govuk-body-s"><input type="file" id="ai-attachment"> Add Attachment</label>
+                    <label class="govuk-body-s"><input type="file" id="ai-image" accept="image/*"> Use Image</label>
+                    <button type="submit" class="govuk-button">Ask</button>
+                </div>
+            </form>
+            <div class="ai-results govuk-!-margin-top-6" id="ai-results"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Prompt card click fills input
+    document.querySelectorAll('.ai-prompt-card').forEach(card => {
+        card.addEventListener('click', () => {
+            document.getElementById('ai-input').value = card.dataset.prompt;
+            document.getElementById('ai-input').focus();
+        });
+    });
+    // Refresh Prompts (placeholder)
+    document.querySelector('.ai-refresh').addEventListener('click', (e) => {
+        e.preventDefault();
+        alert('Prompt refresh coming soon!');
+    });
+    // Simulate AI response from services.json
+    document.getElementById('ai-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const input = document.getElementById('ai-input').value.trim();
+        const resultsDiv = document.getElementById('ai-results');
+        if (!input) {
+            resultsDiv.innerHTML = '<span class="govuk-body-s" style="color:#888">Please enter a question or prompt.</span>';
+            return;
+        }
+        resultsDiv.innerHTML = '<span class="govuk-body-s" style="color:#a259d9">Thinking...</span>';
+        // Simulate fetch from /api/services
+        try {
+            const res = await fetch('/api/services');
+            const services = await res.json();
+            // Simple keyword match in name or description
+            const matches = services.filter(s =>
+                s.name.toLowerCase().includes(input.toLowerCase()) ||
+                (s.description && s.description.toLowerCase().includes(input.toLowerCase()))
+            );
+            if (matches.length === 0) {
+                resultsDiv.innerHTML = '<span class="govuk-body-s" style="color:#888">No relevant services found for your prompt.</span>';
+            } else {
+                resultsDiv.innerHTML = '<div class="govuk-body-m"><b>AI found these services:</b></div>' +
+                    '<ul class="govuk-list govuk-list--bullet" style="margin-top:0.5em;">' +
+                    matches.map(s => `<li><b>${s.name}</b>: <span class="govuk-body-s">${s.description || ''}</span></li>`).join('') +
+                    '</ul>';
+            }
+        } catch (err) {
+            resultsDiv.innerHTML = '<span class="govuk-body-s" style="color:#d4351c">Error fetching services.</span>';
+        }
+    });
+</script>
+{% endblock %}

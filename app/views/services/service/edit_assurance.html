@@ -1,0 +1,60 @@
+{% extends "layouts/layout.html" %}
+{% set title = service.name + " - Edit Assurance" %}
+{% set serviceNav = "Services" %}
+{% set nav = 'assurance' %}
+{% block content %}
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter">
+      {% include 'services/service/_nav.html' %}
+    </div>
+    <div class="govuk-grid-column-three-quarters">
+      <h1 class="govuk-heading-l">Edit Assurance</h1>
+      <form method="post">
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="authority_to_operate">Authority to operate</label>
+            <input class="govuk-input" id="authority_to_operate" name="authority_to_operate" type="text" value="{{ service.authority_to_operate or '' }}">
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="business_impact_assessment">Business impact assessment</label>
+            <input class="govuk-input" id="business_impact_assessment" name="business_impact_assessment" type="text" value="{{ service.business_impact_assessment or '' }}">
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="dpia">DPIA</label>
+            <input class="govuk-input" id="dpia" name="dpia" type="text" value="{{ service.dpia or '' }}">
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="external_security_testing">External security testing</label>
+            <input class="govuk-input" id="external_security_testing" name="external_security_testing" type="text" value="{{ service.external_security_testing or '' }}">
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="remedial_action_plan">Remedial action plan</label>
+            <input class="govuk-input" id="remedial_action_plan" name="remedial_action_plan" type="text" value="{{ service.remedial_action_plan or '' }}">
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="security_assurance_report">Security assurance report</label>
+            <input class="govuk-input" id="security_assurance_report" name="security_assurance_report" type="text" value="{{ service.security_assurance_report or '' }}">
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="equalities_impact_assessment">Equalities impact assessment</label>
+            <input class="govuk-input" id="equalities_impact_assessment" name="equalities_impact_assessment" type="text" value="{{ service.equalities_impact_assessment or '' }}">
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="environmental_impact_assessment">Environmental impact assessment</label>
+            <input class="govuk-input" id="environmental_impact_assessment" name="environmental_impact_assessment" type="text" value="{{ service.environmental_impact_assessment or '' }}">
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="accessibility">Accessibility</label>
+            <select class="govuk-select" id="accessibility" name="accessibility">
+                <option value="" {% if not service.accessibility %}selected{% endif %}>Select status</option>
+                <option value="full" {% if service.accessibility == 'full' %}selected{% endif %}>Full</option>
+                <option value="partial" {% if service.accessibility == 'partial' %}selected{% endif %}>Partial</option>
+                <option value="not-compliant" {% if service.accessibility == 'not-compliant' %}selected{% endif %}>Not compliant</option>
+            </select>
+        </div>
+        <button class="govuk-button" type="submit">Save changes</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %} 

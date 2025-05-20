@@ -1,0 +1,37 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <span class="govuk-caption-xl">Prototype</span>
+                <h1 class="govuk-heading-xl">Register of Services</h1>
+
+                <p class="govuk-body">
+                    This is a prototype for the Register of Services. It is not intended to be used as a real service.
+                </p>
+
+                <p class="govuk-body">
+                    Information and data included in the service may be innacurate or intentially misleading and should not be taken as fact.
+                    </p>
+
+                <p class="govuk-body">
+                    User group access:
+                </p>
+
+                <ul class="govuk-list govuk-list--spaced">
+                    <li>
+                        <a href="/dashboard-2" class="govuk-link govuk-link--no-visited-state">User group - All</a>
+                    </li>
+                    <li>
+                        <a href="/dashboard-1" class="govuk-link govuk-link--no-visited-state">User group - DD/SO</a>
+                    </li>
+                      <li>
+                        <a href="/dashboard-3" class="govuk-link govuk-link--no-visited-state">User group - CDO</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

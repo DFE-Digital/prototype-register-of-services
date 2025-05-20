@@ -1,0 +1,367 @@
+{% extends "layouts/layout.html" %}
+{% set title = service.name + " - Compliance" %}
+{% set mainClasses = "govuk-!-padding-top-0 govuk-!-padding-bottom-0" %}
+{% set serviceNav = "Services" %}
+
+{% block content %}
+
+    <section class="dfe-ros-service-header" style="background-color: #f4f8fb; border-bottom: 1px solid #8eb8dc;">
+        <div class="govuk-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="service-header-flex govuk-!-margin-bottom-4 govuk-!-margin-top-5">
+                        <h1 class="govuk-heading-l ">{{ service.name }}</h1>
+                        <div class="service-actions">
+                            <button class="service-action-btn" type="button" aria-label="Watch" onclick="openModal('watch-info')">
+                                <span class="material-symbols-outlined" aria-hidden="true">star</span>
+                                <span class="service-action-label">Favourite</span>
+                            </button>
+                            <button class="service-action-btn" type="button" aria-label="Share" onclick="openModal('share-info')">
+                                <span class="material-symbols-outlined icon-share" aria-hidden="true">share</span>
+                                <span class="service-action-label">Share</span>
+                            </button>
+                            <button class="service-action-btn" type="button" aria-label="Export" onclick="openModal('export-info')">
+                                <span class="material-symbols-outlined icon-export" aria-hidden="true">download</span>
+                                <span class="service-action-label">Download</span>
+                            </button>
+                            <button class="service-action-btn" type="button" aria-label="Edit">
+                                <span class="material-symbols-outlined icon-edit" aria-hidden="true">Edit</span>
+                                <span class="service-action-label">Edit</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="manage-service"></div>
+
+                    <table class="govuk-table govuk-!-margin-bottom-5">
+                        <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th class="govuk-table__header">Reference</th>
+                                <th class="govuk-table__header">Phase</th>
+                                <th class="govuk-table__header">Service owner</th>
+                                <th class="govuk-table__header">Part of service line</th>
+                                <th class="govuk-table__header">Start page</th>
+                            </tr>
+                        </thead>
+                        <tbody class="govuk-table__body">
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">{{ service.id or 'N/A' }}</td>
+                                <td class="govuk-table__cell">
+                                    {% set phase_id = '' %}
+                                    {% for category in service.categories %}
+                                        {% if category.type === 'phases' and category.values and category.values.length > 0 %}
+                                            {% set phase_id = category.values[0] %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <span class="service-meta-value" data-phase-id="{{ phase_id }}">
+                                        {% set has_phase = false %}
+                                        {% for category in service.categories %}
+                                            {% if category.type === 'phases' and category.values and category.values.length > 0 %}
+                                                {% for item in taxonomy.phases.items %}
+                                                    {% if item.id === category.values[0] %}
+                                                        <span class="govuk-tag govuk-tag--blue">{{ item.name }}</span>
+                                                        {% set has_phase = true %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if not has_phase %}
+                                            Not defined
+                                        {% endif %}
+                                    </span>
+                                </td>
+                                <td class="govuk-table__cell">{{ service.service_owner or 'N/A' }}</td>
+                                <td class="govuk-table__cell">
+                                    <a href="/services/service-lines/{{ service.service_line_id }}" class="govuk-link govuk-link--no-visited-state">{{ service.service_line or 'N/A' }}</a>
+                                </td>
+                                <td class="govuk-table__cell">
+                                    <a href="{{ service.public_url }}" class="govuk-link govuk-link--no-visited-state">View service</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <nav class="app-sub-navigation" aria-label="Application menu">
+                <ul class="app-sub-navigation__list">
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}">Overview</a>
+                    </li>
+
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/taxonomy">Taxonomy</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link"   href="/services/service/{{ service.id }}/user-need">Users and needs</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" aria-current="page" href="/services/service/{{ service.id }}/compliance">Compliance</a>
+                    </li>
+
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/assurance">Assurance</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/resources">Resources</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/data">Data</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </section>
+
+    <section class="dfe-service-content govuk-!-padding-top-9">
+        <div class="govuk-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+
+                    <!-- Compliance summary cards -->
+                    <div class="dashboard-section govuk-!-margin-bottom-6" id="compliance-summary-cards">
+                        <div class="standards-header">
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Standards compliance summary</h2>
+                            <p class="govuk-body-s govuk-!-margin-bottom-0">Summary of compliance status for this service</p>
+                        </div>
+                        <div class="service-panel-grid">
+                            {% set not_started = 0 %}
+                            {% set in_progress = 0 %}
+                            {% set met = 0 %}
+                            {% set exemption = 0 %}
+                            {% set expired = 0 %}
+                            {% for c in service_compliance.standards %}
+                                {% if c.status == 'Not started' %}
+                                    {% set not_started = not_started + 1 %}
+                                {% elif c.status == 'In progress' %}
+                                    {% set in_progress = in_progress + 1 %}
+                                {% elif c.status == 'Met' or c.status == 'Compliant' %}
+                                    {% set met = met + 1 %}
+                                {% elif c.status == 'Exemption' %}
+                                    {% set exemption = exemption + 1 %}
+                                {% elif c.status == 'Expired' %}
+                                    {% set expired = expired + 1 %}
+                                {% endif %}
+                            {% endfor %}
+                            <div class="service-panel-card service-panel-card__one-fifth">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Not started</h3>
+                                </div>
+                                <div class="card-content">
+                                    <span class="metric-number">{{ not_started }}</span>
+                                </div>
+                            </div>
+                            <div class="service-panel-card service-panel-card__one-fifth">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">In progress</h3>
+                                </div>
+                                <div class="card-content">
+                                    <span class="metric-number">{{ in_progress }}</span>
+                                </div>
+                            </div>
+                            <div class="service-panel-card service-panel-card__one-fifth">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Met</h3>
+                                </div>
+                                <div class="card-content">
+                                    <span class="metric-number">{{ met }}</span>
+                                </div>
+                            </div>
+                            <div class="service-panel-card service-panel-card__one-fifth">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Exemption</h3>
+                                </div>
+                                <div class="card-content">
+                                    <span class="metric-number">{{ exemption }}</span>
+                                </div>
+                            </div>
+                            <div class="service-panel-card service-panel-card__one-fifth">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Expired</h3>
+                                </div>
+                                <div class="card-content">
+                                    <span class="metric-number">{{ expired }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section " id="compliance-content">
+                        <div class="standards-header">
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">DDT Standards compliance</h2>
+                            <p class="govuk-body-s govuk-!-margin-bottom-0">Reported compliance with DDT standards in the Service Health Check App</p>
+                        </div>
+
+                        <div class="service-panel-card service-panel-card__full govuk-!-margin-bottom-6">
+                            <div class="card-header">
+                                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Compliance</h3>
+                                <button class="info-button" onclick="openModal('compliance-info')" aria-label="More about standards compliance">
+                                    <span class="govuk-visually-hidden">More about standards compliance</span>
+                                    <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+
+                                 
+
+                                    <table class="govuk-table govuk-!-margin-bottom-0 compact-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Standard</th>
+                                                <th>Status</th>
+                                                <th>Last reported</th>
+                                                <th>Link to standard</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for standard in standards %}
+                                {% set compliance = null %}
+                                {% for c in service_compliance.standards %}
+                                    {% if c.standard_id == standard.id %}
+                                        {% set compliance = c %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tr>
+                                    <td>{{ standard.name }}</td>
+                                    <td>
+                                        {% if compliance %}
+                                            {% if compliance.status == 'Met' %}
+                                                <span class="status-tag status-green">Met</span>
+                                            {% elif compliance.status == 'Expired' %}
+                                                <span class="status-tag status-red">Expired</span>
+                                            {% elif compliance.status == 'In progress' %}
+                                                <span class="status-tag status-amber">In progress</span>
+                                            {% elif compliance.status == 'Exemption' %}
+                                                <span class="status-tag status-blue">Exemption</span>
+                                            {% elif compliance.status == 'Not started' %}
+                                                <span class="status-tag status-grey">Not started</span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="status-tag status-grey">Unknown status</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ compliance and compliance.last_checked | date('DD MMM YYYY') }}</td>
+                                    <td>
+                                        <a href="{{ standard.url }}" class="govuk-link govuk-link--no-visited-state">View Standard</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'services/service/_modals.html' %}
+
+   
+
+    <script>
+        function copyAISummary() {
+            const panel = document.getElementById('ai-summary-panel');
+            const btn = document.getElementById('copy-summary-btn');
+            const original = btn.innerText;
+            btn.innerText = 'Copied!';
+            setTimeout(() => {
+                btn.innerText = original;
+            }, 1500);
+        }
+
+        function toggleAISummary() {
+            const panel = document.getElementById('ai-summary-panel');
+            const btn = document.getElementById('ai-summary-toggle-btn');
+            const label = btn.querySelector('.ai-summary-toggle-label');
+            const chevron = btn.querySelector('.ai-summary-toggle-chevron');
+            const cardContent = document.getElementById('ai-summary-card-content');
+            const expanded = btn.getAttribute('aria-expanded') === 'true';
+            if (expanded) {
+                panel.style.display = 'none';
+                btn.setAttribute('aria-expanded', 'false');
+                label.innerText = 'Show analysis summary';
+                chevron.style.transform = 'rotate(0deg)';
+                cardContent.style.paddingTop = '0';
+                cardContent.style.paddingBottom = '0';
+                cardContent.style.marginTop = '-41px';
+            } else {
+                panel.style.display = 'block';
+                btn.setAttribute('aria-expanded', 'true');
+                label.innerText = 'Hide analysis summary';
+                chevron.style.transform = 'rotate(180deg)';
+                cardContent.style.paddingTop = '';
+                cardContent.style.paddingBottom = '';
+                cardContent.style.marginTop = '';
+            }
+        }
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId + '-modal');
+            if (modal) {
+                modal
+                    .classList
+                    .add('show');
+                document.body.style.overflow = 'hidden';
+                modal
+                    .querySelector('.modal-content')
+                    .classList
+                    .add('show');
+                modal
+                    .querySelector('.modal-close')
+                    .focus();
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId + '-modal');
+            if (modal) {
+                modal
+                    .classList
+                    .remove('show');
+                document.body.style.overflow = '';
+                modal
+                    .querySelector('.modal-content')
+                    .classList
+                    .remove('show');
+            }
+        }
+
+        // Initialize all modals
+        document.addEventListener('DOMContentLoaded', function () {
+            const modals = document.querySelectorAll('.modal-container');
+            modals.forEach(modal => {
+                const closeBtn = modal.querySelector('.modal-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        modal
+                            .classList
+                            .remove('show');
+                        document.body.style.overflow = '';
+                        modal
+                            .querySelector('.modal-content')
+                            .classList
+                            .remove('show');
+                    });
+                }
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal
+                            .classList
+                            .remove('show');
+                        document.body.style.overflow = '';
+                        modal
+                            .querySelector('.modal-content')
+                            .classList
+                            .remove('show');
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

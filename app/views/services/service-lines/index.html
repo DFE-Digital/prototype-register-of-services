@@ -1,0 +1,799 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Service line" %}
+{% set mainClasses = "govuk-!-padding-top-0 govuk-!-padding-bottom-0" %}
+{% set serviceNav = "Services" %}
+
+{% block content %}
+
+    <section class="dfe-ros-service-header" style="background-color: #f4f8fb; border-bottom: 1px solid #8eb8dc;">
+        <div class="govuk-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="service-header-flex govuk-!-margin-bottom-4 govuk-!-margin-top-5">
+                        <h1 class="govuk-heading-l ">{{ service.name }}</h1>
+                        <div class="service-actions">
+                            <button class="service-action-btn" type="button" aria-label="Watch" onclick="openModal('watch-info')">
+                                <span class="material-symbols-outlined" aria-hidden="true">star</span>
+                                <span class="service-action-label">Favourite</span>
+                            </button>
+                            <button class="service-action-btn" type="button" aria-label="Share" onclick="openModal('share-info')">
+                                <span class="material-symbols-outlined icon-share" aria-hidden="true">share</span>
+                                <span class="service-action-label">Share</span>
+                            </button>
+                            <button class="service-action-btn" type="button" aria-label="Export" onclick="openModal('export-info')">
+                                <span class="material-symbols-outlined icon-export" aria-hidden="true">download</span>
+                                <span class="service-action-label">Download</span>
+                            </button>
+                            <button class="service-action-btn" type="button" aria-label="Edit">
+                                <span class="material-symbols-outlined icon-edit" aria-hidden="true">Edit</span>
+                                <span class="service-action-label">Edit</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="manage-service"></div>
+
+                    <table class="govuk-table govuk-!-margin-bottom-5">
+                        <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th class="govuk-table__header">Reference</th>
+                                <th class="govuk-table__header">Phase</th>
+                                <th class="govuk-table__header">Service owner</th>
+                                <th class="govuk-table__header">Part of service line</th>
+                                <th class="govuk-table__header">Start page</th>
+                            </tr>
+                        </thead>
+                        <tbody class="govuk-table__body">
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">{{ service.id or 'N/A' }}</td>
+                                <td class="govuk-table__cell">
+                                    {% set phase_id = '' %}
+                                    {% for category in service.categories %}
+                                        {% if category.type === 'phases' and category.values and category.values.length > 0 %}
+                                            {% set phase_id = category.values[0] %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <span class="service-meta-value" data-phase-id="{{ phase_id }}">
+                                        {% set has_phase = false %}
+                                        {% for category in service.categories %}
+                                            {% if category.type === 'phases' and category.values and category.values.length > 0 %}
+                                                {% for item in taxonomy.phases.items %}
+                                                    {% if item.id === category.values[0] %}
+                                                        <span class="govuk-tag govuk-tag--blue">{{ item.name }}</span>
+                                                        {% set has_phase = true %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if not has_phase %}
+                                            Not defined
+                                        {% endif %}
+                                    </span>
+                                </td>
+                                <td class="govuk-table__cell">{{ service.service_owner or 'N/A' }}</td>
+                                <td class="govuk-table__cell">
+                                    <a href="/services/service-lines/{{ service.service_line_id }}" class="govuk-link govuk-link--no-visited-state">{{ service.service_line or 'N/A' }}</a>
+                                </td>
+                                <td class="govuk-table__cell">
+                                    <a href="{{ service.public_url }}" class="govuk-link govuk-link--no-visited-state">View service</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <nav class="app-sub-navigation" aria-label="Application menu">
+                <ul class="app-sub-navigation__list">
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" aria-current="page" href="/services/service/{{ service.id }}">Overview</a>
+                    </li>
+
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/taxonomy">Taxonomy</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/user-need">Users and needs</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/compliance">Compliance</a>
+                    </li>
+
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/assurance">Assurance</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/resources">Resources</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/data">Data</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </section>
+
+    <section class="dfe-service-content govuk-!-padding-top-9" id="service-content">
+        <div class="govuk-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="dashboard-section">
+                        <div class="standards-header">
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Service overview</h2>
+                            <p class="govuk-body-s govuk-!-margin-bottom-0">Key information about the service</p>
+                        </div>
+                        <div class="service-panel-grid">
+
+                            <div class="service-panel-card service-panel-card__two-thirds">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Description</h3>
+                                    <button class="info-button" onclick="openModal('description-info')" aria-label="About service description">
+                                        <span class="govuk-visually-hidden">About service description</span>
+                                        <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <p class="govuk-body">{{ service.description }}</p>
+                                </div>
+                            </div>
+                            <div class="service-panel-card service-panel-card__one-third">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Service resources</h3>
+                                    <button class="info-button" onclick="openModal('resources-info')" aria-label="About service resources">
+                                        <span class="govuk-visually-hidden">About service resources</span>
+                                        <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <ul class="govuk-list govuk-list--spaced govuk-!-font-size-16">
+                                        {% for resource in service.serviceResources %}
+                                            {% if loop.index <= 5 %}
+                                                <li>
+                                                    <a href="{{ resource.link }}" class="govuk-link govuk-link--no-visited-state">{{ resource.label }}</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="card-actions">
+                                    {% if service.serviceResources | length > 5 %}
+                                        <a href="#" class="govuk-link govuk-link--no-visited-state">+ {{ service.serviceResources|length - 5 }} more items</a>
+                                    {% else %}
+                                        <a href="#" class="govuk-link govuk-link--no-visited-state">More resources</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section govuk-!-margin-top-6">
+                        <div class="standards-header">
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Service Performance</h2>
+                            <p class="govuk-body-s govuk-!-margin-bottom-0">Key metrics for the last 30 days</p>
+                        </div>
+                        <div class="service-panel-grid">
+                            <div class="service-panel-card service-panel-card__one-third">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">User Satisfaction</h3>
+                                    <button class="info-button" onclick="openModal('user-satisfaction-info')" aria-label="About user satisfaction">
+                                        <span class="govuk-visually-hidden">About user satisfaction</span>
+                                        <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="metric-content">
+                                        <div class="metric-value">
+                                            <span class="metric-number">{{ service.performanceData.items[0].value }}%</span>
+                                            <div class="standards-progress">
+                                                <div class="standards-progress__bar {% if service.performanceData.items[0].value|float >= 90 %}status-green{% else %}warning{% endif %}" style="width: {{ service.performanceData.items[0].value }}%"></div>
+                                            </div>
+                                        </div>
+                                        <p class="govuk-body-s govuk-!-margin-top-2">Target: 90%</p>
+                                    </div>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="#" class="govuk-link govuk-link--no-visited-state">More details</a>
+                                </div>
+                            </div>
+                            <div class="service-panel-card service-panel-card__one-third">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Service Availability</h3>
+                                    <button class="info-button" onclick="openModal('service-availability-info')" aria-label="About service availability">
+                                        <span class="govuk-visually-hidden">About service availability</span>
+                                        <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="metric-content">
+                                        <div class="metric-value">
+                                            <span class="metric-number">{{ service.performanceData.items[1].value }}%</span>
+                                            <div class="standards-progress">
+                                                <div class="standards-progress__bar {% if service.performanceData.items[1].value|float >= 99.5 %}status-green{% else %}warning{% endif %}" style="width: {{ service.performanceData.items[1].value }}%"></div>
+                                            </div>
+                                        </div>
+                                        <p class="govuk-body-s govuk-!-margin-top-2">Target: 99.5%</p>
+                                    </div>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="#" class="govuk-link govuk-link--no-visited-state">More details</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section govuk-!-margin-top-6">
+                        <div class="standards-header">
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Categories</h2>
+                            <p class="govuk-body-s govuk-!-margin-bottom-0">Technical and operational categorisation</p>
+                        </div>
+                        <div class="service-panel-grid">
+                            <div class="service-panel-card service-panel-card__one-quarter">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">User groups</h3>
+                                    <button class="info-button" onclick="openModal('user-groups-info')" aria-label="About user groups">
+                                        <span class="govuk-visually-hidden">About user groups</span>
+                                        <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <ul class="govuk-list govuk-!-font-size-16">
+                                        {% for group in service.userGroup %}
+                                            <li>{{ group }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="#" class="govuk-link govuk-link--no-visited-state">More info</a>
+                                </div>
+                            </div>
+                            <div class="service-panel-card service-panel-card__one-quarter">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Service patterns</h3>
+                                    <button class="info-button" onclick="openModal('patterns-info')" aria-label="About service patterns">
+                                        <span class="govuk-visually-hidden">About service patterns</span>
+                                        <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <ul class="govuk-list govuk-!-font-size-16">
+                                        {% for pattern in service.servicePattern %}
+                                            {% if loop.index <= 5 %}
+                                                <li>{{ pattern }}</li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="card-actions">
+                                    {% if service.servicePattern | length > 5 %}
+                                        <a href="#" class="govuk-link govuk-link--no-visited-state">+ {{ service.servicePattern|length - 5 }} more items</a>
+                                    {% else %}
+                                        <a href="#" class="govuk-link govuk-link--no-visited-state">More info</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="service-panel-card service-panel-card__one-quarter">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Technology</h3>
+                                    <button class="info-button" onclick="openModal('technology-info')" aria-label="About technology">
+                                        <span class="govuk-visually-hidden">About technology</span>
+                                        <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <ul class="govuk-list govuk-!-font-size-16">
+                                        {% for tech in service.technology %}
+                                            <li>{{ tech }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="#" class="govuk-link govuk-link--no-visited-state">More info</a>
+                                </div>
+                            </div>
+                            <div class="service-panel-card service-panel-card__one-quarter">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Policy areas</h3>
+                                    <button class="info-button" onclick="openModal('policy-info')" aria-label="About policy areas">
+                                        <span class="govuk-visually-hidden">About policy areas</span>
+                                        <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <ul class="govuk-list govuk-!-font-size-16">
+                                        {% for policy in service.policy %}
+                                            <li>{{ policy }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="#" class="govuk-link govuk-link--no-visited-state">More info</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section govuk-!-margin-top-6">
+                        <div class="standards-header">
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">User research</h2>
+                            <p class="govuk-body-s govuk-!-margin-bottom-0">Research confidence and key insights</p>
+                        </div>
+                        <div class="service-panel-grid">
+                            <div class="service-panel-card service-panel-card__half">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Research confidence</h3>
+                                    <button class="info-button" onclick="openModal('confidence-info')" aria-label="About research confidence">
+                                        <span class="govuk-visually-hidden">About research confidence</span>
+                                        <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="confidence-assessment">
+                                        <div class="metric-value">
+                                            <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Confidence in user understanding</h4>
+                                            <span class="status-tag status-green">Medium-High</span>
+                                            <p class="govuk-body-s">Last updated: 27 July 2023</p>
+                                        </div>
+                                        <div class="confidence-summary">
+                                            <h4 class="govuk-heading-s">What we know</h4>
+                                            <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16">
+                                                <li>Good coverage of primary user groups</li>
+                                                <li>Recent research validates key assumptions</li>
+                                                <li>Some gaps in accessibility research</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="{{ service.assurance.assessments[0].links[0].href }}" class="govuk-link govuk-link--no-visited-state">View research report</a>
+                                </div>
+                            </div>
+                            <div class="service-panel-card service-panel-card__half">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Key insights</h3>
+                                    <button class="info-button" onclick="openModal('key-insights-info')" aria-label="About key insights">
+                                        <span class="govuk-visually-hidden">About key insights</span>
+                                        <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="key-insights">
+                                        <div class="insight-section">
+                                            <h4 class="govuk-heading-s">User needs</h4>
+                                            <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16">
+                                                <li>Users need clear guidance on assessment requirements</li>
+                                                <li>Staff require better support for complex cases</li>
+                                                <li>Accessibility needs vary significantly across user groups</li>
+                                            </ul>
+                                        </div>
+                                        <div class="insight-section">
+                                            <h4 class="govuk-heading-s">Pain points</h4>
+                                            <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16">
+                                                <li>Complex forms cause confusion and errors</li>
+                                                <li>Navigation between sections needs improvement</li>
+                                                <li>Help content is not easily discoverable</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="#" class="govuk-link govuk-link--no-visited-state">View all insights</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section govuk-!-margin-top-6">
+                        <section id="universal-barriers">
+                            <div class="standards-header">
+                                <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Universal barriers to inclusion</h2>
+                                <p class="govuk-body-s govuk-!-margin-bottom-0">How this service addresses common barriers to inclusion</p>
+                            </div>
+                            <div class="service-panel-grid">
+                                <div class="service-panel-card service-panel-card__full">
+                                    <div class="card-header">
+                                        <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Service inclusion assessment</h3>
+                                        <button class="info-button" onclick="openModal('inclusion-info')" aria-label="About service inclusion">
+                                            <span class="govuk-visually-hidden">About service inclusion</span>
+                                            <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                        </button>
+                                    </div>
+                                    <div class="card-content">
+                                        <p class="govuk-body-s govuk-!-margin-bottom-0">You can see detailed information in the users and needs section.</p>
+                                        <div class="barriers-grid">
+                                            <div class="barrier-item">
+                                                <div class="barrier-item-content">
+                                                    <h4 class="govuk-heading-s">Awareness</h4>
+                                                    <p class="govuk-body-s">Service is promoted through multiple channels including offline support. Clear guidance available in multiple formats.</p>
+                                                </div>
+                                                <span class="status-tag status-green">Strong</span>
+                                            </div>
+                                            <div class="barrier-item">
+                                                <div class="barrier-item-content">
+                                                    <h4 class="govuk-heading-s">Device and interaction skills</h4>
+                                                    <p class="govuk-body-s">Service works across devices and browsers. Alternative channels available for those who need them.</p>
+                                                </div>
+                                                <span class="status-tag status-green">Strong</span>
+                                            </div>
+                                            <div class="barrier-item">
+                                                <div class="barrier-item-content">
+                                                    <h4 class="govuk-heading-s">Time</h4>
+                                                    <p class="govuk-body-s">Service can be completed in stages. Progress is saved automatically. Clear time estimates provided.</p>
+                                                </div>
+                                                <span class="status-tag status-green">Strong</span>
+                                            </div>
+                                            <div class="barrier-item">
+                                                <div class="barrier-item-content">
+                                                    <h4 class="govuk-heading-s">Enthusiasm</h4>
+                                                    <p class="govuk-body-s">Clear benefits explained upfront. Simple, intuitive interface reduces friction.</p>
+                                                </div>
+                                                <span class="status-tag status-amber">Good</span>
+                                            </div>
+                                            <div class="barrier-item">
+                                                <div class="barrier-item-content">
+                                                    <h4 class="govuk-heading-s">Access</h4>
+                                                    <p class="govuk-body-s">Multiple access channels available. Service works offline and can be completed in stages.</p>
+                                                </div>
+                                                <span class="status-tag status-green">Strong</span>
+                                            </div>
+                                            <div class="barrier-item">
+                                                <div class="barrier-item-content">
+                                                    <h4 class="govuk-heading-s">Comprehension skills</h4>
+                                                    <p class="govuk-body-s">Clear, simple language used throughout. Visual aids and examples provided where helpful.</p>
+                                                </div>
+                                                <span class="status-tag status-amber">Good</span>
+                                            </div>
+                                            <div class="barrier-item">
+                                                <div class="barrier-item-content">
+                                                    <h4 class="govuk-heading-s">Evidence</h4>
+                                                    <p class="govuk-body-s">Flexible evidence requirements. Multiple ways to verify identity and eligibility.</p>
+                                                </div>
+                                                <span class="status-tag status-green">Strong</span>
+                                            </div>
+                                            <div class="barrier-item">
+                                                <div class="barrier-item-content">
+                                                    <h4 class="govuk-heading-s">Self confidence</h4>
+                                                    <p class="govuk-body-s">Clear guidance and support available. Progress indicators show completion status.</p>
+                                                </div>
+                                                <span class="status-tag status-amber">Good</span>
+                                            </div>
+                                            <div class="barrier-item">
+                                                <div class="barrier-item-content">
+                                                    <h4 class="govuk-heading-s">Finance</h4>
+                                                    <p class="govuk-body-s">No direct costs to users. Free support available for those who need it.</p>
+                                                </div>
+                                                <span class="status-tag status-green">Strong</span>
+                                            </div>
+                                            <div class="barrier-item">
+                                                <div class="barrier-item-content">
+                                                    <h4 class="govuk-heading-s">Trust</h4>
+                                                    <p class="govuk-body-s">Clear security measures explained. Transparent about data usage and privacy.</p>
+                                                </div>
+                                                <span class="status-tag status-red">Weak</span>
+                                            </div>
+                                            <div class="barrier-item">
+                                                <div class="barrier-item-content">
+                                                    <h4 class="govuk-heading-s">Emotional state</h4>
+                                                    <p class="govuk-body-s">Service designed to be stress-free. Support available for those who need it.</p>
+                                                </div>
+                                                <span class="status-tag status-amber">Good</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="dashboard-section govuk-!-margin-top-6" id="related-services-section">
+
+                        <div class="govuk-width-container">
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Other services in this service line</h2>
+                            <p class="govuk-body-s govuk-!-margin-bottom-5">Services that are related to this service or are in the same service line.</p>
+
+                            <div class="dfe-grid-container">
+                                {% if related_services.length > 0 %}
+                                    {% for related_service in related_services %}
+                                        <div class="dfe-card">
+                                            <div class="dfe-card-container">
+                                                <h3 class="govuk-heading-m">
+                                                    <a href="/services/service/{{ related_service.id }}" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">
+                                                        {{ related_service.name }}
+                                                    </a>
+                                                </h3>
+                                                <p>{{ related_service.description or 'No description available.' }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="govuk-body">No other services in this service line.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'services/service/_modals.html' %}
+
+    <style>
+
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined' !important;
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 24px;
+            vertical-align: middle;
+            color: #6f777b;
+            transition: color 0.15s;
+        }
+
+        .service-action-btn:focus,
+        .service-action-btn:hover {
+            background: #1d70b8;
+            color: #fff;
+            border-color: #1d70b8;
+            outline: none;
+        }
+        .service-action-btn:focus .material-symbols-outlined,
+        .service-action-btn:focus .service-action-label,
+        .service-action-btn:hover .material-symbols-outlined,
+        .service-action-btn:hover .service-action-label {
+            color: #fff !important;
+        }
+
+        .dfe-service-content {
+            background-color: #f3f2f1;
+        }
+        .service-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .service-actions {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+        }
+
+        .service-action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f3f2f1;
+            border: 1px solid #b1b4b6;
+            color: #0b0c0c;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.15s, border 0.15s, color 0.15s;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .service-action-btn:focus,
+        .service-action-btn:hover {
+            background: #1d70b8;
+            color: #fff;
+            border-color: #1d70b8;
+            outline: none;
+        }
+
+        .service-action-btn svg {
+            display: block;
+            margin: auto;
+        }
+
+        .service-action-label {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 110%;
+            transform: translateX(-50%);
+            background: #1d70b8;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.95em;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s;
+            z-index: 10;
+        }
+
+        .service-action-btn:focus .service-action-label,
+        .service-action-btn:hover .service-action-label {
+            display: block;
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            .service-actions {
+                flex-wrap: wrap;
+            }
+            .service-action-btn {
+                border-radius: 4px;
+                width: auto;
+                height: auto;
+                padding: 0.4em 1em;
+                gap: 0.4em;
+            }
+            .service-action-label {
+                display: inline-block;
+                position: static;
+                background: none;
+                color: #0b0c0c;
+                padding: 0;
+                border-radius: 0;
+                font-size: 1em;
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        .barriers-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .barrier-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: #f8f8f8;
+            padding: 24px 28px;
+            border-radius: 6px;
+            border: 1px solid #b1b4b6;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            width: 100%;
+            min-height: 80px;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow-wrap: anywhere;
+        }
+
+        .barrier-item-content {
+            flex: 1 1 auto;
+            min-width: 0;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow-wrap: anywhere;
+        }
+
+        .barrier-item h4 {
+            margin: 0 0 6px;
+            color: #0b0c0c;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .barrier-item p {
+            margin: 0;
+            color: #505a5f;
+            font-size: 1rem;
+        }
+
+        .barrier-item .status-tag {
+            flex: 0 0 auto;
+            align-self: center;
+            margin-left: 32px;
+            font-size: 1rem;
+            padding: 8px 18px;
+            font-weight: 600;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+    </style>
+
+    <script>
+        function copyAISummary() {
+            const panel = document.getElementById('ai-summary-panel');
+            const btn = document.getElementById('copy-summary-btn');
+            const original = btn.innerText;
+            btn.innerText = 'Copied!';
+            setTimeout(() => {
+                btn.innerText = original;
+            }, 1500);
+        }
+
+        function toggleAISummary() {
+            const panel = document.getElementById('ai-summary-panel');
+            const btn = document.getElementById('ai-summary-toggle-btn');
+            const label = btn.querySelector('.ai-summary-toggle-label');
+            const chevron = btn.querySelector('.ai-summary-toggle-chevron');
+            const cardContent = document.getElementById('ai-summary-card-content');
+            const expanded = btn.getAttribute('aria-expanded') === 'true';
+            if (expanded) {
+                panel.style.display = 'none';
+                btn.setAttribute('aria-expanded', 'false');
+                label.innerText = 'Show analysis summary';
+                chevron.style.transform = 'rotate(0deg)';
+                cardContent.style.paddingTop = '0';
+                cardContent.style.paddingBottom = '0';
+                cardContent.style.marginTop = '-41px';
+            } else {
+                panel.style.display = 'block';
+                btn.setAttribute('aria-expanded', 'true');
+                label.innerText = 'Hide analysis summary';
+                chevron.style.transform = 'rotate(180deg)';
+                cardContent.style.paddingTop = '';
+                cardContent.style.paddingBottom = '';
+                cardContent.style.marginTop = '';
+            }
+        }
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId + '-modal');
+            if (modal) {
+                modal
+                    .classList
+                    .add('show');
+                document.body.style.overflow = 'hidden';
+                modal
+                    .querySelector('.modal-content')
+                    .classList
+                    .add('show');
+                modal
+                    .querySelector('.modal-close')
+                    .focus();
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId + '-modal');
+            if (modal) {
+                modal
+                    .classList
+                    .remove('show');
+                document.body.style.overflow = '';
+                modal
+                    .querySelector('.modal-content')
+                    .classList
+                    .remove('show');
+            }
+        }
+
+        // Initialize all modals
+        document.addEventListener('DOMContentLoaded', function () {
+            const modals = document.querySelectorAll('.modal-container');
+            modals.forEach(modal => {
+                const closeBtn = modal.querySelector('.modal-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        modal
+                            .classList
+                            .remove('show');
+                        document.body.style.overflow = '';
+                        modal
+                            .querySelector('.modal-content')
+                            .classList
+                            .remove('show');
+                    });
+                }
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal
+                            .classList
+                            .remove('show');
+                        document.body.style.overflow = '';
+                        modal
+                            .querySelector('.modal-content')
+                            .classList
+                            .remove('show');
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

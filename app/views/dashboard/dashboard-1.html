@@ -1,0 +1,1344 @@
+{% extends "layouts/layout.html" %}
+
+{% set title = "Dashboard" %}
+{% set serviceNav = "Dashboard" %}
+{% set nav = 'dashboard' %}
+
+{% block content %}
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <span class="govuk-caption-l">Bruce Banner</span>
+                <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">Dashboard</h1>
+
+                <div class="dfe-ros-flex-grid govuk-!-margin-bottom-6">
+                    <div class="dfe-ros-flex-grid__item alert-card">
+                        <div class="metric-content">
+                            <span class="govuk-!-font-weight-bold govuk-!-font-size-48">2</span>
+                        </div>
+                        <h2 class="govuk-body govuk-!-margin-top-2 govuk-!-margin-bottom-1">Alerts</h2>
+                        <p class="govuk-body-s govuk-!-margin-bottom-0">Services you own or manage need attention</p>
+                    </div>
+
+                    <div class="dfe-ros-flex-grid__item">
+                        <div class="metric-content">
+                            <span class="govuk-!-font-weight-bold govuk-!-font-size-48">6</span>
+                        </div>
+                        <h2 class="govuk-body govuk-!-margin-top-2 govuk-!-margin-bottom-1">Services</h2>
+                        <p class="govuk-body-s govuk-!-margin-bottom-0">Services you are a service owner for or manage</p>
+                    </div>
+
+                    <div class="dfe-ros-flex-grid__item">
+                        <div class="metric-content">
+                            <span class="govuk-!-font-weight-bold govuk-!-font-size-48">2</span>
+                        </div>
+                        <h2 class="govuk-body govuk-!-margin-top-2 govuk-!-margin-bottom-1">Following</h2>
+                        <p class="govuk-body-s govuk-!-margin-bottom-0">Services you're tracking</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-section">
+                                <div class="standards-header">
+                                    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Alerts</h2>
+                                    <p class="govuk-body-s govuk-!-margin-bottom-0">Services requiring attention</p>
+                                </div>
+                    <div class="alert-panels-container">
+                        <div class="alert-panels-carousel" id="alert-panels">
+                            <div class="alert-panel" id="panel1" aria-labelledby="panel1-label">
+                                <div class="alert-panel__header">
+                                    <div class="alert-panel__header-content">
+                                        <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
+                                            <span class="govuk-tag govuk-tag--red govuk-!-margin-bottom-2">Needs attention</span>
+                                            Apply for Teacher Training
+                                        </h2>
+                                        <p class="govuk-body-s govuk-!-margin-bottom-0">Service requires attention based on recent assessment outcomes and metrics</p>
+                                    </div>
+                                    <div class="alert-panel__header-actions">
+                                        <div class="alert-actions-dropdown">
+                                            <button class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0" 
+                                                    aria-haspopup="true" 
+                                                    aria-expanded="false" 
+                                                    aria-controls="dropdown-menu-1"
+                                                    onclick="toggleDropdown(this)">
+                                                Actions
+                                                <span class="arrow-down" aria-hidden="true">▼</span>
+                                            </button>
+                                            <div id="dropdown-menu-1" 
+                                                 class="dropdown-menu" 
+                                                 role="menu" 
+                                                 aria-label="Alert actions">
+                                                <a href="/v1/service/{{service.slug}}" 
+                                                   class="dropdown-item" 
+                                                   role="menuitem"
+                                                   tabindex="0">View service</a>
+                                                <a href="/v1/service/{{service.slug}}/actions" 
+                                                   class="dropdown-item" 
+                                                   role="menuitem"
+                                                   tabindex="0">View actions</a>
+                                                <hr class="dropdown-divider" role="separator">
+                                                <a href="#" 
+                                                   class="dropdown-item text-red" 
+                                                   role="menuitem" 
+                                                   onclick="dismissAlert(this)"
+                                                   tabindex="0"
+                                                   aria-label="Dismiss notification for Apply for Teacher Training">Dismiss notification</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="alert-panel__content">
+                                    <div class="alert-grid">
+                                        <div class="alert-item">
+                                            <div class="alert-item__content">
+                                                <h3 class="govuk-heading-s">Beta Assessment</h3>
+                                                <div class="metric-value">
+                                                    <span class="status-tag status-red">Red</span>
+                                                    <span class="metric-date">Assessed: 2 April 2024</span>
+                                                </div>
+                                            </div>
+                                            <div class="alert-item__actions">
+                                                <a href="#" class="govuk-link govuk-link--no-visited-state">View assessment report</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="alert-item">
+                                            <div class="alert-item__content">
+                                                <h3 class="govuk-heading-s">User Satisfaction</h3>
+                                                <div class="metric-value">
+                                                    <span class="metric-number">62%</span>
+                                                    <div class="standards-progress">
+                                                        <div class="standards-progress__bar warning" style="width: 62%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="alert-item__actions">
+                                                <a href="#" class="govuk-link govuk-link--no-visited-state">Review satisfaction data</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="alert-item">
+                                            <div class="alert-item__content">
+                                                <h3 class="govuk-heading-s">Standards Compliance</h3>
+                                                <div class="metric-value">
+                                                    <span class="metric-number">45%</span>
+                                                    <span class="metric-detail">17 of 37 met</span>
+                                                </div>
+                                            </div>
+                                            <div class="alert-item__actions">
+                                                <a href="#" class="govuk-link govuk-link--no-visited-state">View standards breakdown</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="alert-item alert-item--actions">
+                                            <div class="alert-item__content">
+                                                <h3 class="govuk-heading-s">Next Steps</h3>
+                                                <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-4">
+                                                    <li>Schedule assessment review</li>
+                                                    <li>Review recent user feedback</li>
+                                                    <li>Update standards evidence</li>
+                                                </ul>
+                                            </div>
+                                            <div class="alert-item__actions">
+                                                <a href="#" class="govuk-button govuk-!-margin-bottom-0">
+                                                    View all actions
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="alert-panel" id="panel2" aria-labelledby="panel2-label">
+                                <div class="alert-panel__header">
+                                    <div class="alert-panel__header-content">
+                                        <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
+                                            <span class="govuk-tag govuk-tag--red govuk-!-margin-bottom-2">Needs attention</span>
+                                            Register Trainee Teachers
+                                        </h2>
+                                        <p class="govuk-body-s govuk-!-margin-bottom-0">Service requires attention based on assessment outcome and standards compliance</p>
+                                    </div>
+                                    <div class="alert-panel__header-actions">
+                                        <div class="alert-actions-dropdown">
+                                            <button class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0" 
+                                                    aria-haspopup="true" 
+                                                    aria-expanded="false" 
+                                                    aria-controls="dropdown-menu-2"
+                                                    onclick="toggleDropdown(this)">
+                                                Actions
+                                                <span class="arrow-down" aria-hidden="true">▼</span>
+                                            </button>
+                                            <div id="dropdown-menu-2" 
+                                                 class="dropdown-menu" 
+                                                 role="menu" 
+                                                 aria-label="Alert actions">
+                                                <a href="#" 
+                                                   class="dropdown-item" 
+                                                   role="menuitem"
+                                                   tabindex="0">View service</a>
+                                                <a href="#" 
+                                                   class="dropdown-item" 
+                                                   role="menuitem"
+                                                   tabindex="0">View actions</a>
+                                                <hr class="dropdown-divider" role="separator">
+                                                <a href="#" 
+                                                   class="dropdown-item text-red" 
+                                                   role="menuitem" 
+                                                   onclick="dismissAlert(this)"
+                                                   tabindex="0"
+                                                   aria-label="Dismiss notification for Register Trainee Teachers">Dismiss notification</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="alert-panel__content">
+                                    <div class="alert-grid">
+                                        <div class="alert-item">
+                                            <div class="alert-item__content">
+                                                <h3 class="govuk-heading-s">Live Assessment</h3>
+                                                <div class="metric-value">
+                                                    <span class="status-tag status-amber">Amber</span>
+                                                    <span class="metric-date">Assessed: 12 April 2024</span>
+                                                </div>
+                                            </div>
+                                            <div class="alert-item__actions">
+                                                <a href="#" class="govuk-link govuk-link--no-visited-state">View assessment report</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="alert-item">
+                                            <div class="alert-item__content">
+                                                <h3 class="govuk-heading-s">Standards Compliance</h3>
+                                                <div class="metric-value">
+                                                    <span class="metric-number">58%</span>
+                                                    <span class="metric-detail">21 of 37 met</span>
+                                                </div>
+                                            </div>
+                                            <div class="alert-item__actions">
+                                                <a href="#" class="govuk-link govuk-link--no-visited-state">View standards breakdown</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="alert-item alert-item--actions">
+                                            <div class="alert-item__content">
+                                                <h3 class="govuk-heading-s">Next Steps</h3>
+                                                <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-4">
+                                                    <li>Schedule assessment review</li>
+                                                    <li>Update standards evidence</li>
+                                                </ul>
+                                            </div>
+                                            <div class="alert-item__actions">
+                                                <a href="#" class="govuk-button govuk-!-margin-bottom-0">
+                                                    View all actions
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="alert-panels-controls">
+                                <nav class="govuk-pagination" role="navigation" aria-label="Alert panel navigation">
+                                    <ul class="govuk-pagination__list">
+                                        <li class="govuk-pagination__item">
+                                            <button onclick="switchPanel(1)" class="govuk-pagination__link" aria-label="Show alert for Apply for Teacher Training" aria-current="true">
+                                                1
+                                            </button>
+                                        </li>
+                                        <li class="govuk-pagination__item">
+                                            <button onclick="switchPanel(2)" class="govuk-pagination__link" aria-label="Show alert for Register Trainee Teachers">
+                                                2
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+ </div>
+
+        {% include "dashboard/_health.html" %}
+    </div>
+    <style>
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .dfe-ros-flex-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .dfe-ros-flex-grid__item {
+            flex: 1;
+            min-width: 240px;
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 4px;
+            box-shadow: 0 2px 14px rgba(38, 60, 85, .08);
+        }
+
+        .alert-card {
+            border-left: 10px solid #d4351c;
+        }
+
+        .metric-content {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .metric-trend {
+            font-size: 16px;
+            color: #505a5f;
+            text-align: right;
+        }
+
+        .metric-trend.positive {
+            color: #00703c;
+        }
+
+        .trend-indicator {
+            font-weight: bold;
+            margin-right: 4px;
+        }
+
+        .trend-text {
+            font-size: 14px;
+        }
+
+        .dashboard-section {
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 4px;
+            box-shadow: 0 2px 14px rgba(38, 60, 85, .08);
+            height: 100%;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f3f2f1;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #f3f2f1;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.update {
+            background: #1d70b8;
+        }
+
+        .activity-icon.alert {
+            background: #d4351c;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-time {
+            color: #505a5f;
+        }
+
+        .quick-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quick-links a {
+            display: block;
+            padding: 8px 0;
+        }
+
+        @media (max-width: 48.0525em) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+
+        .standards-header {
+            margin-bottom: 24px;
+        }
+
+        .standards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .standards-card {
+            background: #ffffff;
+            padding: 20px;
+            border: 1px solid #b1b4b6;
+            border-radius: 4px;
+        }
+
+        .standards-card__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .standards-percentage {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00703c;
+        }
+
+        .standards-percentage.warning {
+            color: #e77135;
+        }
+
+        .standards-progress {
+            width: 100%;
+            height: 8px;
+            background: #f3f2f1;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .standards-progress__bar {
+            height: 100%;
+            background: #00703c;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .standards-progress__bar.warning {
+            background: #e77135;
+        }
+
+        @media (max-width: 48.0525em) {
+            .standards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .service-assessment-table {
+            margin-bottom: 0;
+        }
+
+        .status-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .status-green {
+            background: #cce2d8;
+            color: #005a30;
+        }
+
+        .status-amber {
+            background: #ffe599;
+            color: #191300;
+        }
+
+        .status-red {
+            background: #f6d7d2;
+            color: #942514;
+        }
+
+        .status-blue {
+            background: #d2e2f1;
+            color: #061625;
+        }
+
+        .satisfaction-score {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 180px;
+        }
+
+        .satisfaction-number {
+            font-weight: 600;
+            min-width: 45px;
+        }
+
+        .satisfaction-bar-container {
+            background: #f3f2f1;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .satisfaction-bar {
+            height: 100%;
+            background: #00703c;
+            border-radius: 4px;
+        }
+
+        .satisfaction-bar.warning {
+            background: #e77135;
+        }
+
+        @media (max-width: 48.0525em) {
+            .service-assessment-table {
+                border: 0;
+            }
+
+            .service-assessment-table thead {
+                border: none;
+                clip: rect(0 0 0 0);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                width: 1px;
+            }
+
+            .service-assessment-table tr {
+                display: block;
+                margin-bottom: 1.5rem;
+                border: 1px solid #b1b4b6;
+                border-radius: 4px;
+                padding: 1rem;
+            }
+
+            .service-assessment-table td {
+                display: block;
+                border: none;
+                padding: 0.5rem 0;
+            }
+
+            .service-assessment-table td:not(:last-child) {
+                border-bottom: 1px solid #f3f2f1;
+            }
+
+            .service-assessment-table td::before {
+                content: attr(data-label);
+                display: block;
+                font-weight: bold;
+                text-transform: uppercase;
+                font-size: 14px;
+                color: #505a5f;
+                margin-bottom: 4px;
+            }
+
+            .service-assessment-table td:last-child {
+                padding-bottom: 0;
+            }
+
+            .satisfaction-score {
+                margin-top: 8px;
+            }
+
+            .satisfaction-bar-container {
+                max-width: none;
+            }
+        }
+
+        .reports-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .reports-header__action {
+            margin-top: 4px;
+        }
+
+        .reports-create-link {
+            font-size: 16px;
+            line-height: 1.25;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .reports-create-link:focus {
+            outline: 3px solid #ffdd00;
+            outline-offset: 0;
+            background: #ffdd00;
+            box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+            color: #0b0c0c;
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .report-card {
+            background: #ffffff;
+            border: 1px solid #b1b4b6;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .report-card__content {
+            padding: 16px;
+            flex-grow: 1;
+        }
+
+        .report-card__actions {
+            padding: 12px 16px;
+            border-top: 1px solid #f3f2f1;
+            display: flex;
+            gap: 16px;
+        }
+
+        .report-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            color: #505a5f;
+            font-size: 14px;
+        }
+
+        .report-type {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .report-type.interactive {
+            background: #e8f4f9;
+            color: #144e81;
+        }
+
+        .report-type.excel {
+            background: #e3f3e1;
+            color: #005a30;
+        }
+
+        @media (max-width: 48.0525em) {
+            .reports-header {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .reports-header .govuk-button {
+                width: 100%;
+            }
+
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .alert-panels-container {
+            position: relative;
+        }
+
+        .alert-panels-carousel {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .alert-panel {
+            display: none;
+            background: #ffffff;
+            border: 1px solid #b1b4b6;
+            border-left: 10px solid #d4351c;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 14px rgba(38, 60, 85, .08);
+        }
+
+        #panel1 {
+            display: block;
+        }
+
+        .alert-panel.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .alert-panel__header {
+            padding: 24px 24px 16px;
+            border-bottom: 1px solid #f3f2f1;
+        }
+
+        .alert-panel__header-content {
+            flex-grow: 1;
+        }
+
+        .alert-panel__header-actions {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .alert-panel__content {
+            padding: 24px;
+        }
+
+        .alert-grid {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 0;
+            background: white;
+            border-radius: 4px;
+            gap: 15px;
+        }
+
+        .alert-item {
+            flex: 0 0 230px;
+            padding: 15px;
+            background: transparent;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #b1b4b6;
+            border-radius: 4px;
+        }
+
+        .alert-item__content {
+            flex-grow: 1;
+            margin-bottom: 15px;
+        }
+
+        .alert-item__actions {
+            border-top: 1px solid #f3f2f1;
+            padding-top: 15px;
+            margin-top: auto;
+        }
+
+        .alert-item h3 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            color: #0b0c0c;
+        }
+
+        .metric-value {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .metric-number {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #0b0c0c;
+        }
+
+        .metric-date,
+        .metric-detail {
+            color: #505a5f;
+            font-size: 16px;
+        }
+
+        .alert-item .govuk-list {
+            font-size: 16px;
+            color: #ffffff;
+            margin-bottom: 24px;
+        }
+
+        .alert-item .govuk-link {
+            text-decoration: none;
+        }
+
+        .alert-item .govuk-link:hover {
+            text-decoration: underline;
+        }
+
+        .alert-item .govuk-link::after {
+            display: none;
+        }
+
+        .alert-item--actions {
+            margin-left: auto;
+            background: #1d70b8;
+            color: #ffffff;
+        }
+
+        .alert-item--actions .govuk-list,
+        .alert-item--actions h3 {
+            color: #ffffff;
+        }
+
+        .alert-item--actions .govuk-button {
+            background: #ffffff;
+            color: #1d70b8;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .alert-item--actions .govuk-button:hover {
+            background: #f3f2f1;
+            color: #1d70b8;
+        }
+
+        .alert-dismiss-button {
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            color: #505a5f;
+            font-size: 20px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .alert-dismiss-button:hover {
+            background: #f3f2f1;
+            color: #0b0c0c;
+        }
+
+        .alert-panels-controls {
+            margin-top: 16px;
+            display: flex;
+            justify-content: left;
+        }
+
+        .govuk-pagination {
+            margin: 0;
+        }
+
+        .govuk-pagination__list {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 0;
+        }
+
+        .govuk-pagination__item {
+            margin: 0;
+            list-style: none;
+        }
+
+        .alert-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            background: #f3f2f1;
+            color: #505a5f;
+            cursor: pointer;
+            font-family: "GDS Transport", arial, sans-serif;
+            font-size: 16px;
+            line-height: 1;
+            transition: all 0.2s ease;
+        }
+
+        .alert-indicator:hover {
+            background: #dbdad9;
+        }
+
+        #panel1:checked ~ .alert-panels-controls .govuk-pagination__item:nth-child(1) .alert-indicator,
+        #panel2:checked ~ .alert-panels-controls .govuk-pagination__item:nth-child(2) .alert-indicator {
+            background: #1d70b8;
+            color: white;
+        }
+
+        @media (max-width: 48.0525em) {
+            .alert-grid {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .alert-item {
+                flex: 1;
+            }
+
+            .alert-item--actions {
+                margin-left: 0;
+                border-radius: 4px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Hide empty grid cells before the actions panel */
+        .alert-grid > :empty {
+            display: none;
+        }
+
+        .govuk-pagination__link {
+            display: inline-block;
+            padding: 8px 16px;
+            border: none;
+            text-decoration: none;
+            background: #f3f2f1;
+            color: #1d70b8;
+            font-size: 16px;
+            line-height: 1.25;
+            cursor: pointer;
+            font-family: "GDS Transport", arial, sans-serif;
+        }
+
+        .govuk-pagination__link:hover {
+            background: #dbdad9;
+            color: #003078;
+        }
+
+        .govuk-pagination__link:focus {
+            outline: 3px solid #ffdd00;
+            outline-offset: 0;
+            background: #ffdd00;
+            box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+            color: #0b0c0c;
+        }
+
+        .govuk-pagination__link[aria-current="true"] {
+            background: #1d70b8;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .govuk-pagination__list {
+            display: flex;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .govuk-pagination__item {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        @media (max-width: 48.0525em) {
+            .govuk-pagination__list {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+        }
+
+        .alert-actions-dropdown {
+            position: relative;
+        }
+
+        .alert-actions-dropdown .arrow-down {
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            min-width: 200px;
+            background: white;
+            border: 1px solid #b1b4b6;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 10;
+            margin-top: 5px;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 10px 15px;
+            color: #1d70b8;
+            text-decoration: none;
+            font-size: 16px;
+            line-height: 1.25;
+            cursor: pointer;
+            border: none;
+            background: none;
+            text-align: left;
+        }
+
+        .dropdown-item:hover {
+            background: #f3f2f1;
+            text-decoration: underline;
+        }
+
+        .dropdown-divider {
+            margin: 5px 0;
+            border: none;
+            border-top: 1px solid #b1b4b6;
+        }
+
+        .text-red {
+            color: #d4351c;
+        }
+
+        /* Close dropdown when clicking outside */
+        .dropdown-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 5;
+        }
+
+        .alert-item .standards-progress {
+            width: 100%;
+            height: 8px;
+            background: #f3f2f1;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .alert-item .standards-progress__bar {
+            height: 100%;
+            background: #00703c;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .alert-item .standards-progress__bar.warning {
+            background: #e77135;
+        }
+
+        .alert-item .status-tag {
+            width: fit-content;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 2rem;
+        }
+
+        .alert-item .status-red {
+            background: #f6d7d2;
+            color: #942514;
+        }
+
+        .report-card__actions .govuk-link::after {
+            display: none;
+        }
+
+        .alert-item__actions .govuk-link,
+        .report-card__actions .govuk-link,
+        .reports-create-link {
+            font-size: 1rem;
+            line-height: 1.25;
+            text-decoration: none;
+        }
+
+        .alert-item__actions .govuk-link:hover,
+        .report-card__actions .govuk-link:hover,
+        .reports-create-link:hover {
+            text-decoration: underline;
+        }
+
+        .alert-item__actions .govuk-link:focus,
+        .report-card__actions .govuk-link:focus,
+        .reports-create-link:focus {
+            outline: 3px solid #ffdd00;
+            outline-offset: 0;
+            background: #ffdd00;
+            box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+            color: #0b0c0c;
+        }
+
+        .service-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .service-card {
+            background: #ffffff;
+            border: 1px solid #b1b4b6;
+            border-radius: 4px;
+            padding: 20px;
+        }
+
+        .service-card__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .service-card__content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .service-metric {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #505a5f;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: #0b0c0c;
+        }
+
+        .service-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .meta-item {
+            display: flex;
+            gap: 8px;
+        }
+
+        .meta-label {
+            color: #505a5f;
+            font-size: 14px;
+        }
+
+        .meta-value {
+            color: #0b0c0c;
+            font-size: 14px;
+        }
+
+        .status-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .status-alpha {
+            background: #f3f2f1;
+            color: #505a5f;
+        }
+
+        .status-beta {
+            background: #cce2d8;
+            color: #005a30;
+        }
+
+        .status-live {
+            background: #dbeafe;
+            color: #1d70b8;
+        }
+
+        @media (max-width: 48.0525em) {
+            .service-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <script>
+        function switchPanel(panelNumber) {
+            // Hide all panels
+            document
+                .querySelectorAll('.alert-panel')
+                .forEach(panel => {
+                    panel.style.display = 'none';
+                });
+
+            // Reset all buttons
+            document
+                .querySelectorAll('.govuk-pagination__link')
+                .forEach(button => {
+                    button.setAttribute('aria-current', 'false');
+                });
+
+            // Show selected panel
+            document
+                .getElementById('panel' + panelNumber)
+                .style
+                .display = 'block';
+
+            // Update button state
+            const buttons = document.querySelectorAll('.govuk-pagination__link');
+            buttons[panelNumber - 1].setAttribute('aria-current', 'true');
+        }
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const currentPanel = document.querySelector('.govuk-pagination__link[aria-current="true"]');
+                const currentIndex = Array
+                    .from(document.querySelectorAll('.govuk-pagination__link'))
+                    .indexOf(currentPanel);
+
+                if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                    switchPanel(currentIndex);
+                } else if (e.key === 'ArrowRight' && currentIndex < 1) {
+                    switchPanel(currentIndex + 2);
+                }
+            }
+        });
+
+        // Add alert panel dismiss functionality
+        document
+            .querySelectorAll('.alert-dismiss-button')
+            .forEach(button => {
+                button.addEventListener('click', function () {
+                    const alertPanel = this.closest('.alert-panel');
+                    alertPanel.style.animation = 'fadeOut 0.3s ease-out';
+                    setTimeout(() => {
+                        alertPanel.remove();
+                    }, 300);
+                });
+            });
+
+        function toggleDropdown(button) {
+            const dropdown = button.nextElementSibling;
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+            // Close all other dropdowns
+            document
+                .querySelectorAll('.dropdown-menu')
+                .forEach(menu => {
+                    menu
+                        .classList
+                        .remove('show');
+                });
+            document
+                .querySelectorAll('.alert-actions-dropdown button')
+                .forEach(btn => {
+                    btn.setAttribute('aria-expanded', 'false');
+                });
+
+            if (!isExpanded) {
+                dropdown
+                    .classList
+                    .add('show');
+                button.setAttribute('aria-expanded', 'true');
+
+                // Focus first menu item
+                const firstMenuItem = dropdown.querySelector('.dropdown-item');
+                if (firstMenuItem) {
+                    firstMenuItem.focus();
+                }
+
+                // Add overlay to close dropdown when clicking outside
+                const overlay = document.createElement('div');
+                overlay.className = 'dropdown-overlay';
+                overlay.onclick = () => {
+                    dropdown
+                        .classList
+                        .remove('show');
+                    button.setAttribute('aria-expanded', 'false');
+                    overlay.remove();
+                };
+                document
+                    .body
+                    .appendChild(overlay);
+
+                // Add keyboard navigation
+                dropdown.addEventListener('keydown', function (e) {
+                    const menuItems = Array.from(dropdown.querySelectorAll('.dropdown-item'));
+                    const currentIndex = menuItems.indexOf(document.activeElement);
+
+                    switch (e.key) {
+                        case 'ArrowDown':
+                            e.preventDefault();
+                            if (currentIndex < menuItems.length - 1) {
+                                menuItems[currentIndex + 1].focus();
+                            }
+                            break;
+                        case 'ArrowUp':
+                            e.preventDefault();
+                            if (currentIndex > 0) {
+                                menuItems[currentIndex - 1].focus();
+                            }
+                            break;
+                        case 'Escape':
+                            e.preventDefault();
+                            dropdown
+                                .classList
+                                .remove('show');
+                            button.setAttribute('aria-expanded', 'false');
+                            button.focus();
+                            break;
+                        case 'Tab':
+                            if (e.shiftKey && currentIndex === 0) {
+                                e.preventDefault();
+                                button.focus();
+                            } else if (!e.shiftKey && currentIndex === menuItems.length - 1) {
+                                e.preventDefault();
+                                button.focus();
+                            }
+                            break;
+                    }
+                });
+            }
+        }
+
+        function dismissAlert(link) {
+            const alertPanel = link.closest('.alert-panel');
+            const alertTitle = alertPanel
+                .querySelector('.govuk-heading-m')
+                .textContent
+                .trim();
+
+            // Announce dismissal to screen readers
+            const announcement = document.createElement('div');
+            announcement.setAttribute('role', 'status');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.className = 'govuk-visually-hidden';
+            announcement.textContent = `Alert for ${alertTitle} has been dismissed`;
+            document
+                .body
+                .appendChild(announcement);
+
+            // Remove announcement after screen reader has time to read it
+            setTimeout(() => {
+                announcement.remove();
+            }, 2000);
+
+            alertPanel.style.animation = 'fadeOut 0.3s ease-out';
+            setTimeout(() => {
+                alertPanel.remove();
+            }, 300);
+        }
+    </script>
+{% endblock %}

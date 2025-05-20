@@ -1,0 +1,43 @@
+{
+    "service_lines": [
+        {
+            "id": "slid1",
+            "name": "Get into teaching",
+            "description": "Get into teaching is the DfE’s end-to-end digital service line for anyone who wants to become, verify or evidence their status as a teacher in England. It covers the full journey—from finding and applying for initial teacher training, through overseas qualification recognition, to checking, downloading or updating your Qualified Teacher Status (QTS) certificates, claiming early-career payments and even looking up (or recovering) your Teacher Reference Number (TRN).",
+            "business_area": "Teacher services",
+            "sro": {
+              "name": "Rob Rodney",
+              "email": "rob.rodney@education.gov.uk"
+            },
+            "estimated_monthly_users": 200000,
+            "annual_service_interactions": 2000000,
+            "peak_daily_visits": 20000,
+            "service_types": [
+              "Campaign",
+              "Information",
+              "Transactional"
+            ],
+            "service_types_summary": "This service line spans:\n- **Campaign services:** broad awareness and engagement (e.g. the Get into Teaching hub).\n- **Information services:** guidance and discovery tools (course finders, school hub locator, TRN lookup).\n- **Transactional services:** actions and applications (QTS applications, teacher training applications, certificate downloads, payments)."
+          },
+        {
+            "id": "slid2",
+            "name": "Schools data",
+            "description": "Data capture and reporting services for data about schools.",
+            "business_area": "Schools",
+            "sro": {
+                "name": "Corrine Richardson",
+                "email": "corrine.richardson@education.gov.uk"
+            }
+        },
+        {
+            "id": "slid3",
+            "name": "Social care",
+            "description": "Social care services for children and families.",
+            "business_area": "Vulnerable children and families",
+            "sro": {
+                "name": "Rachel Shooter-Smith",
+                "email": "rachel.shooter-smith@education.gov.uk"
+            }
+        }
+    ]
+}

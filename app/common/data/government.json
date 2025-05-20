@@ -1,0 +1,77 @@
+{
+    "missions": [
+        {
+            "id": "mission-1",
+            "name": "Strong Foundations",
+            "description": "Mission 1 description"
+        },
+        {
+            "id": "mission-2",
+            "name": "Kickstarting Economic Growth",
+            "description": "Mission 2 description"
+        },
+        {
+            "id": "mission-3",
+            "name": "An NHS Fit for the Future",
+            "description": "Mission 3 description"
+        },
+        {
+            "id": "mission-4",
+            "name": "Safer Streets",
+            "description": "Mission 4 description"
+        },
+        {
+            "id": "mission-5",
+            "name": "Break Down Barriers to Opportunity",
+            "description": "Our Department leads across government on the opportunity mission, which aims to break the link between young people’s background and their own success. Every child and young person should have every opportunity to succeed, no matter who they are, where they come from, or how much their parents earn.",
+            "pillars": [
+                {
+                    "id": "pillar-1",
+                    "name": "Best Start in Life",
+                    "description": "Strengthen early education, local services and home environment to significantly improve child development at age 5 and reduce the disadvantage gap.",
+                    "priorities": [
+                        {
+                            "id": "priority-1",
+                            "name": "Improved access to early education",
+                            "description": "Priority 1 description"
+                        },
+                        {
+                            "id": "priority-2",
+                            "name": "Improved quality of teaching in early years settings and reception",
+                            "description": [
+                                "Focus on curriculum and teaching quality in reception.",
+                                "Reception improvement offer via Universal RISE.",
+                                "Increase in Early Years pupil premium rate and greater focus on how this is used to support outcomes."
+                            ]
+                        },
+                        {
+                            "id": "priority-3",
+                            "name": "Stronger and joined up family services to support child development",
+                            "description": "Priority 3 description"
+                        }
+                    ]
+                },
+                {
+                    "id": "pillar-2",
+                    "name": "Every Child Achieving and Thriving",
+                    "description": "Pillar 2 description"
+                },
+                {
+                    "id": "pillar-3",
+                    "name": "Skills for Opportunity and Growth",
+                    "description": "Pillar 3 description"
+                },
+                {
+                    "id": "pillar-4",
+                    "name": "Keeping Children Safe",
+                    "description": "Pillar 4 description"
+                }
+            ]
+        },
+        {
+            "id": "mission-6",
+            "name": "Make Britain a Clean Energy Superpower",
+            "description": "Mission 6 description"
+        }
+    ]
+}

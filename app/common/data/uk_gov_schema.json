@@ -1,0 +1,179 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://gov.uk/schemas/service/1.1/loose.schema.json",
+    "title": "UK Government Digital Service (light-touch)",
+    "description": "A permissive schema for describing digital services or products. Only the top-level `id` is mandatory; all other fields are optional and open.",
+    "type": "object",
+    "required": ["id"],
+    "additionalProperties": true,
+  
+    "properties": {
+      "id":               { "type": ["string", "number"] },
+      "other_ids":        { "type": "object", "additionalProperties": { "type": ["string", "number"] } },
+      "name":             { "type": ["string", "number"] },
+      "service_line":     { "type": ["string", "number"] },
+      "service_line_id":  { "type": ["string", "number"] },
+  
+      "service_owners":   { "$ref": "#/$defs/anyArray" },
+      "phase":            { "type": ["string", "number"] },
+      "description":      { "type": "string" },
+      "public_url":       { "type": "string" },
+  
+      "created_at":       { "type": "string" },
+      "updated_at":       { "type": "string" },
+  
+      "performance_data": { "$ref": "#/$defs/anyArray" },
+      "categories":       { "$ref": "#/$defs/anyArray" },
+  
+      "related_services": { "$ref": "#/$defs/anyArray" },
+      "contacts":         { "$ref": "#/$defs/anyArray" },
+      "resources":        { "$ref": "#/$defs/anyArray" },
+  
+      "objectives":       { "$ref": "#/$defs/anyArray" },
+      "milestones":       { "$ref": "#/$defs/anyArray" },
+  
+      "criticality":      { "type": ["string", "number"] },
+      "tech_stack":       { "$ref": "#/$defs/anyArray" },
+  
+      "assurance":        { "type": "object", "additionalProperties": true },
+      "usage_profile":    { "type": "object", "additionalProperties": true },
+      "telemetry":        { "type": "object", "additionalProperties": true },
+  
+      "missions":         { "$ref": "#/$defs/anyArray" }
+    },
+  
+    "$defs": {
+      "anyArray": {
+        "type": "array",
+        "items": { "type": ["object", "string", "number", "boolean", "null"] },
+        "additionalItems": true
+      }
+    },
+  
+    "examples": [
+      {
+        "id": "1",
+        "other_ids": { "servicenow": "SN-0001" },
+  
+        "name": "Access your teaching qualifications",
+        "service_line": "Get into teaching",
+        "service_line_id": "slid1",
+  
+        "service_owners": [
+          {
+            "first_name": "Bruce",
+            "last_name": "Banner",
+            "email": "bruce.banner@example.gov.uk",
+            "user_id": "bbanner1"
+          }
+        ],
+  
+        "phase": "live",
+        "description": "Qualified teachers can download certificates, check qualification and induction status, and change the name on their certificates.",
+        "public_url": "https://access-your-teaching-qualifications.education.gov.uk/",
+  
+        "created_at": "2025-05-09T00:00:00Z",
+        "updated_at": "2025-05-09T00:00:00Z",
+  
+        "performance_data": [
+          { "type": "user_satisfaction",   "value": 92   },
+          { "type": "service_availability", "value": 99.6 }
+        ],
+  
+        "categories": [
+          { "type": "service_patterns", "values": ["SP_5", "SP_14", "SP_15", "SP_17"] },
+          { "type": "user_groups",      "values": ["UG_7"] },
+          { "type": "technologies",     "values": ["TE_6"] }
+        ],
+  
+        "related_services": [
+          { "id": "2", "relationship": "depends_on" }
+        ],
+  
+        "contacts": [
+          {
+            "role": "Product Manager",
+            "person": {
+              "first_name": "Natasha",
+              "last_name": "Romanoff",
+              "email": "natasha.romanoff@example.gov.uk",
+              "user_id": "nromanoff1"
+            }
+          },
+          {
+            "role": "Technical Lead",
+            "person": {
+              "first_name": "Tony",
+              "last_name": "Stark",
+              "email": "tony.stark@example.gov.uk",
+              "user_id": "tstark1"
+            }
+          }
+        ],
+  
+        "resources": [
+          {
+            "type": "runbook",
+            "url": "https://runbooks.education.gov.uk/aytq",
+            "description": "Operational playbook and out-of-hours contacts"
+          },
+          {
+            "type": "code_repository",
+            "url": "https://github.com/dfe-digital/teaching-qualifications",
+            "description": "Private source-code repository"
+          }
+        ],
+  
+        "objectives": [
+          {
+            "description": "Achieve 95 % user satisfaction by FY 2025/26",
+            "target": "≥ 95 %",
+            "status": "on_track"
+          }
+        ],
+  
+        "milestones": [
+          {
+            "name": "Public beta",
+            "due": "2025-11-01",
+            "status": "in_progress"
+          }
+        ],
+  
+        "criticality": "tier_2",
+  
+        "tech_stack": [
+          { "layer": "frontend", "name": "Next.js",     "version": "14" },
+          { "layer": "backend",  "name": ".NET",        "version": "8.0" },
+          { "layer": "database", "name": "PostgreSQL",  "version": "15" }
+        ],
+  
+        "assurance": {
+          "data_classification": "OFFICIAL",
+          "last_pen_test": "2024-10-15",
+          "accessibility_statement_url": "https://access-your-teaching-qualifications.education.gov.uk/accessibility"
+        },
+  
+        "usage_profile": {
+          "monthly_users": 120000,
+          "peak_concurrent": 4200,
+          "segments": ["teachers", "school_admin"]
+        },
+  
+        "telemetry": {
+          "grafana": "https://grafana.dfe.gov.uk/d/aYTQx/aytq",
+          "logit":   "https://logit.io/aytq"
+        },
+  
+        "missions": [
+          {
+            "id": "GOV-M-004",
+            "name": "Improve teacher recruitment and retention",
+            "status": "in_progress",
+            "link": "https://gov.uk/government/publications/mission-004"
+          }
+        ]
+      }
+    ]
+  }
+  

@@ -1,0 +1,370 @@
+{% extends "layouts/layout.html" %}
+{% set title = service.name + " - CMDB Sync Check" %}
+{% set serviceNav = "Services" %}
+{% set nav = 'technical' %}
+
+{% block styles %}
+<style>
+  .modal-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  .modal-container.show {
+    display: block;
+  }
+
+  .modal-content {
+    position: relative;
+    background-color: #fff;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-width: 800px;
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  }
+
+  .modal-content.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #b1b4b6;
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    color: #0b0c0c;
+  }
+
+  .modal-close:hover {
+    color: #1d70b8;
+  }
+
+  .modal-body {
+    margin-bottom: 20px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter">
+      {% include 'services/service/_nav.html' %}
+    </div>
+    <div class="govuk-grid-column-three-quarters">
+      <span class="govuk-caption-l">Technical configuration</span>
+      <h1 class="govuk-heading-xl">CMDB sync</h1>
+
+
+      <h2 class="govuk-heading-m">CMDB missing data</h2>
+      <p class="govuk-body">The following data exists in the Service Register but is missing from the CMDB.</p>
+
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Field</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Service Register</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">CMDB</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Action</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">Phase</td>
+            <td class="govuk-table__cell">
+              {% set phaseText = {
+                'PH_1': 'Discovery',
+                'PH_2': 'Alpha',
+                'PH_3': 'Private Beta',
+                'PH_4': 'Public Beta',
+                'PH_5': 'Live'
+              }[service.phase] or service.phase %}
+              {{ phaseText }}
+            </td>
+            <td class="govuk-table__cell">
+              Not set
+            </td>
+            <td class="govuk-table__cell">
+              <a href="#" class="govuk-link" onclick="openModal('update-phase'); return false;">Update CMDB<span class="govuk-visually-hidden"> service phase to {{ phaseText }}</span></a>
+            </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">Service owner</td>
+            <td class="govuk-table__cell">
+              {{ service.service_owner }}
+              {% if service.service_owner_email %}
+              <br>
+              <span class="govuk-body-s">{{ service.service_owner_email }}</span>
+              {% endif %}
+            </td>
+            <td class="govuk-table__cell">
+              Not set
+            </td>
+            <td class="govuk-table__cell">
+              <a href="#" class="govuk-link" onclick="openModal('update-owner'); return false;">Update CMDB<span class="govuk-visually-hidden"> service owner to {{ service.service_owner }}</span></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-6">Service Register missing data</h2>
+      <p class="govuk-body">The following data exists in the CMDB but is missing from the Service Register.</p>
+
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Field</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Service Register</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">CMDB</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Action</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">Status</td>
+            <td class="govuk-table__cell">
+              Not set
+            </td>
+            <td class="govuk-table__cell">
+              Operational
+            </td>
+            <td class="govuk-table__cell">
+              <a href="#" class="govuk-link" onclick="openModal('update-status'); return false;">Update Register<span class="govuk-visually-hidden"> status to operational</span></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="govuk-button-group">
+        <a href="/services/service/{{ service.id }}/edit/technical" class="govuk-link">Back to technical configuration</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Update Phase Modal -->
+<div class="modal-container" id="update-phase-modal" role="dialog" aria-modal="true" aria-labelledby="update-phase-title" tabindex="-1">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="update-phase-title">Update CMDB Service Phase</h2>
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="govuk-body">You are about to update the service phase in the CMDB <strong>Not set</strong> to <strong>{{ phaseText }}</strong>.</p>
+      
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive">Warning</span>
+          This will update the service phase in the CMDB. The change will be reflected in the next sync.
+        </strong>
+      </div>
+
+      <div style="display: flex; gap: 1em; margin-top: 2em;">
+        <form action="/services/service/{{ service.id }}/update-phase" method="post" style="margin: 0;">
+          <input type="hidden" name="phase" value="{{ service.phase }}">
+          <button class="govuk-button" type="submit">Update CMDB</button>
+        </form>
+        <button class="govuk-button govuk-button--secondary" type="button" onclick="closeModal('update-phase')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Update Owner Modal -->
+<div class="modal-container" id="update-owner-modal" role="dialog" aria-modal="true" aria-labelledby="update-owner-title" tabindex="-1">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="update-owner-title">Update CMDB Service Owner</h2>
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="govuk-body">You are about to update the service owner in the CMDB from <strong>Not set</strong> to <strong>{{ service.service_owner }}</strong>.</p>
+      
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive">Warning</span>
+          This will update the service owner in the CMDB. The change will be reflected in the next sync.
+        </strong>
+      </div>
+
+      <div style="display: flex; gap: 1em; margin-top: 2em;">
+        <form action="/services/service/{{ service.id }}/update-owner" method="post" style="margin: 0;">
+          <input type="hidden" name="owner" value="{{ service.service_owner }}">
+          {% if service.service_owner_email %}
+          <input type="hidden" name="email" value="{{ service.service_owner_email }}">
+          {% endif %}
+          <button class="govuk-button" type="submit">Update CMDB</button>
+        </form>
+        <button class="govuk-button govuk-button--secondary" type="button" onclick="closeModal('update-owner')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Update Status Modal -->
+<div class="modal-container" id="update-status-modal" role="dialog" aria-modal="true" aria-labelledby="update-status-title" tabindex="-1">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="update-status-title">Update Service Register Status</h2>
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="govuk-body">You are about to update the service status in the Service Register from <strong>Not set</strong> to <strong>Operational</strong>.</p>
+      
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive">Warning</span>
+          This will update the service status in the Service Register. The change will be reflected immediately.
+        </strong>
+      </div>
+
+      <div style="display: flex; gap: 1em; margin-top: 2em;">
+        <form action="/services/service/{{ service.id }}/update-status" method="post" style="margin: 0;">
+          <input type="hidden" name="status" value="Operational">
+          <button class="govuk-button" type="submit">Update Register</button>
+        </form>
+        <button class="govuk-button govuk-button--secondary" type="button" onclick="closeModal('update-status')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Success Modal for CMDB -->
+<div class="modal-container" id="success-cmdb-modal" role="dialog" aria-modal="true" aria-labelledby="success-cmdb-title" tabindex="-1">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="success-cmdb-title">CMDB updated</h2>
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="govuk-body">The CMDB has been updated successfully. The changes will be reflected in the next sync.</p>
+      <div style="display: flex; gap: 1em; margin-top: 2em;">
+        <button class="govuk-button" type="button" onclick="closeModal('success-cmdb')">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Success Modal for Register -->
+<div class="modal-container" id="success-register-modal" role="dialog" aria-modal="true" aria-labelledby="success-register-title" tabindex="-1">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="success-register-title">Service Register updated</h2>
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="govuk-body">The Service Register has been updated successfully.</p>
+      <div style="display: flex; gap: 1em; margin-top: 2em;">
+        <button class="govuk-button" type="button" onclick="closeModal('success-register')">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openModal(modalId) {
+    const modal = document.getElementById(modalId + '-modal');
+    if (modal) {
+      modal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      modal.querySelector('.modal-content').classList.add('show');
+      modal.querySelector('.modal-close').focus();
+    }
+  }
+
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId + '-modal');
+    if (modal) {
+      modal.classList.remove('show');
+      document.body.style.overflow = '';
+      modal.querySelector('.modal-content').classList.remove('show');
+    }
+  }
+
+  // Initialize modals
+  document.addEventListener('DOMContentLoaded', function () {
+    const modals = document.querySelectorAll('.modal-container');
+    modals.forEach(modal => {
+      const closeBtn = modal.querySelector('.modal-close');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          modal.classList.remove('show');
+          document.body.style.overflow = '';
+          modal.querySelector('.modal-content').classList.remove('show');
+        });
+      }
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('show');
+          document.body.style.overflow = '';
+          modal.querySelector('.modal-content').classList.remove('show');
+        }
+      });
+    });
+
+    // Handle form submissions
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(form);
+        
+        // Close the current modal
+        const currentModal = form.closest('.modal-container');
+        if (currentModal) {
+          currentModal.classList.remove('show');
+          currentModal.querySelector('.modal-content').classList.remove('show');
+        }
+
+        // Submit the form data
+        fetch(form.action, {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => {
+          if (response.ok) {
+            // Show appropriate success modal based on the form action
+            if (form.action.includes('update-phase') || form.action.includes('update-owner')) {
+              openModal('success-cmdb');
+            } else if (form.action.includes('update-status')) {
+              openModal('success-register');
+            }
+          } else {
+            throw new Error('Network response was not ok');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          // You might want to show an error modal here
+        });
+      });
+    });
+  });
+</script>
+{% endblock %} 

@@ -1,0 +1,134 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Service reporting" %}
+{% set serviceNav = "Reports" %}
+
+{% block head %}
+    <link rel="stylesheet" href="/assets/css/reports.css">
+{% endblock %}
+
+{% block content %}
+<div class="govuk-width-container">
+    <h1 class="govuk-heading-xl">Service Reporting</h1>
+    <table class="govuk-table" id="services-table">
+        <thead>
+            <tr>
+                <th class="sortable" data-sort="name">Service Name <span class="sort-indicator"></span></th>
+                <th class="sortable" data-sort="status">Status <span class="sort-indicator"></span></th>
+                <th class="sortable" data-sort="last-reported">Last Reported <span class="sort-indicator"></span></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for service in services %}
+                {% set last_report = service.monthly_reporting and service.monthly_reporting.history and service.monthly_reporting.history[0] %}
+                <tr>
+                    <td data-sort-value="{{ service.name }}">
+                        <a href="/reports/services/{{ service.id }}">{{ service.name }}</a>
+                    </td>
+                    <td data-sort-value="{{ last_report and last_report.status or 'not_started' }}">
+                        {% if last_report and last_report.status == 'completed' %}
+                            <span class="govuk-tag govuk-tag--green">Complete</span>
+                        {% elif last_report and last_report.status == 'in_progress' %}
+                            <span class="govuk-tag govuk-tag--yellow">In progress</span>
+                        {% else %}
+                            <span class="govuk-tag govuk-tag--red">Not started</span>
+                        {% endif %}
+                    </td>
+                    <td data-sort-value="{{ last_report and last_report.month or '' }}">{{ last_report and last_report.month or '—' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .sortable {
+        cursor: pointer;
+        position: relative;
+        padding-right: 24px;
+        user-select: none;
+        color: inherit;
+        font-weight: normal;
+        vertical-align: middle;
+    }
+    .sortable .sort-indicator {
+        font-size: 1em;
+        opacity: 0.4;
+        pointer-events: none;
+        letter-spacing: -2px;
+        color: #0b0c0c;
+        min-width: 1.5em;
+        text-align: right;
+    }
+    .sortable.active {
+        font-weight: bold;
+        color: #1d70b8;
+    }
+    .sortable.active .sort-indicator {
+        opacity: 1;
+        color: #1d70b8;
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const table = document.getElementById('services-table');
+        const headers = table.querySelectorAll('th.sortable');
+        let currentSort = {
+            column: null,
+            direction: 'asc'
+        };
+        function updateSortIndicators() {
+            headers.forEach(header => {
+                const indicator = header.querySelector('.sort-indicator');
+                if (header.classList.contains('active')) {
+                    indicator.textContent = currentSort.direction === 'asc' ? '▲' : '▼';
+                    indicator.style.color = '#1d70b8';
+                    indicator.style.opacity = '1';
+                } else {
+                    indicator.textContent = '▲▼';
+                    indicator.style.color = '#0b0c0c';
+                    indicator.style.opacity = '0.4';
+                }
+            });
+        }
+        function sortTable(column, direction) {
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const columnIndex = Array.from(headers).findIndex(h => h.dataset.sort === column);
+            rows.sort((a, b) => {
+                const aCell = a.children[columnIndex];
+                const bCell = b.children[columnIndex];
+                const aValue = aCell.dataset.sortValue;
+                const bValue = bCell.dataset.sortValue;
+                // For status, sort by custom order
+                if (column === 'status') {
+                    const order = { 'completed': 2, 'in_progress': 1, 'not_started': 0 };
+                    return direction === 'asc' ? (order[aValue]||0) - (order[bValue]||0) : (order[bValue]||0) - (order[aValue]||0);
+                }
+                // For last-reported, sort by string (YYYY-MM)
+                if (column === 'last-reported') {
+                    return direction === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+                }
+                // For name, sort alphabetically
+                return direction === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+            });
+            rows.forEach(row => tbody.appendChild(row));
+        }
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                const sortKey = header.dataset.sort;
+                if (currentSort.column === sortKey) {
+                    currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                } else {
+                    currentSort.column = sortKey;
+                    currentSort.direction = 'asc';
+                }
+                headers.forEach(h => h.classList.remove('active'));
+                header.classList.add('active');
+                sortTable(currentSort.column, currentSort.direction);
+                updateSortIndicators();
+            });
+        });
+        updateSortIndicators();
+    });
+</script>
+{% endblock %}

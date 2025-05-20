@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>{{-title }} | {{serviceName}}</title>
+        <meta name="description" content="{{-description-}}">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <meta name="theme-color" content="#00294a">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="canonical" href="https://design.education.gov.uk/{{path}}">
+        <link rel="stylesheet" href="/assets/css/govuk-frontend.min.css">
+        <link rel="stylesheet" href="/assets/css/dfefrontend-2.0.0.min.css">
+        <link rel="stylesheet" href="/assets/css/app.css">
+        <link rel="stylesheet" href="/assets/css/mvp.css">
+        <link rel="stylesheet" href="/assets/css/moj-frontend.min.css">
+        <link rel="stylesheet" href="/assets/css/svc.css">
+        <link rel="stylesheet" href="/assets/css/policy.css">
+        <link rel="stylesheet" href="/assets/css/reports.css">
+        <link rel="stylesheet" href="/assets/css/services.css">
+        <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+        <style>
+         
+        </style>
+        
+        {% block head %}{% endblock %}
+    </head>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-x"></script>
+
+    <body class="govuk-template__body">
+
+        {% block styles %}{% endblock %}
+
+        <script>
+            document.body.className += ' js-enabled' + (
+                'noModule' in HTMLScriptElement.prototype
+                ? ' govuk-frontend-supported'
+                : '');
+        </script>
+
+        <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
+
+        {% include 'layouts/_govheader.html' %}
+
+        {% include 'layouts/_servicenav.html' %}
+
+        <main class="govuk-main-wrapper {{mainClasses}}" id="main-content">
+            <div class="{{containerClass}}">
+                {%- block content -%}{%- endblock -%}
+            </div>
+        </main>
+
+        {%- block pageActions -%}{%- endblock -%}
+
+        {% include 'layouts/_footer.html' %}
+
+        <script type="module">
+            import {initAll} from '/assets/js/govuk-frontend.min.js';
+            initAll();
+        </script>
+        <script src="/assets/js/dfefrontend-2.0.0.min.js"></script>
+        <script src="/assets/js/app.js"></script>
+        <script src="/assets/js/mvp.js"></script>
+        <script src="/assets/js/moj-frontend.js"></script>
+        <script src="/assets/js/outcome-explorer.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/bash.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/http.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/json.min.js"></script>
+        <script src="/assets/js/sortable-table.bundle.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                initAll();
+                hljs.configure({
+                    ignoreUnescapedHTML: true,
+                    languages: ['bash', 'http', 'json']
+                });
+           
+            });
+        </script>
+
+        <script>hljs.highlightAll();</script>
+
+        {% block scripts %}{% endblock %}
+    </body>
+
+</html>

@@ -1,0 +1,56 @@
+
+.gem-c-input__search-icon {
+    display: block;
+    position: relative;
+    z-index: 1;
+    margin-bottom: -40px;
+    margin-bottom: -2.5rem;
+    width: 40px;
+    height: 40px;
+    height: 2.5rem;
+    background: url(/assets/images/icon-search-black.svg) no-repeat 10px center
+}
+
+.gem-c-input.govuk-input {
+    margin: 0;
+    min-width: 0;
+    padding: 5px;
+    box-sizing: border-box
+}
+
+.gem-c-input.govuk-input.gem-c-input--with-search-icon {
+    padding-left: 35px
+}
+
+.gem-c-search {
+    position: relative
+}
+
+.gem-c-search__label {
+    display: block;
+    color: #0b0c0c;
+    cursor: text;
+    text-overflow: ellipsis;
+    height: 90%;
+    overflow: hidden;
+    white-space: nowrap;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    font-size: 1.1875rem;
+    line-height: 2.1052631579
+}
+
+@media print {
+    .gem-c-search__label {
+        font-family: sans-serif
+    }
+}
+
+@media print {
+    .gem-c-search__label {
+        font-size: 14pt;
+        line-height: 40px
+    }
+}
+

@@ -1,0 +1,50 @@
+{% extends "layouts/layout.html" %}
+{% set title = category.name + " - Service Register" %}
+{% set mainClasses = "govuk-!-padding-top-0" %}
+{% set containerClass = "govuk-width-container" %}
+{% set serviceNav = "Categories" %}
+
+{% block content %}
+ 
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+
+<a href="/categories" class="govuk-back-link">Back to taxonomies</a>
+            
+            <span class="govuk-caption-l govuk-!-margin-top-5">Taxonomy</span>
+            <h1 class="govuk-heading-xl">{{ category.name }}</h1>
+            {% if category.description %}
+                <p class="govuk-body">{{ category.description }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-top-6">
+        <div class="govuk-grid-column-full">
+            <div class="dfe-grid-container">
+
+                {% if category.id == 'PH' %}
+                    {% set sorted_items = items | sort(attribute = 'order', reverse = false) %}
+                {% else %}
+                    {% set sorted_items = items | sort(attribute = 'name') %}
+                {% endif %}
+
+                {% for item in sorted_items %}
+
+                    <div class="dfe-card">
+                        <div class="dfe-card-container">
+                            <h2 class="govuk-heading-m">
+                                <a href="/services?q=&{{category.id}}={{ item.id }}" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">{{ item.name }}</a>
+                            </h2>
+                            {% if item.description %}
+                                <p class="govuk-body">{{ item.description }}</p>
+                            {% endif %}
+                            <p class="govuk-body-s">Services: {{ item.serviceCount | default(0) }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

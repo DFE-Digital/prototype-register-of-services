@@ -1,0 +1,80 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Excel" %}
+{% set serviceNav = "Data" %}
+{% set nav = 'excel' %}
+
+{% block content %}
+    <section class="data-hero">
+        <div class="govuk-width-container">
+
+            <div class="govuk-grid-row">
+
+                <div class="govuk-grid-column-one-quarter">
+                   {% include "data/_nav.html" %}
+                </div>
+
+                <div class="govuk-grid-column-three-quarters">
+                    <span class="govuk-caption-l">App integrations</span>
+                    <h1 class="govuk-heading-xl">How to use the API in Excel</h1>
+                    <p class="govuk-body">You can use Microsoft Excel to import and work with data from our API in two ways: a live OData connection, or by downloading a JSON file.</p>
+
+                    <h2 class="govuk-heading-m">Option 1: Connect to live data using OData</h2>
+                    <ol class="govuk-list govuk-list--number">
+                      <li>
+                        <strong>Open Excel</strong> and go to the <b>Data</b> tab.
+                      </li>
+                      <li>
+                        Click <b>Get Data</b> &rarr; <b>From Other Sources</b> &rarr; <b>From OData Feed</b>.
+                      </li>
+                      <li>
+                        In the dialog, enter the following OData URL:<br>
+                        <code>https://service-register.education.gov.uk/api/v1/services</code>
+                       
+                      </li>
+                      <li>
+                        Click <b>OK</b>. If prompted, choose <b>Anonymous</b> authentication (unless your API requires credentials).
+                      </li>
+                      <li>
+                        Excel will connect to the API and show a preview of the data. Click <b>Load</b> to import it into your worksheet.
+                      </li>
+                      <li>
+                        You can now use Excel's features to filter, analyze, and visualize the service data. Use the <b>Refresh</b> button to update the data at any time.
+                      </li>
+                    </ol>
+
+                    <h3 class="govuk-heading-s">Example OData request</h3>
+                    <pre><code>https://service-register.education.gov.uk/api/v1/services</code></pre>
+                    <p class="govuk-body">
+                      For more advanced queries, you can use OData query options (e.g. <code>?$filter=phase eq 'Live'</code>).
+                    </p>
+
+                    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                    <h2 class="govuk-heading-m">Option 2: Download JSON and import into Excel</h2>
+                    <ol class="govuk-list govuk-list--number">
+                      <li>
+                        Go to <code>https://service-register.education.gov.uk/api/v1/services</code> in your web browser.
+                      </li>
+                      <li>
+                        Right-click the page and choose <b>Save As</b> to download the JSON file (e.g. <code>services.json</code>).
+                      </li>
+                      <li>
+                        In Excel, go to the <b>Data</b> tab and click <b>Get Data</b> &rarr; <b>From File</b> &rarr; <b>From JSON</b>.
+                      </li>
+                      <li>
+                        Select the downloaded <code>services.json</code> file.
+                      </li>
+                      <li>
+                        Excel will load the data. You may need to click <b>To Table</b> in the Power Query window, then <b>Close & Load</b> to import it into your worksheet.
+                      </li>
+                      <li>
+                        You can now work with the data in Excel. (Note: this is a snapshot; to update, repeat the download.)
+                      </li>
+                    </ol>
+                    <h3 class="govuk-heading-s">Example JSON download</h3>
+                    <pre><code>https://service-register.education.gov.uk/api/v1/services</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

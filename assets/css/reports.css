@@ -1,0 +1,25 @@
+.svc-meta-value {
+  display: inline-flex;
+  gap: 0.5em;
+  align-items: center;
+}
+
+.svc-meta-value-late {
+  display: inline-block;
+  margin: 0;
+}
+
+.svc-list-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1em;
+}
+
+.svc-list-meta > span {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+} 

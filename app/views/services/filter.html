@@ -1,0 +1,379 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Filter services" %}
+
+{% block content %}
+<div class="govuk-width-container">
+  <main class="govuk-main-wrapper">
+    <h1 class="govuk-heading-xl">Services</h1>
+
+    <!-- Filter summary -->
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <div class="govuk-body" id="active-filters">
+          <span class="govuk-!-font-weight-bold">Active filters:</span>
+          <span id="filter-summary">None</span>
+          <button id="clear-filters" class="govuk-link govuk-!-margin-left-2" style="display: none;">Clear all filters</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <!-- Filters sidebar -->
+      <div class="govuk-grid-column-one-quarter">
+        <div class="filter-sidebar">
+          <div class="govuk-form-group">
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-3">Filter by</h2>
+            
+            <!-- Search box -->
+            <div class="govuk-form-group">
+              <label class="govuk-label" for="service-search">Search services</label>
+              <input class="govuk-input" id="service-search" type="text" placeholder="Search by name or description">
+            </div>
+
+            <!-- Category filters -->
+            {% for category in categories %}
+              <div class="filter-section">
+                <button class="filter-section-header" aria-expanded="true" aria-controls="filter-{{ category.id }}">
+                  <span class="govuk-heading-s">{{ category.name }}</span>
+                  <span class="filter-count" id="count-{{ category.id }}"></span>
+                </button>
+                
+                <div id="filter-{{ category.id }}" class="filter-options">
+                  {% for item in category.items %}
+                    <div class="govuk-checkboxes__item">
+                      <input class="govuk-checkboxes__input" 
+                             type="checkbox" 
+                             id="{{ item.id }}" 
+                             name="filters" 
+                             value="{{ item.id }}"
+                             data-category-id="{{ category.id }}"
+                             data-category-name="{{ category.name }}"
+                             data-item-name="{{ item.name }}">
+                      <label class="govuk-label govuk-checkboxes__label" for="{{ item.id }}">
+                        {{ item.name }}
+                      </label>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Services list -->
+      <div class="govuk-grid-column-three-quarters">
+        <div class="services-container">
+          <div class="govuk-grid-row govuk-!-margin-bottom-4">
+            <div class="govuk-grid-column-two-thirds">
+              <h2 class="govuk-heading-m">Results</h2>
+            </div>
+            <div class="govuk-grid-column-one-third">
+              <div id="results-count" class="govuk-body-s govuk-!-text-align-right"></div>
+            </div>
+          </div>
+
+          <div id="services-list" class="services-list">
+            <!-- Services will be rendered here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<style>
+.filter-sidebar {
+  background: #f8f8f8;
+  padding: 20px;
+  border-radius: 4px;
+  position: sticky;
+  top: 20px;
+}
+
+.filter-section {
+  border-bottom: 1px solid #b1b4b6;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+}
+
+.filter-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.filter-section-header {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-section-header:hover {
+  color: #1d70b8;
+}
+
+.filter-count {
+  font-size: 14px;
+  color: #505a5f;
+}
+
+.filter-options {
+  margin-top: 10px;
+}
+
+.services-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.service-card {
+  background: white;
+  border: 1px solid #b1b4b6;
+  border-radius: 4px;
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.service-card:hover {
+  border-color: #1d70b8;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.service-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #1d70b8;
+  text-decoration: none;
+}
+
+.service-description {
+  color: #505a5f;
+  margin-bottom: 15px;
+  flex-grow: 1;
+}
+
+.service-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.service-category {
+  background: #f8f8f8;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  color: #505a5f;
+}
+
+#active-filters {
+  background: #f8f8f8;
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.active-filter {
+  display: inline-block;
+  background: #e5e5e5;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin: 0 5px 5px 0;
+  font-size: 14px;
+}
+
+.active-filter button {
+  border: none;
+  background: none;
+  padding: 0 0 0 5px;
+  color: #505a5f;
+  cursor: pointer;
+}
+
+.active-filter button:hover {
+  color: #d4351c;
+}
+
+#service-search {
+  margin-bottom: 20px;
+}
+</style>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+const allServices = {{ services | safe | dump }};
+const allCategories = {{ categories | safe | dump }};
+const servicesList = document.getElementById('services-list');
+const resultsCount = document.getElementById('results-count');
+const filtersForm = document.querySelector('.filter-sidebar');
+const filterSummary = document.getElementById('filter-summary');
+const clearFiltersBtn = document.getElementById('clear-filters');
+const serviceSearch = document.getElementById('service-search');
+
+function renderServices(filtered) {
+  if (filtered.length === 0) {
+    servicesList.innerHTML = `
+      <div class="govuk-grid-column-full">
+        <div class="govuk-body">
+          <p>No services match your filters.</p>
+          <p>Try adjusting your filters or search terms.</p>
+        </div>
+      </div>`;
+    resultsCount.textContent = '0 services found';
+    return;
+  }
+
+  const servicesHtml = filtered.map(service => {
+    const categoriesHtml = service.categories.map(cat => {
+      const categoryType = allCategories.find(c => c.name.toLowerCase().replace(/\s+/g, '_') === cat.type);
+      const categoryItems = cat.values.map(valueId => {
+        const item = categoryType?.items.find(i => i.id === valueId);
+        return item ? item.name : valueId;
+      }).join(', ');
+      return `<span class="service-category">${categoryItems}</span>`;
+    }).join('');
+
+    return `
+      <div class="service-card">
+        <a href="${service.public_url || '#'}" class="service-name">
+          ${service.name}
+        </a>
+        <p class="service-description">${service.description || ''}</p>
+        <div class="service-categories">${categoriesHtml}</div>
+      </div>`;
+  }).join('');
+
+  servicesList.innerHTML = servicesHtml;
+  resultsCount.textContent = `${filtered.length} service${filtered.length === 1 ? '' : 's'} found`;
+}
+
+function updateFilterSummary() {
+  const selectedFilters = Array.from(filtersForm.querySelectorAll('input[type=checkbox]:checked'));
+  
+  if (selectedFilters.length === 0) {
+    filterSummary.textContent = 'None';
+    clearFiltersBtn.style.display = 'none';
+    return;
+  }
+
+  const filterGroups = selectedFilters.reduce((groups, filter) => {
+    const categoryName = filter.dataset.categoryName;
+    if (!groups[categoryName]) {
+      groups[categoryName] = [];
+    }
+    groups[categoryName].push(filter.dataset.itemName);
+    return groups;
+  }, {});
+
+  const summaryHtml = Object.entries(filterGroups).map(([category, items]) => {
+    const itemTags = items.map(item => `
+      <span class="active-filter">
+        ${item}
+        <button type="button" aria-label="Remove ${item} filter" data-category="${category}" data-item="${item}">×</button>
+      </span>
+    `).join('');
+    return `<div>${category}: ${itemTags}</div>`;
+  }).join('');
+
+  filterSummary.innerHTML = summaryHtml;
+  clearFiltersBtn.style.display = 'inline';
+}
+
+function getSelectedFilters() {
+  const selectedFilters = [];
+  const checkboxes = filtersForm.querySelectorAll('input[type=checkbox]:checked');
+  
+  checkboxes.forEach(checkbox => {
+    const categoryId = checkbox.dataset.categoryId;
+    selectedFilters.push(`${categoryId}_${checkbox.value}`);
+  });
+  
+  return selectedFilters.join(',');
+}
+
+async function filterServices() {
+  const filterString = getSelectedFilters();
+  const searchTerm = serviceSearch.value.toLowerCase();
+  
+  try {
+    servicesList.innerHTML = `
+      <div class="govuk-grid-column-full">
+        <div class="govuk-body govuk-!-text-align-center">
+          <p>Loading services...</p>
+        </div>
+      </div>`;
+    
+    const response = await fetch(`/api/services/filtered?categories=${encodeURIComponent(filterString)}`);
+    if (!response.ok) throw new Error('Failed to fetch services');
+    
+    let filtered = await response.json();
+    
+    // Apply search filter
+    if (searchTerm) {
+      filtered = filtered.filter(service => 
+        service.name.toLowerCase().includes(searchTerm) || 
+        (service.description && service.description.toLowerCase().includes(searchTerm))
+      );
+    }
+    
+    renderServices(filtered);
+    updateFilterSummary();
+  } catch (error) {
+    console.error('Error filtering services:', error);
+    servicesList.innerHTML = `
+      <div class="govuk-grid-column-full">
+        <div class="govuk-body govuk-!-color-red">
+          Error loading services. Please try again.
+        </div>
+      </div>`;
+    resultsCount.textContent = '';
+  }
+}
+
+// Event listeners
+let filterTimeout;
+function debouncedFilter() {
+  clearTimeout(filterTimeout);
+  filterTimeout = setTimeout(filterServices, 300);
+}
+
+filtersForm.addEventListener('change', debouncedFilter);
+serviceSearch.addEventListener('input', debouncedFilter);
+
+clearFiltersBtn.addEventListener('click', () => {
+  filtersForm.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+  serviceSearch.value = '';
+  filterServices();
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target.matches('.active-filter button')) {
+    const category = e.target.dataset.category;
+    const item = e.target.dataset.item;
+    const checkbox = Array.from(filtersForm.querySelectorAll('input[type=checkbox]'))
+      .find(cb => cb.dataset.categoryName === category && cb.dataset.itemName === item);
+    if (checkbox) {
+      checkbox.checked = false;
+      filterServices();
+    }
+  }
+});
+
+// Initial render
+renderServices(allServices);
+updateFilterSummary();
+</script>
+{% endblock %}

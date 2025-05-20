@@ -1,0 +1,50 @@
+/* Filter panel styling */
+.moj-filter {
+  background: #f3f2f1;
+  border-radius: 8px;
+  padding: 24px 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.moj-filter__options .govuk-form-group {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #f8f8f8;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+.moj-filter__options .govuk-fieldset__legend--m {
+  font-weight: bold;
+}
+.moj-filter__selected {
+  margin-bottom: 24px;
+}
+
+/* Selected filter tags styling */
+.moj-filter__tag {
+  margin-right: 8px;
+  margin-bottom: 6px;
+  background: #e5efff;
+  border-radius: 4px;
+  padding: 2px 10px;
+  display: inline-block;
+}
+
+/* Make the fieldset scrollable instead */
+.moj-filter__options .govuk-fieldset {
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 8px;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  margin-bottom: 16px;
+}
+/* Style for filter option search input */
+.govuk-input--filter {
+  margin-bottom: 8px;
+  width: 100%;
+  font-size: 16px;
+  padding: 4px 8px;
+  border: 1px solid #b1b4b6;
+  border-radius: 4px;
+} 

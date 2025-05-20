@@ -1,0 +1,103 @@
+{
+    "department": [
+        {
+            "division": "Schools",
+            "slug": "schools"
+        },
+        {
+            "division": "Skills",
+            "slug": "skills"
+        },
+        {
+            "division": "Vulnerable Children and Families",
+            "slug": "vulnerable-children-and-families",
+            "dd": {
+                "name": "Carol Danvers",
+                "email": "carol.danvers@education.gov.uk"
+            },
+            "description": "The Vulnerable Children and Families team is responsible for services that support children and families who are vulnerable or at risk and social care services for children.",
+            "stage": [
+                {
+                    "pipeline": [],
+                    "explore": [],
+                    "discovery": [],
+                    "alpha": [],
+                    "private-beta": [],
+                    "public-beta": [],
+                    "live": [
+                        {
+                            "title": "Early years child development training",
+                            "slug": "early-years-child-development-training",
+                            "description": "Training for early years professionals to support early years child development."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "division": "Regions",
+            "slug": "regions"
+        },
+        {
+            "division": "Funding",
+            "slug": "funding"
+        },
+        {
+            "division": "Sector facing services",
+            "slug": "sector-facing-services"
+        },
+        {
+            "division": "Customer Experience and Design",
+            "slug": "customer-experience-and-design",
+            "dd": {
+                "name": "Bruce Banner",
+                "email": "bruce.banner@education.gov.uk"
+            },
+            "description": "The Customer Experience and Design team is responsible for ensuring that the Department for Education's services are designed to meet the needs of the public and other stakeholders.",
+            "stage": [
+                {
+                    "pipeline": [],
+                    "explore": [
+                        {
+                            "title": "User experience score",
+                            "slug": "user-experience-score",
+                            "description": "How we might measure user satisfaction consistently across service interactions."
+                        }
+                    ],
+                    "discovery": [],
+                    "alpha": [
+                        {
+                            "title": "Register of Services",
+                            "slug": "register-of-services",
+                            "description": "A centralised register of all services provided by the Department for Education."
+                        }
+                    ],
+                    "private-beta": [
+                        {
+                            "title": "Accessibility issues and statements service",
+                            "slug": "accessibility-issues-and-statements-service",
+                            "description": "A service to allow users to record and monitor accessibility issues and generate realtime accessibility statements."
+                        }
+                    ],
+                    "public-beta": [],
+                    "live": [
+                        {
+                            "title": "Design manual",
+                            "slug": "design-manual",
+                            "description": "A guide to the design principles and patterns used by the Department for Education."
+                        },
+                        {
+                            "title": "Service assessment service",
+                            "slug": "service-assessment-service",
+                            "description": "A service to allow users to record the level of compliance of a service to the GDS service standard."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "division": "Operations and Infrastructure",
+            "slug": "operations-and-infrastructure"
+        }
+    ]
+}

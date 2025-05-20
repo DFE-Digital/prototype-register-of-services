@@ -1,0 +1,331 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Find a service" %}
+
+{% block content %}
+<div class="govuk-width-container">
+   <div class="svc-list-header">
+            <h1 class="govuk-heading-xl">Find a service</h1>
+        </div>
+        <p class="govuk-body-l">Browse all DfE services. Use filters to quickly find what you need.</p>
+        </div>
+<div class="svc-container">
+    <aside class="svc-filters" style="position:sticky;top:2rem;align-self:flex-start;">
+        <form method="get" id="svc-filter-form">
+            <div class="svc-filter-search">
+                <input type="text" name="q" placeholder="Search services..." value="{{ query }}" class="svc-search-box" autocomplete="off">
+                <span class="material-symbols-outlined svc-search-icon">search</span>
+            </div>
+
+            {# Active filters summary #}
+            {% set has_active_filters = query or (selected_patterns and selected_patterns.length) or (selected_user_groups and selected_user_groups.length) or (selected_phases and selected_phases.length) or (selected_technologies and selected_technologies.length) or (selected_policies and selected_policies.length) or (selected_archetypes and selected_archetypes.length) or (selected_channels and selected_channels.length) or (selected_service_lines and selected_service_lines.length) or (selected_owners and selected_owners.length) %}
+            {% if has_active_filters %}
+            <div class="svc-active-filters">
+                <h3 class="svc-active-filters-heading">Active filters</h3>
+                <ul class="svc-active-filters-list">
+                    {% if query %}
+                    <li class="svc-active-filter">
+                        <span class="svc-active-filter-label">Search:</span>
+                        <span class="svc-active-filter-value">{{ query }}</span>
+                        <a href="?{{ baseQueryString | replace('q=' + query, '') | replace('&&', '&') | replace('?&', '?') }}" class="svc-active-filter-remove" title="Remove search filter">
+                            <span class="material-symbols-outlined">close</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {# Service Patterns #}
+                    {% for pattern_id in selected_patterns %}
+                        {% for pattern in taxonomy.service_patterns.items %}
+                            {% if pattern.id == pattern_id %}
+                            <li class="svc-active-filter">
+                                <span class="svc-active-filter-label">Pattern:</span>
+                                <span class="svc-active-filter-value">{{ pattern.name }}</span>
+                                <a href="?{{ baseQueryString | replace('pattern=' + pattern_id, '') | replace('&&', '&') | replace('?&', '?') }}" class="svc-active-filter-remove" title="Remove pattern filter">
+                                    <span class="material-symbols-outlined">close</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    {# User Groups #}
+                    {% for group_id in selected_user_groups %}
+                        {% for group in taxonomy.user_groups.items %}
+                            {% if group.id == group_id %}
+                            <li class="svc-active-filter">
+                                <span class="svc-active-filter-label">User group:</span>
+                                <span class="svc-active-filter-value">{{ group.name }}</span>
+                                <a href="?{{ baseQueryString | replace('user_group=' + group_id, '') | replace('&&', '&') | replace('?&', '?') }}" class="svc-active-filter-remove" title="Remove user group filter">
+                                    <span class="material-symbols-outlined">close</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    {# Phases #}
+                    {% for phase_id in selected_phases %}
+                        {% for phase in taxonomy.phases.items %}
+                            {% if phase.id == phase_id %}
+                            <li class="svc-active-filter">
+                                <span class="svc-active-filter-label">Phase:</span>
+                                <span class="svc-active-filter-value">{{ phase.name }}</span>
+                                <a href="?{{ baseQueryString | replace('phase=' + phase_id, '') | replace('&&', '&') | replace('?&', '?') }}" class="svc-active-filter-remove" title="Remove phase filter">
+                                    <span class="material-symbols-outlined">close</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    {# Technology #}
+                    {% for tech_id in selected_technologies %}
+                        {% for tech in taxonomy.technology.items %}
+                            {% if tech.id == tech_id %}
+                            <li class="svc-active-filter">
+                                <span class="svc-active-filter-label">Technology:</span>
+                                <span class="svc-active-filter-value">{{ tech.name }}</span>
+                                <a href="?{{ baseQueryString | replace('technology=' + tech_id, '') | replace('&&', '&') | replace('?&', '?') }}" class="svc-active-filter-remove" title="Remove technology filter">
+                                    <span class="material-symbols-outlined">close</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    {# Archetypes #}
+                    {% for archetype_id in selected_archetypes %}
+                        {% for archetype in taxonomy.service_archetypes.items %}
+                            {% if archetype.id == archetype_id %}
+                            <li class="svc-active-filter">
+                                <span class="svc-active-filter-label">Archetype:</span>
+                                <span class="svc-active-filter-value">{{ archetype.name }}</span>
+                                <a href="?{{ baseQueryString | replace('archetype=' + archetype_id, '') | replace('&&', '&') | replace('?&', '?') }}" class="svc-active-filter-remove" title="Remove archetype filter">
+                                    <span class="material-symbols-outlined">close</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    {# Channels #}
+                    {% for channel_id in selected_channels %}
+                        {% for channel in taxonomy.channels.items %}
+                            {% if channel.id == channel_id %}
+                            <li class="svc-active-filter">
+                                <span class="svc-active-filter-label">Channel:</span>
+                                <span class="svc-active-filter-value">{{ channel.name }}</span>
+                                <a href="?{{ baseQueryString | replace('channel=' + channel_id, '') | replace('&&', '&') | replace('?&', '?') }}" class="svc-active-filter-remove" title="Remove channel filter">
+                                    <span class="material-symbols-outlined">close</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    {# Service Line #}
+                    {% for line_id in selected_service_lines %}
+                        {% for line in servicelines.service_lines %}
+                            {% if line.id == line_id %}
+                            <li class="svc-active-filter">
+                                <span class="svc-active-filter-label">Service line:</span>
+                                <span class="svc-active-filter-value">{{ line.name }}</span>
+                                <a href="?{{ baseQueryString | replace('service_line=' + line_id, '') | replace('&&', '&') | replace('?&', '?') }}" class="svc-active-filter-remove" title="Remove service line filter">
+                                    <span class="material-symbols-outlined">close</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    {# Service Owner #}
+                    {% for owner in selected_owners %}
+                        <li class="svc-active-filter">
+                            <span class="svc-active-filter-label">Service owner:</span>
+                            <span class="svc-active-filter-value">{{ owner }}</span>
+                            <a href="?{{ baseQueryString | replace('owner=' + owner, '') | replace('&&', '&') | replace('?&', '?') }}" class="svc-active-filter-remove" title="Remove service owner filter">
+                                <span class="material-symbols-outlined">close</span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a href="/services" class="svc-clear-filters">Clear all filters</a>
+            </div>
+            {% endif %}
+
+            <h2>Filter by</h2>
+            {# Service Line filter #}
+            <div class="svc-filter-group" data-collapsible>
+                <button class="svc-filter-toggle" type="button" aria-expanded="false">
+                    Service line ({{servicelines.service_lines | length}})
+                    <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
+                </button>
+                <div class="svc-filter-options" style="border-top: none; box-shadow: none; border: none;">
+                    {% for line in servicelines.service_lines %}
+                    <label><input type="checkbox" name="service_line" value="{{ line.id }}"> {{ line.name }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+            {# Phase filter #}
+            <div class="svc-filter-group" data-collapsible>
+                <button class="svc-filter-toggle" type="button" aria-expanded="false">
+                    Phase ({{taxonomy.phases.items | length}})
+                    <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
+                </button>
+                <div class="svc-filter-options" style="border-top: none; box-shadow: none; border: none;">
+                    {% for phase in taxonomy.phases.items %}
+                    <label><input type="checkbox" name="phase" value="{{ phase.id }}" {% if selected_phases and phase.id in selected_phases %}checked{% endif %}> {{ phase.name }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+            {# User Groups filter #}
+            <div class="svc-filter-group" data-collapsible>
+                <button class="svc-filter-toggle" type="button" aria-expanded="false">
+                    User groups ({{taxonomy.user_groups.items | length}})
+                    <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
+                </button>
+                <div class="svc-filter-options" style="border-top: none; box-shadow: none; border: none;">
+                    {% for group in taxonomy.user_groups.items %}
+                    <label><input type="checkbox" name="user_group" value="{{ group.id }}" {% if selected_user_groups and group.id in selected_user_groups %}checked{% endif %}> {{ group.name }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+            {# Service Archetypes filter #}
+            <div class="svc-filter-group" data-collapsible>
+                <button class="svc-filter-toggle" type="button" aria-expanded="false">
+                    Service archetypes ({{taxonomy.service_archetypes.items | length}})
+                    <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
+                </button>
+                <div class="svc-filter-options" style="border-top: none; box-shadow: none; border: none;">
+                    {% for archetype in taxonomy.service_archetypes.items %}
+                    <label><input type="checkbox" name="archetype" value="{{ archetype.id }}" {% if selected_archetypes and archetype.id in selected_archetypes %}checked{% endif %}> {{ archetype.name }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+            {# Channels filter #}
+            <div class="svc-filter-group" data-collapsible>
+                <button class="svc-filter-toggle" type="button" aria-expanded="false">
+                    Channels ({{taxonomy.channels.items | length}})
+                    <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
+                </button>
+                <div class="svc-filter-options" style="border-top: none; box-shadow: none; border: none;">
+                    {% for channel in taxonomy.channels.items %}
+                    <label><input type="checkbox" name="channel" value="{{ channel.id }}" {% if selected_channels and channel.id in selected_channels %}checked{% endif %}> {{ channel.name }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+            {# Technology filter #}
+            <div class="svc-filter-group" data-collapsible>
+                <button class="svc-filter-toggle" type="button" aria-expanded="false">
+                    Technology ({{taxonomy.technology.items | length}})
+                    <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
+                </button>
+                <div class="svc-filter-options" style="border-top: none; box-shadow: none; border: none;">
+                    {% for tech in taxonomy.technology.items %}
+                    <label><input type="checkbox" name="technology" value="{{ tech.id }}" {% if selected_technologies and tech.id in selected_technologies %}checked{% endif %}> {{ tech.name }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+            {# Service owner filter (from servicelines) #}
+            <div class="svc-filter-group" data-collapsible>
+                <button class="svc-filter-toggle" type="button" aria-expanded="false">
+                    Service owner ({{servicelines.service_lines | length}})
+                    <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
+                </button>
+                <div class="svc-filter-options" style="border-top: none; box-shadow: none; border: none;">
+                    {% for line in servicelines.service_lines %}
+                        <label><input type="checkbox" name="owner" value="{{ line.sro.name }}"> {{ line.sro.name }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="svc-filter-actions">
+                <button type="submit" class="svc-btn svc-btn-primary svc-btn-apply">Apply filters</button>
+                <a href="/services" class="svc-btn svc-btn-link svc-btn-reset">Reset</a>
+            </div>
+        </form>
+    </aside>
+    <main class="svc-list-area">
+
+            <p class="govuk-body-l">{{ totalServices }} services found</p>
+        <ul class="svc-list">
+            {% for service in services %}
+            {% set line = false %}
+            {% for l in servicelines.service_lines %}
+                {% if l.id == service.service_line_id and not line %}
+                    {% set line = l %}
+                {% endif %}
+            {% endfor %}
+            <li class="svc-list-item">
+                <div class="svc-list-main">
+                    <div class="svc-list-info">
+                        <div class="svc-list-title">{{ service.name }}</div>
+                        <div class="svc-list-meta">
+                            <span><span class="svc-meta-label">Business area</span>{{ line.business_area if line else '' }}</span>
+                            <span><span class="svc-meta-label">Service line</span>{{ line.name if line else '' }}</span>
+                            {% set phase_id = service.phase %}
+                            {% if not phase_id %}
+                                {% for cat in service.categories %}
+                                    {% if cat.type == 'phases' and cat.values and cat.values[0] %}
+                                        {% set phase_id = cat.values[0] %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            <span><span class="svc-meta-label">Phase</span>{% for phase in taxonomy.phases.items %}{% if phase.id == phase_id %}{{ phase.name }}{% endif %}{% endfor %}</span>
+                            <span><span class="svc-meta-label">Owner</span>{{ line.sro.name if line else service.service_owner }}</span>
+                        </div>
+                    </div>
+                    <div class="svc-list-actions svc-list-actions-row">
+                        <a href="/services/service/{{ service.id }}" class="svc-btn svc-btn-primary svc-btn-view">View <span class="govuk-visually-hidden">{{ service.name }}</span></a>
+                        <button class="svc-btn svc-btn-secondary svc-details-toggle" type="button" aria-expanded="false" data-target="details-{{ service.id }}" title="Show details">
+                            <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="svc-list-details" id="details-{{ service.id }}">
+                    <div class="svc-list-description">{{ service.description }}</div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </main>
+</div>
+<script>
+// Collapsible filters with chevron
+Array.from(document.querySelectorAll('[data-collapsible]')).forEach(group => {
+    const btn = group.querySelector('.svc-filter-toggle');
+    const options = group.querySelector('.svc-filter-options');
+    const chevron = btn.querySelector('.chevron');
+    // Helper to set tabindex on checkboxes
+    const setCheckboxTabbable = (tabbable) => {
+        Array.from(options.querySelectorAll('input[type="checkbox"]')).forEach(cb => {
+            if (tabbable) {
+                cb.removeAttribute('tabindex');
+            } else {
+                cb.setAttribute('tabindex', '-1');
+            }
+        });
+    };
+    // Initially collapsed: set tabindex -1
+    setCheckboxTabbable(false);
+    btn.addEventListener('click', () => {
+        const isOpen = options.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        if (chevron) chevron.textContent = isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
+        if (isOpen) {
+            options.style.border = '1px solid #bbb';
+            options.style.boxShadow = '0 4px 16px rgba(0,0,0,0.07)';
+            setCheckboxTabbable(true);
+        } else {
+            options.style.border = 'none';
+            options.style.boxShadow = 'none';
+            setCheckboxTabbable(false);
+        }
+    });
+});
+// Expand/collapse details with icon
+Array.from(document.querySelectorAll('.svc-details-toggle')).forEach(btn => {
+    btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.getAttribute('data-target'));
+        const chevron = btn.querySelector('.chevron');
+        const isOpen = target.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        if (chevron) chevron.textContent = isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
+    });
+});
+// Hide all details panels on page load
+Array.from(document.querySelectorAll('.svc-list-details')).forEach(panel => {
+    panel.classList.remove('open');
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,65 @@
+{% extends "layouts/layout.html" %}
+{% set title = service.name + " - Edit Taxonomy" %}
+{% set serviceNav = "Services" %}
+{% set nav = 'taxonomy' %}
+{% block content %}
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter">
+      {% include 'services/service/_nav.html' %}
+    </div>
+    <div class="govuk-grid-column-three-quarters">
+      <h1 class="govuk-heading-l">Edit Taxonomy</h1>
+      <form method="post">
+        <div class="govuk-form-group">
+            <label class="govuk-label">User groups</label>
+            <div class="govuk-checkboxes govuk-checkboxes--small">
+                {% for group in taxonomy.user_groups.items %}
+                    <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="user-group-{{ group.id }}" name="userGroup" type="checkbox" value="{{ group.id }}" {% if group.id in (service.userGroup or []) %}checked{% endif %}>
+                        <label class="govuk-label govuk-checkboxes__label" for="user-group-{{ group.id }}">{{ group.name }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label">Service patterns</label>
+            <div class="govuk-checkboxes govuk-checkboxes--small">
+                {% for pattern in taxonomy.service_patterns.items %}
+                    <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="pattern-{{ pattern.id }}" name="servicePattern" type="checkbox" value="{{ pattern.id }}" {% if pattern.id in (service.servicePattern or []) %}checked{% endif %}>
+                        <label class="govuk-label govuk-checkboxes__label" for="pattern-{{ pattern.id }}">{{ pattern.name }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label">Technology</label>
+            <div class="govuk-checkboxes govuk-checkboxes--small">
+                {% for tech in taxonomy.technology.items %}
+                    <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="tech-{{ tech.id }}" name="technology" type="checkbox" value="{{ tech.id }}" {% if tech.id in (service.technology or []) %}checked{% endif %}>
+                        <label class="govuk-label govuk-checkboxes__label" for="tech-{{ tech.id }}">{{ tech.name }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% if taxonomy.policy_areas %}
+        <div class="govuk-form-group">
+            <label class="govuk-label">Policy areas</label>
+            <div class="govuk-checkboxes govuk-checkboxes--small">
+                {% for policy in taxonomy.policy_areas.items %}
+                    <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="policy-{{ policy.id }}" name="policy" type="checkbox" value="{{ policy.id }}" {% if (service.policy or []) and policy.id in (service.policy or []) %}checked{% endif %}>
+                        <label class="govuk-label govuk-checkboxes__label" for="policy-{{ policy.id }}">{{ policy.name }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        <button class="govuk-button" type="submit">Save changes</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %} 

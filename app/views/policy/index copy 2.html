@@ -1,0 +1,599 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Outcome explorer" %}
+{% set serviceNav = "Outcome" %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    <div class="policy-header">
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Outcome explorer</h1>
+      <p class="govuk-body-l">Explore services by department and government objectives.</p>
+    </div>
+
+    <div class="policy-layout">
+      <!-- Tree Navigation -->
+      <div class="policy-tree-column">
+        <div class="policy-tree-header">
+          <h2 class="govuk-heading-m">Outcomes</h2>
+        </div>
+        <nav class="policy-tree" role="navigation" aria-label="Policy structure">
+          {% for mission in missions %}
+            {% set missionIsOpen = (selectedMission and selectedMission.id == mission.id)or(selectedPillar and selectedPillar.missionId == mission.id)or(selectedPriority and selectedPriority.missionId == mission.id) %}
+            <div class="policy-tree-item">
+              <div class="policy-tree-branch">
+                <button class="policy-tree-toggle{% if missionIsOpen %} is-active{% endif %}"
+                                    aria-expanded="{% if missionIsOpen %}true{% else %}false{% endif %}"
+                                    aria-controls="mission-{{ mission.id }}"
+                                    data-mission-id="{{ mission.id }}"
+                                    data-mission-name="{{ mission.name }}"
+                                    data-mission-description="{{ mission.description|default('') }}">
+                  <span class="material-symbols-outlined policy-tree-icon">expand_more</span>
+                  <div class="policy-tree-label-wrapper">
+                    <span class="policy-tree-caption">Mission {{ loop.index }}</span>
+                    <span class="policy-tree-label">{{ mission.name }}</span>
+                  </div>
+                </button>
+              </div>
+              <div class="policy-tree-panel {% if missionIsOpen %}is-open{% endif %}" id="mission-{{ mission.id }}">
+                {% for pillar in mission.pillars %}
+                  <div class="policy-tree-item">
+                    <div class="policy-tree-branch">
+                      <button class="policy-tree-toggle" 
+                                                aria-expanded="{% if selectedPriority and selectedPriority.pillarId == pillar.id %}true{% else %}false{% endif %}" 
+                                                aria-controls="pillar-{{ pillar.id }}"
+                                                data-pillar-id="{{ pillar.id }}"
+                                                data-pillar-name="{{ pillar.name }}"
+                                                data-pillar-description="{{ pillar.description|default('') }}">
+                        <span class="material-symbols-outlined policy-tree-icon">expand_more</span>
+                        <div class="policy-tree-label-wrapper">
+                          <span class="policy-tree-caption">Pillar {{ loop.index }}</span>
+                          <span class="policy-tree-label">{{ pillar.name }}</span>
+                        </div>
+                      </button>
+                    </div>
+                    <div class="policy-tree-panel {% if selectedPriority and selectedPriority.pillarId == pillar.id %}is-open{% endif %}" 
+                                         id="pillar-{{ pillar.id }}">
+                      {% for priority in pillar.priorities %}
+                        <div class="policy-tree-item">
+                          <div class="policy-tree-branch">
+                            <a href="#priority-{{ priority.id }}" 
+                                                       class="policy-tree-link {% if selectedPriority and selectedPriority.id == priority.id %}is-active{% endif %}" 
+                                                       data-priority-id="{{ priority.id }}"
+                                                       data-priority-name="{{ priority.name }}"
+                                                       data-priority-description="{{ priority.description|default('') }}">
+                              <span class="material-symbols-outlined policy-tree-icon">arrow_right</span>
+                              <span class="policy-tree-label">{{ priority.name }}</span>
+                            </a>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        </nav>
+      </div>
+
+      <!-- Content Area -->
+      <div class="policy-content-column">
+
+        <!-- Mission View -->
+        <div class="policy-content policy-mission-view" id="mission-view" {% if not selectedMission or selectedPillar or selectedPriority %}style="display: none;"{% endif %}>
+          <div class="policy-content-header">
+            <nav class="policy-breadcrumb" aria-label="Breadcrumb">
+              <ol class="policy-breadcrumb-list">
+                <li class="policy-breadcrumb-item" aria-current="page">
+                  <span class="policy-breadcrumb-current" id="mission-view-title">Select a mission</span>
+                </li>
+              </ol>
+            </nav>
+            <h2 class="policy-content-title" id="mission-view-name"></h2>
+          </div>
+          <div class="policy-content-body">
+            <div class="policy-content-descriptions">
+              <div class="policy-description-section" id="mission-view-description">
+                <h3>Mission</h3>
+                <p>Select a mission to view its details.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pillar View -->
+        <div class="policy-content policy-pillar-view" id="pillar-view" {% if not selectedPillar or selectedPriority %}style="display: none;"{% endif %}>
+          {% if selectedPillar %}
+            <div class="policy-content-header">
+              <nav class="policy-breadcrumb" aria-label="Breadcrumb">
+                <ol class="policy-breadcrumb-list">
+                  <li class="policy-breadcrumb-item">
+                    <a href="?mission={{ selectedPillar.mission.id }}" class="policy-breadcrumb-link mission-link">
+                      {{ selectedPillar.mission.caption }}: {{ selectedPillar.mission.name }}
+                    </a>
+                  </li>
+                  <li class="policy-breadcrumb-item" aria-current="page">
+                    <span class="policy-breadcrumb-current">Pillar {{ selectedPillar.index }}: {{ selectedPillar.name }}</span>
+                  </li>
+                </ol>
+              </nav>
+              <h2 class="policy-content-title">{{ selectedPillar.name }}</h2>
+            </div>
+            <div class="policy-content-body">
+              <div class="policy-content-descriptions">
+                {% if selectedPillar.mission %}
+                  <div class="policy-description-section">
+                    <h3>Mission</h3>
+                    <p>{{ selectedPillar.mission.name }}</p>
+                    {% if selectedPillar.mission.description %}
+                      <p>{{ selectedPillar.mission.description }}</p>
+                    {% endif %}
+                  </div>
+                {% endif %}
+                {% if selectedPillar.description %}
+                  <div class="policy-description-section">
+                    <h3>Pillar</h3>
+                    <p>{{ selectedPillar.description }}</p>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Priority View -->
+        <div class="policy-content policy-priority-view govuk-!-margin-bottom-5" id="priority-view" {% if not selectedPriority %}style="display: none;"{% endif %}>
+          {% if selectedPriority %}
+            <div class="policy-content-header">
+
+              <nav class="govuk-breadcrumbs govuk-!-margin-top-0" aria-label="Breadcrumb">
+                <ol class="govuk-breadcrumbs__list">
+                  <li class="govuk-breadcrumbs__list-item">
+                    <a class="govuk-breadcrumbs__link" href="/policy?mission={{selectedPriority.missionId}}">{{ selectedPriority.missionName }}</a>
+                  </li>
+                  <li class="govuk-breadcrumbs__list-item">
+                    <a class="govuk-breadcrumbs__link" href="/policy?mission={{selectedPriority.missionId}}&pillar={{selectedPriority.pillarId}}">{{ selectedPriority.pillarName }}</a>
+                  </li>
+                </ol>
+              </nav>
+
+              {# <nav class="policy-breadcrumb" aria-label="Breadcrumb">
+                <ol class="policy-breadcrumb-list">
+
+                  <li class="policy-breadcrumb-item">
+                    <a href="?pillar={{ selectedPriority.pillarId }}" class="policy-breadcrumb-link pillar-link">
+                                        Pillar {{ selectedPriority.pillarIndex }}: {{ selectedPriority.pillarName }}
+                    </a>
+                  </li>
+                  <li class="policy-breadcrumb-item" aria-current="page">
+                    <span class="policy-breadcrumb-current">{{ selectedPriority.name }}</span>
+                  </li>
+                </ol>
+              </nav> #}
+              <h2 class="govuk-heading-m">{{ selectedPriority.name }}</h2>
+              <p class="govuk-body">{{ selectedPriority.description | join('</p><p class="govuk-body">') | safe }}
+              </p>
+
+            </div>
+            {# <div class="policy-content-body">
+              <div class="policy-content-descriptions">
+                {% if selectedPriority.missionName %}
+                  <div class="policy-description-section">
+                    <h3>Mission</h3>
+                    <p>{{ selectedPriority.missionName }}</p>
+                  </div>
+                {% endif %}
+                {% if selectedPriority.pillarName %}
+                  <div class="policy-description-section">
+                    <h3>Pillar</h3>
+                    <p>{{ selectedPriority.pillarName }}</p>
+                  </div>
+                {% endif %}
+                {% if selectedPriority.description %}
+                  <div class="policy-description-section">
+                    <h3>Priority</h3>
+                    <p>{{ selectedPriority.description }}</p>
+                  </div>
+                {% endif %}
+              </div> #}
+
+            <!-- Taxonomy Summary -->
+            {% if selectedPriority.services %}
+              <div class="policy-summary-section">
+
+                <details class="govuk-details govuk-!-margin-bottom-0">
+                  <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">Taxonomies</span>
+                  </summary>
+                  <div class="govuk-details__text">
+
+                    <p>The following taxonomies are associated with services that support the delivery of this priority.</p>
+                    <div class="policy-taxonomy-grid">
+                      {% set taxonomySummary = {
+                        'service_patterns': [],
+                        'user_groups': [],
+                        'service_archetypes': [],
+                        'phases': [],
+                        'channels': [],
+                        'life_stages': [],
+                        'education_phases': [],
+                        'organisation_types': [],
+                        'service_levels': []
+                      } %}
+
+                      {% for service in selectedPriority.services %}
+                        {% for category in service.categories %}
+                          {% if category.values and category.values.length > 0 %}
+                            {% set categoryType = category.type %}
+                            {% for value in category.values %}
+                              {% if value not in taxonomySummary[categoryType] %}
+                                {% set _ = taxonomySummary[categoryType].push(value) %}
+                              {% endif %}
+                            {% endfor %}
+                          {% endif %}
+                        {% endfor %}
+                      {% endfor %}
+
+                      <dl class="govuk-summary-list">
+                        {% for categoryType, values in taxonomySummary %}
+                          {% if values | length > 0 %}
+                            <div class="govuk-summary-list__row">
+                              <dt class="govuk-summary-list__key">
+                                {{ categoryType|replace('_', ' ')|title }}
+                              </dt>
+                              <dd class="govuk-summary-list__value">
+                                {% for value in values %}
+                                  <ul class="govuk-list">
+                                    {% for value in values %}
+                                      {% set displayName = taxonomyMap[categoryType][value] if taxonomyMap[categoryType] and taxonomyMap[categoryType][value] else 
+                                        value %}
+                                      <li class="">{{ displayName }}</li>
+                                    {% endfor %}
+                                  </ul>
+                                {% endfor %}
+                              </dd>
+                            </div>
+                          {% endif %}
+                        {% endfor %}
+                      </dl>
+
+                    </div>
+                  </div>
+
+                </div>
+              </details>
+
+              <!-- Services List -->
+
+            {% else %}
+              <div class="govuk-inset-text">
+                <p class="govuk-body">No services are currently associated with this priority.</p>
+              </div>
+            {% endif %}
+
+          </div>
+
+          <div class="policy-summary-section">
+            <h3>Services associated with this priority</h3>
+            <ul class="svc-list">
+              {% for service in selectedPriority.services %}
+                {% set line = false %}
+                {% for l in servicelines.service_lines %}
+                  {% if l.id == service.service_line_id and not line %}
+                    {% set line = l %}
+                  {% endif %}
+                {% endfor %}
+                <li class="svc-list-item" style="border: 1px solid #b1b4b6;">
+                  <div class="svc-list-main">
+                    <div class="svc-list-info">
+                      <div class="svc-list-title">{{ service.name }}</div>
+                      <div class="svc-list-meta">
+                        <span>
+                          <span class="svc-meta-label">Business area</span>{{ line.business_area if line else '' }}</span>
+                        <span>
+                          <span class="svc-meta-label">Service line</span>{{ line.name if line else '' }}</span>
+                        {% set phase_id = service.phase if service.phase else false %}
+                        {% if not phase_id %}
+                          {% for cat in service.categories %}
+                            {% if cat.type == 'phases' and cat.values and cat.values[0] %}
+                              {% set phase_id = cat.values[0] %}
+                            {% endif %}
+                          {% endfor %}
+                        {% endif %}
+                       
+                        {% set phase_name = false %}
+                        {% for phase in taxonomy.phases.items %}
+                          {% if phase.id|string == phase_id|string %}
+                            {% set phase_name = phase.name %}
+                          {% endif %}
+                        {% endfor %}
+                        <span>
+                          <span class="svc-meta-label">Phase</span>
+                          {{ phase_name if phase_name else '—' }}
+                        </span>
+                        <span>
+                          <span class="svc-meta-label">Owner</span>{{ line.sro.name if line else service.service_owner }}</span>
+                      </div>
+                    </div>
+                    <div class="svc-list-actions svc-list-actions-row">
+                      <a href="/services/service/{{ service.id }}" class="svc-btn svc-btn-primary svc-btn-view">View <span class="govuk-visually-hidden">{{ service.name }}</span></a>
+                      <button class="svc-btn svc-btn-secondary svc-details-toggle" type="button" aria-expanded="false" data-target="details-{{ service.id }}" title="Show details">
+                        <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="svc-list-details" id="details-{{ service.id }}">
+                    <div class="svc-list-description">{{ service.description }}</div>
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Welcome State -->
+      <div class="policy-content policy-welcome-view" id="welcome-view" {% if selectedMission or selectedPillar or selectedPriority %}style="display: none;"{% endif %}>
+        <div class="policy-welcome">
+          <h2 class="govuk-heading-l">Outcome explorer</h2>
+          <p class="govuk-body">The department is responsible for Mission 5 - Break down barriers to opportunity, however, we are also involved in the other government Missions.</p>
+          <p class="govuk-body">Select a mission to view its details and the services that DfE provide to support the delivery of the mission.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize view states
+    const priorityView = document.getElementById('priority-view');
+    const pillarView = document.getElementById('pillar-view');
+    const missionView = document.getElementById('mission-view');
+    const welcomeView = document.getElementById('welcome-view');
+
+    // Hide all views initially
+    priorityView.style.display = 'none';
+    pillarView.style.display = 'none';
+    missionView.style.display = 'none';
+    welcomeView.style.display = 'block';
+
+    // Function to ensure a pillar's mission is open
+    function ensureMissionOpen(pillarToggle) {
+        const missionPanel = pillarToggle.closest('.policy-tree-panel');
+        if (missionPanel) {
+            const missionToggle = missionPanel.previousElementSibling.querySelector('.policy-tree-toggle');
+            if (missionToggle) {
+                const missionIcon = missionToggle.querySelector('.policy-tree-icon');
+                missionToggle.setAttribute('aria-expanded', 'true');
+                missionPanel.classList.add('is-open');
+                missionIcon.textContent = 'expand_less';
+                
+                // Update mission view
+                updateMissionView(missionToggle);
+            }
+        }
+    }
+
+    // Function to update mission view
+    function updateMissionView(missionToggle) {
+        const missionView = document.getElementById('mission-view');
+        const welcomeView = document.getElementById('welcome-view');
+        const missionTitle = document.getElementById('mission-view-title');
+        const missionName = document.getElementById('mission-view-name');
+        const missionDescription = document.getElementById('mission-view-description');
+        
+        const missionNameText = missionToggle.getAttribute('data-mission-name');
+        const missionDesc = missionToggle.getAttribute('data-mission-description');
+        
+        missionTitle.textContent = `${missionToggle.querySelector('.policy-tree-caption').textContent}`;
+        missionName.textContent = missionNameText;
+        missionDescription.innerHTML = `
+            <h3>Mission</h3>
+            ${missionDesc ? `<p>${missionDesc}</p>` : '<p>No description available</p>'}
+        `;
+        
+        // Update visibility states
+        missionView.style.display = 'block';
+        missionView.removeAttribute('hidden');
+        welcomeView.style.display = 'none';
+        welcomeView.setAttribute('hidden', '');
+    }
+
+    // Tree toggle functionality
+    const toggles = document.querySelectorAll('.policy-tree-toggle');
+    toggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            const panel = document.getElementById(this.getAttribute('aria-controls'));
+            const icon = this.querySelector('.policy-tree-icon');
+            
+            // Update toggle state
+            this.setAttribute('aria-expanded', !isExpanded);
+            panel.classList.toggle('is-open');
+            icon.textContent = isExpanded ? 'expand_more' : 'expand_less';
+            
+            // If this is a mission toggle
+            if (this.hasAttribute('data-mission-id')) {
+                const url = new URL(window.location);
+                
+                if (!isExpanded) {
+                    // Opening mission - update URL and show mission view
+                    url.searchParams.set('mission', this.getAttribute('data-mission-id'));
+                    url.searchParams.delete('pillar');
+                    url.searchParams.delete('priority');
+                    window.history.pushState({}, '', url);
+                    updateMissionView(this);
+                } else {
+                    // Closing mission - clear URL and show welcome view
+                    url.searchParams.delete('mission');
+                    url.searchParams.delete('pillar');
+                    url.searchParams.delete('priority');
+                    window.history.pushState({}, '', url);
+                    const missionView = document.getElementById('mission-view');
+                    const welcomeView = document.getElementById('welcome-view');
+                    missionView.style.display = 'none';
+                    missionView.setAttribute('hidden', '');
+                    welcomeView.style.display = 'block';
+                    welcomeView.removeAttribute('hidden');
+                }
+            }
+            // If this is a pillar toggle
+            else if (this.hasAttribute('data-pillar-id')) {
+                const url = new URL(window.location);
+                const missionToggle = this.closest('.policy-tree-panel').previousElementSibling.querySelector('.policy-tree-toggle');
+                const missionId = missionToggle.getAttribute('data-mission-id');
+                
+                if (!isExpanded) {
+                    // Opening pillar - set both mission and pillar parameters
+                    url.searchParams.set('mission', missionId);
+                    url.searchParams.set('pillar', this.getAttribute('data-pillar-id'));
+                    url.searchParams.delete('priority');
+                } else {
+                    // Closing pillar - keep mission parameter
+                    url.searchParams.set('mission', missionId);
+                    url.searchParams.delete('pillar');
+                    url.searchParams.delete('priority');
+                }
+                
+                window.location.href = url.toString();
+            }
+        });
+    });
+
+    // Priority link functionality
+    const priorityLinks = document.querySelectorAll('.policy-tree-link[data-priority-id]');
+    priorityLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const priorityId = this.getAttribute('data-priority-id');
+            const pillarId = this.closest('.policy-tree-panel').id.replace('pillar-', '');
+            
+            // Update URL without page reload
+            const url = new URL(window.location);
+            url.searchParams.set('priority', priorityId);
+            url.searchParams.set('pillar', pillarId);
+            window.history.pushState({}, '', url);
+            
+            // Reload the page to show the priority view
+            window.location.reload();
+        });
+    });
+
+    // Set initial states based on URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const missionId = urlParams.get('mission');
+    const pillarId = urlParams.get('pillar');
+    const priorityId = urlParams.get('priority');
+
+    // Show appropriate view based on URL parameters
+    if (priorityId) {
+        priorityView.style.display = 'block';
+        pillarView.style.display = 'none';
+        missionView.style.display = 'none';
+        welcomeView.style.display = 'none';
+
+        // Set up tree state for priority
+        const priorityLink = document.querySelector(`.policy-tree-link[data-priority-id="${priorityId}"]`);
+        if (priorityLink) {
+            ensurePillarOpen(priorityLink);
+            priorityLink.classList.add('is-active');
+        }
+    } else if (pillarId) {
+        priorityView.style.display = 'none';
+        pillarView.style.display = 'block';
+        missionView.style.display = 'none';
+        welcomeView.style.display = 'none';
+
+        // Set up tree state for pillar
+        const pillarToggle = document.querySelector(`.policy-tree-toggle[data-pillar-id="${pillarId}"]`);
+        if (pillarToggle) {
+            const panel = document.getElementById(pillarToggle.getAttribute('aria-controls'));
+            const icon = pillarToggle.querySelector('.policy-tree-icon');
+            
+            pillarToggle.setAttribute('aria-expanded', 'true');
+            panel.classList.add('is-open');
+            icon.textContent = 'expand_less';
+            
+            ensureMissionOpen(pillarToggle);
+        }
+    } else if (missionId) {
+        priorityView.style.display = 'none';
+        pillarView.style.display = 'none';
+        missionView.style.display = 'block';
+        welcomeView.style.display = 'none';
+
+        // Set up tree state for mission
+        const missionToggle = document.querySelector(`.policy-tree-toggle[data-mission-id="${missionId}"]`);
+        if (missionToggle) {
+            const panel = document.getElementById(missionToggle.getAttribute('aria-controls'));
+            const icon = missionToggle.querySelector('.policy-tree-icon');
+            
+            missionToggle.setAttribute('aria-expanded', 'true');
+            panel.classList.add('is-open');
+            icon.textContent = 'expand_less';
+            
+            updateMissionView(missionToggle);
+        }
+    } else {
+        priorityView.style.display = 'none';
+        pillarView.style.display = 'none';
+        missionView.style.display = 'none';
+        welcomeView.style.display = 'block';
+    }
+});
+
+
+// Expand/collapse details with icon
+Array.from(document.querySelectorAll('.svc-details-toggle')).forEach(btn => {
+    btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.getAttribute('data-target'));
+        const chevron = btn.querySelector('.chevron');
+        const isOpen = target.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        if (chevron) chevron.textContent = isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
+    });
+});
+// Hide all details panels on page load
+Array.from(document.querySelectorAll('.svc-list-details')).forEach(panel => {
+    panel.classList.remove('open');
+});
+
+function updateViewStates() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const missionId = urlParams.get('mission');
+    const pillarId = urlParams.get('pillar');
+    const priorityId = urlParams.get('priority');
+
+    const missionView = document.getElementById('mission-view');
+    const pillarView = document.getElementById('pillar-view');
+    const priorityView = document.getElementById('priority-view');
+    const welcomeView = document.getElementById('welcome-view');
+
+    if (priorityId) {
+        priorityView.style.display = 'block';
+        pillarView.style.display = 'none';
+        missionView.style.display = 'none';
+        welcomeView.style.display = 'none';
+    } else if (pillarId) {
+        priorityView.style.display = 'none';
+        pillarView.style.display = 'block';
+        missionView.style.display = 'none';
+        welcomeView.style.display = 'none';
+    } else if (missionId) {
+        priorityView.style.display = 'none';
+        pillarView.style.display = 'none';
+        missionView.style.display = 'block';
+        welcomeView.style.display = 'none';
+    } else {
+        priorityView.style.display = 'none';
+        pillarView.style.display = 'none';
+        missionView.style.display = 'none';
+        welcomeView.style.display = 'block';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', updateViewStates);
+window.addEventListener('popstate', updateViewStates);
+
+</script>
+{% endblock %}

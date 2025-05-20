@@ -1,0 +1,432 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Reports" %}
+{% set serviceNav = "Reports" %}
+
+{% block head %}
+    <link rel="stylesheet" href="/assets/css/reports.css">
+{% endblock %}
+
+{% block content %}
+
+    <section class="data-hero">
+        <div class="govuk-width-container">
+
+            <div class="govuk-grid-row">
+
+                <div class="govuk-grid-column-one-quarter">
+                    <nav class="dfe-vertical-nav">
+                        <h2 class="govuk-heading-s">Monthly reporting</h2>
+
+                        <ul class="dfe-vertical-nav__section">
+
+                            <li class="dfe-vertical-nav__section-item">
+                                <a class="dfe-vertical-nav__link" href="#">{{ x | date('add', -1, 'month') | date('MMMM YYYY') }}</a>
+                            </li>
+                            <li class="dfe-vertical-nav__section-item">
+                                <a class="dfe-vertical-nav__link" href="#">Previous months</a>
+                            </li>
+                        </ul>
+
+                        <h2 class="govuk-heading-s">Service reports</h2>
+
+                        <ul class="dfe-vertical-nav__section">
+                            <li class="dfe-vertical-nav__section-item">
+                                <a class="dfe-vertical-nav__link" href="#">Service compliance</a>
+                            </li>
+                            <li class="dfe-vertical-nav__section-item">
+                                <a class="dfe-vertical-nav__link" href="#">Service data completion</a>
+                            </li>
+                            <li class="dfe-vertical-nav__section-item">
+                                <a class="dfe-vertical-nav__link" href="#">User coverage</a>
+                            </li>
+                            <li class="dfe-vertical-nav__section-item">
+                                <a class="dfe-vertical-nav__link" href="#">Missions, pillars and priorities</a>
+                            </li>
+                            <li class="dfe-vertical-nav__section-item">
+                                <a class="dfe-vertical-nav__link" href="#">User activity trends</a>
+                            </li>
+                            <li class="dfe-vertical-nav__section-item">
+                                <a class="dfe-vertical-nav__link" href="#">Data export history</a>
+                            </li>
+                            <li class="dfe-vertical-nav__section-item">
+                                <a class="dfe-vertical-nav__link" href="#">Error and issue logs</a>
+                            </li>
+                            <li class="dfe-vertical-nav__section-item">
+                                <a class="dfe-vertical-nav__link" href="#">Access logs</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="govuk-grid-column-three-quarters">
+                    <h1 class="govuk-heading-xl">Reporting</h1>
+
+                    <ul class="svc-list">
+                         <li class="svc-list-item">
+                            <div class="svc-list-main">
+                                <div class="svc-list-info">
+                                    <div class="svc-list-title">{{ x | date('add', 0, 'month') | date('MMMM YYYY') }} service performance return</div>
+                                    <div class="svc-list-meta">
+                                        <span>
+                                            <span class="svc-meta-label">Status</span>
+                                            <span class="svc-meta-value">
+                                            <span class="svc-meta-value-blue">Upcoming</span>
+                                        </span> </span>
+                                         <span>
+                                            <span class="svc-meta-label">Submission</span>
+                                            <span class=" svc-meta-value-blue">Cannot start</span></span>
+                                         <span>
+                                            <span class="svc-meta-label">Progress</span>
+                                            <span class="svc-meta-value">0 of 5 returns completed</span>
+                                        </span> </span>
+                                        <span>
+                                            <span class="svc-meta-label">Due by</span>{{ x | date('add', 1, 'month') | date('[7] MMMM YYYY') }}</span></span>
+
+                                </div>
+                            </div>
+                            <div class="svc-list-actions svc-list-actions-row">
+                                <a href="/reports/services" class="svc-btn svc-btn-primary svc-btn-view">Action <span class="govuk-visually-hidden">report completion</span></a>
+                                <button class="svc-btn svc-btn-secondary svc-details-toggle" type="button" aria-expanded="false" data-target="details-1" title="Show details">
+                                    <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="svc-list-details" id="details-1">
+                            <div class="svc-list-description">The monthly service performance return is due by the 7th of each month and covers services you are responsible for.
+
+
+
+
+
+
+                            </div>
+                    </li>
+                        <li class="svc-list-item">
+                            <div class="svc-list-main">
+                                <div class="svc-list-info">
+                                    <div class="svc-list-title">{{ x | date('add', -1, 'month') | date('MMMM YYYY') }} service performance return</div>
+                                    <div class="svc-list-meta">
+                                        <span>
+                                            <span class="svc-meta-label">Status</span>
+                                            <span class="svc-meta-value">
+                                            <span class="svc-meta-value-late">Late</span>
+                                        </span> </span>
+                                         <span>
+                                            <span class="svc-meta-label">Submission</span>
+                                            <span class=" svc-meta-value-late">Not submiitted</span></span>
+                                         <span>
+                                            <span class="svc-meta-label">Progress</span>
+                                            <span class="svc-meta-value">0 of 5 returns completed</span>
+                                        </span> </span>
+                                        <span>
+                                            <span class="svc-meta-label">Due by</span>{{ x | date('add', 0, 'month') | date('[7] MMMM YYYY') }}</span></span>
+
+                                </div>
+                            </div>
+                            <div class="svc-list-actions svc-list-actions-row">
+                                <a href="/reports/services" class="svc-btn svc-btn-primary svc-btn-view">Action <span class="govuk-visually-hidden">report completion</span></a>
+                                <button class="svc-btn svc-btn-secondary svc-details-toggle" type="button" aria-expanded="false" data-target="details-1" title="Show details">
+                                    <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="svc-list-details" id="details-1">
+                            <div class="svc-list-description">The monthly service performance return is due by the 7th of each month and covers services you are responsible for.
+
+
+
+
+
+
+                            </div>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .svc-btn-primary,
+    .svc-btn-reset {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        box-sizing: border-box;
+        padding: 0 1.5em;
+        font-size: 1rem;
+        line-height: 1.2;
+        font-weight: 600;
+        border-radius: 4px;
+        border: 2px solid #1d70b8;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+        text-decoration: none;
+    }
+    .svc-btn-primary {
+        background: #1d70b8;
+        color: #fff;
+    }
+    .svc-btn-primary:focus,
+    .svc-btn-primary:hover {
+        background: #003078;
+        color: #fff;
+    }
+    .svc-btn-reset {
+        background: #fff;
+        color: #1d70b8;
+        margin-left: 0.5em;
+    }
+    .svc-btn-reset:focus,
+    .svc-btn-reset:hover {
+        background: #e8f1fa;
+        color: #003078;
+    }
+    .svc-filter-actions {
+        display: flex;
+        gap: 0.5em;
+        align-items: center;
+    }
+
+    .svc-list-meta .svc-meta-label {
+        margin-bottom: 5px;
+    }
+
+      .svc-meta-value-blue {
+        color: #003078;
+        font-weight: 600;
+        background-color: #ccd6e4;
+        padding: 0.25em 0.7em;
+        border-radius: 0.25em;
+        text-align: center;
+        min-width: fit-content !important;
+    }
+
+    .svc-meta-value-late {
+        color: #b10e1e;
+        font-weight: 600;
+        background-color: #f8d7da;
+        padding: 0.25em 0.7em;
+        border-radius: 0.25em;
+        text-align: center;
+        min-width: fit-content !important;
+    }
+
+
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Collapsible filters with chevron
+        Array
+            .from(document.querySelectorAll('[data-collapsible]'))
+            .forEach(group => {
+                const btn = group.querySelector('.svc-filter-toggle');
+                const options = group.querySelector('.svc-filter-options');
+                const chevron = btn.querySelector('.chevron');
+                // Helper to set tabindex on checkboxes
+                const setCheckboxTabbable = (tabbable) => {
+                    Array
+                        .from(options.querySelectorAll('input[type="checkbox"]'))
+                        .forEach(cb => {
+                            if (tabbable) {
+                                cb.removeAttribute('tabindex');
+                            } else {
+                                cb.setAttribute('tabindex', '-1');
+                            }
+                        });
+                };
+                // Initially collapsed: set tabindex -1
+                setCheckboxTabbable(false);
+                btn.addEventListener('click', () => {
+                    const isOpen = options
+                        .classList
+                        .toggle('open');
+                    btn.setAttribute(
+                        'aria-expanded', isOpen
+                        ? 'true'
+                        : 'false');
+                    if (chevron) 
+                        chevron.textContent = isOpen
+                            ? 'keyboard_arrow_up'
+                            : 'keyboard_arrow_down';
+                    if (isOpen) {
+                        options.style.border = '1px solid #bbb';
+                        options.style.boxShadow = '0 4px 16px rgba(0,0,0,0.07)';
+                        setCheckboxTabbable(true);
+                    } else {
+                        options.style.border = 'none';
+                        options.style.boxShadow = 'none';
+                        setCheckboxTabbable(false);
+                    }
+                });
+            });
+        // Expand/collapse details with icon
+        Array
+            .from(document.querySelectorAll('.svc-details-toggle'))
+            .forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const target = document.getElementById(btn.getAttribute('data-target'));
+                    const chevron = btn.querySelector('.chevron');
+                    // Toggle .open on .svc-summary-details for summary, .svc-list-details for service items
+                    if (target.classList.contains('svc-summary-details')) {
+                        const isOpen = target
+                            .classList
+                            .toggle('open');
+                        btn.setAttribute(
+                            'aria-expanded', isOpen
+                            ? 'true'
+                            : 'false');
+                        if (chevron) 
+                            chevron.textContent = isOpen
+                                ? 'keyboard_arrow_up'
+                                : 'keyboard_arrow_down';
+                        }
+                    else {
+                        const isOpen = target
+                            .classList
+                            .toggle('open');
+                        btn.setAttribute(
+                            'aria-expanded', isOpen
+                            ? 'true'
+                            : 'false');
+                        if (chevron) 
+                            chevron.textContent = isOpen
+                                ? 'keyboard_arrow_up'
+                                : 'keyboard_arrow_down';
+                        }
+                    });
+            });
+        // Hide all details panels on page load
+        Array
+            .from(document.querySelectorAll('.svc-list-details'))
+            .forEach(panel => {
+                panel
+                    .classList
+                    .remove('open');
+            });
+        // Export summary to Word
+        var exportBtn = document.getElementById('export-word');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', function () {
+                // 1. Get active filters HTML (if present)
+                var filtersBlock = document.querySelector('.svc-active-filters');
+                var filtersHtml = '';
+                if (filtersBlock) {
+                    var filtersClone = filtersBlock.cloneNode(true);
+                    // Remove the clear filters link
+                    var clearLink = filtersClone.querySelector('.svc-clear-filters');
+                    if (clearLink) 
+                        clearLink.remove();
+                    var clearLink2 = filtersClone.querySelector('.svc-active-filter-remove');
+                    if (clearLink2) 
+                        clearLink2.remove();
+                    filtersHtml = '<div>' + filtersClone.innerHTML + '</div>';
+                }
+
+                // 2. Clone the summary panel and remove the export button
+                var summaryPanel = document
+                    .getElementById('details-summary-results')
+                    .cloneNode(true);
+                var exportBtn2 = summaryPanel.querySelector('#export-word');
+                if (exportBtn2) 
+                    exportBtn2.remove();
+                
+                // 3. Build the services table with absolute links
+                var serviceRows = [];
+                var origin = window.location.origin;
+                document
+                    .querySelectorAll('.svc-list > .svc-list-item')
+                    .forEach(function (item, idx) {
+                        if (idx === 0 && item.querySelector('#details-summary-results')) 
+                            return;
+                        var name = item.querySelector('.svc-list-title')
+                            ?.innerText || '';
+                        var viewBtn = item.querySelector('.svc-btn-view');
+                        var link = viewBtn
+                            ? viewBtn.getAttribute('href')
+                            : '#';
+                        // Make link absolute if it starts with /
+                        if (link.startsWith('/')) 
+                            link = origin + link;
+                        var metaSpans = item.querySelectorAll('.svc-list-meta > span');
+                        var businessArea = metaSpans[0]
+                            ? metaSpans[0]
+                                .innerText
+                                .replace('Business area', '')
+                                .trim() || ''
+                            : '';
+                        var serviceLine = metaSpans[1]
+                            ? metaSpans[1]
+                                .innerText
+                                .replace('Service line', '')
+                                .trim() || ''
+                            : '';
+                        var phase = metaSpans[2]
+                            ? metaSpans[2]
+                                .innerText
+                                .replace('Phase', '')
+                                .trim() || ''
+                            : '';
+                        var owner = metaSpans[3]
+                            ? metaSpans[3]
+                                .innerText
+                                .replace('Owner', '')
+                                .trim() || ''
+                            : '';
+                        serviceRows.push(`<tr>
+                    <td><a href="${link}">${name}</a></td>
+                    <td>${businessArea}</td>
+                    <td>${serviceLine}</td>
+                    <td>${phase}</td>
+                    <td>${owner}</td>
+                </tr>`);
+                    });
+
+                var tableHtml = `
+                <h2>Services</h2>
+                <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;">
+                    <thead>
+                        <tr>
+                            <th>Service name</th>
+                            <th>Business area</th>
+                            <th>Service line</th>
+                            <th>Phase</th>
+                            <th>Owner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${serviceRows.join('')}
+                    </tbody>
+                </table>
+            `;
+
+                var tempDiv = document.createElement('div');
+                tempDiv.innerHTML = filtersHtml + summaryPanel.innerHTML + tableHtml;
+
+                var preHtml = `
+              <html xmlns:o='urn:schemas-microsoft-com:office:office' 
+                    xmlns:w='urn:schemas-microsoft-com:office:word' 
+                    xmlns='http://www.w3.org/TR/REC-html40'>
+              <head><meta charset='utf-8'><title>Summary Export</title></head><body>`;
+                var postHtml = "</body></html>";
+                var html = preHtml + tempDiv.innerHTML + postHtml;
+                var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+                var downloadLink = document.createElement("a");
+                document
+                    .body
+                    .appendChild(downloadLink);
+                downloadLink.href = url;
+                downloadLink.download = 'summary.doc';
+                downloadLink.click();
+                document
+                    .body
+                    .removeChild(downloadLink);
+            });
+        }
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% from "govuk/components/footer/macro.njk" import govukFooter %}
+
+{{ govukFooter({
+  rebrand: true,
+  meta: {
+    items: [
+      {
+        href: "https://accessibility-statements.education.gov.uk/s/15",
+        text: "Accessibility"
+      },
+      {
+        href: "/cookies",
+        text: "Cookies"
+      }
+    ]
+  }
+}) }}

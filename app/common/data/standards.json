@@ -1,0 +1,161 @@
+{
+    "standards": [
+      {
+        "standard": "Accessibility Conformance",
+        "Compliant": 4,
+        "Non-compliant": 3,
+        "Not reported": 43
+      },
+      {
+        "standard": "Accessibility Statements",
+        "Compliant": 38,
+        "Non-compliant": 7,
+        "Not reported": 5
+      },
+      {
+        "standard": "Archiving and records management",
+        "Compliant": 23,
+        "Non-compliant": 17,
+        "Not reported": 10
+      },
+      {
+        "standard": "Cloud Hosting Platform",
+        "Compliant": 42,
+        "Non-compliant": 5,
+        "Not reported": 3
+      },
+      {
+        "standard": "Data and Information Risk Management",
+        "Compliant": 47,
+        "Non-compliant": 3,
+        "Not reported": 0
+      },
+      {
+        "standard": "Data Anonymisation, Pseudonymisation and Obfuscation",
+        "Compliant": 17,
+        "Non-compliant": 11,
+        "Not reported": 22
+      },
+      {
+        "standard": "Data Backup and Recovery",
+        "Compliant": 37,
+        "Non-compliant": 6,
+        "Not reported": 7
+      },
+      {
+        "standard": "Data Classification",
+        "Compliant": 18,
+        "Non-compliant": 30,
+        "Not reported": 2
+      },
+      {
+        "standard": "Data Decommissioning",
+        "Compliant": 36,
+        "Non-compliant": 6,
+        "Not reported": 8
+      },
+      {
+        "standard": "Data Ethics",
+        "Compliant": 40,
+        "Non-compliant": 4,
+        "Not reported": 6
+      },
+      {
+        "standard": "Data Handling",
+        "Compliant": 0,
+        "Non-compliant": 30,
+        "Not reported": 20
+      },
+      {
+        "standard": "Data Management",
+        "Compliant": 34,
+        "Non-compliant": 5,
+        "Not reported": 11
+      },
+      {
+        "standard": "Data Protection",
+        "Compliant": 28,
+        "Non-compliant": 12,
+        "Not reported": 10
+      },
+      {
+        "standard": "Data Quality",
+        "Compliant": 45,
+        "Non-compliant": 3,
+        "Not reported": 2
+      },
+      {
+        "standard": "Data Retention and Disposal",
+        "Compliant": 37,
+        "Non-compliant": 12,
+        "Not reported": 1
+      },
+      {
+        "standard": "Data Sharing",
+        "Compliant": 30,
+        "Non-compliant": 11,
+        "Not reported": 9
+      },
+      {
+        "standard": "Digital Product Branding",
+        "Compliant": 25,
+        "Non-compliant": 1,
+        "Not reported": 24
+      },
+      {
+        "standard": "Identity Management B2B",
+        "Compliant": 46,
+        "Non-compliant": 3,
+        "Not reported": 1
+      },
+      {
+        "standard": "Identity Management B2C",
+        "Compliant": 24,
+        "Non-compliant": 16,
+        "Not reported": 10
+      },
+      {
+        "standard": "Identity Management B2E",
+        "Compliant": 18,
+        "Non-compliant": 8,
+        "Not reported": 24
+      },
+      {
+        "standard": "Managing Information Assets",
+        "Compliant": 36,
+        "Non-compliant": 2,
+        "Not reported": 12
+      },
+      {
+        "standard": "Participant safeguarding in user research",
+        "Compliant": 30,
+        "Non-compliant": 11,
+        "Not reported": 9
+      },
+      {
+        "standard": "Personal Data Breach",
+        "Compliant": 44,
+        "Non-compliant": 5,
+        "Not reported": 1
+      },
+      {
+        "standard": "Personal data handling in user research",
+        "Compliant": 18,
+        "Non-compliant": 10,
+        "Not reported": 22
+      },
+      {
+        "standard": "Plain Language",
+        "Compliant": 1,
+        "Non-compliant": 42,
+        "Not reported": 7
+      },
+      {
+        "standard": "Service Management",
+        "Compliant": 18,
+        "Non-compliant": 5,
+        "Not reported": 27
+      }
+    ]
+  }
+  

@@ -1,0 +1,375 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Schema" %}
+{% set serviceNav = "Data" %}
+{% set nav = 'schema' %}
+
+{% block head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0;wght@400;GRAD@0;opsz@24" rel="stylesheet"/>
+    <style>
+        .codeblock {
+            background: #18181b;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 2em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+        }
+        .codeblock-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #23272f;
+            padding: 0.5em 1em 0.5em 0.5em;
+        }
+        .codeblock-copy {
+            background: none;
+            border: none;
+            color: #e3e3e3;
+            cursor: pointer;
+            padding: 0.25em;
+            display: flex;
+            align-items: center;
+            border-radius: 4px;
+            transition: background 0.2s;
+            font-family: 'Material Symbols Outlined', monospace;
+            font-size: 24px;
+        }
+        .codeblock-copy:focus,
+        .codeblock-copy:hover {
+            background: #35363a;
+            outline: none;
+        }
+        .codeblock-pre {
+            background: #18181b;
+            color: #f4f4f5;
+            margin: 0;
+            padding: 1.25em 1.5em;
+            font-size: 1.08em;
+            line-height: 1.6;
+            overflow-x: auto;
+            border-radius: 0 0 10px 10px;
+            border: 1px solid #b1b4b6;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        }
+        .codeblock-pre code {
+            background: none;
+            color: inherit;
+            font-family: inherit;
+            font-size: inherit;
+        }
+        .codeblock-copy.copied {
+            color: #00703c;
+        }
+        .schema-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2em;
+        }
+        .schema-table th, .schema-table td {
+            border: 1px solid #b1b4b6;
+            padding: 0.5em 0.75em;
+            text-align: left;
+            vertical-align: top;
+        }
+        .schema-table th {
+            background: #f3f2f1;
+            font-weight: bold;
+        }
+        .schema-download {
+            display: inline-block;
+            margin-bottom: 1.5em;
+        }
+        .hljs-punctuation,
+        .hljs-symbol,
+        .hljs-section {
+            color: #e3e3e3 !important;
+            opacity: 1 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section class="data-hero">
+        <div class="govuk-width-container">
+
+            <div class="govuk-grid-row">
+
+                <div class="govuk-grid-column-one-quarter">
+                    {% include "data/_nav.html" %}
+                </div>
+
+                <div class="govuk-grid-column-three-quarters">
+                    <h1 class="govuk-heading-xl">UK Government Digital Service Schema (light-touch)</h1>
+                    <p class="govuk-body-l">
+                        This page documents the <strong>UK Government Digital Service Schema (light-touch)</strong>, a permissive standard for describing digital services or products. Only the top-level <code>id</code> is mandatory; all other fields are optional and open.
+                    </p>
+
+                    <h2 class="govuk-heading-m">What is a JSON Schema?</h2>
+                    <p class="govuk-body">
+                        <a href="https://json-schema.org/" target="_blank" rel="noopener" class="govuk-link govuk-link--no-visited-state">JSON Schema <span class="govuk-visually-hidden">(opens in new tab)</span></a> is a standard for describing the structure and validation rules of JSON data. It is widely used for data validation, API design, and ensuring interoperability between systems.
+                    </p>
+
+                    <h2 class="govuk-heading-m">What is the UK Government Service Schema?</h2>
+                    <p class="govuk-body">
+                        The UK Government Service Schema is a machine-readable standard that defines the required fields, types, and structure for a government service record. It ensures that data about services is consistent, complete, and can be validated automatically.
+                    </p>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">Location</dt>
+                            <dd class="govuk-summary-list__value"><code>/app/common/data/uk_gov_schema.json</code></dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">Version</dt>
+                            <dd class="govuk-summary-list__value">{{ schema['$schema'] }}</dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">Schema ID</dt>
+                            <dd class="govuk-summary-list__value">{{ schema['$id'] }}</dd>
+                        </div>
+                    </dl>
+                    <a class="govuk-button schema-download" href="/common/data/uk_gov_schema.json" download>Download schema</a>
+
+                    <h2 class="govuk-heading-m">How to use this schema</h2>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>Validate your service data before sharing or importing it.</li>
+                        <li>Integrate with other government systems using a common data format.</li>
+                        <li>Transform data between ServiceNow and this schema using the provided mapping definition.</li>
+                        <li>Use <a href="https://json-schema.org/tools" target="_blank" rel="noopener" class="govuk-link govuk-link--no-visited-state">JSON Schema tools <span class="govuk-visually-hidden">(opens in new tab)</span></a> for validation, editing, and conversion.</li>
+                    </ul>
+
+                    <h2 class="govuk-heading-m">Example service record</h2>
+                    <p class="govuk-body">
+                        Below is a real example of a service record that conforms to this schema:
+                    </p>
+                    <div class="codeblock" data-codeblock="schema-example">
+                        <div class="codeblock-header">
+                            <span>JSON Example</span>
+                            <button class="codeblock-copy" title="Copy code" aria-label="Copy code" data-copy-for="schema-example">
+                                <span class="material-symbols-outlined">content_copy</span>
+                            </button>
+                        </div>
+                        <pre class="codeblock-pre active" data-lang="json"><code class="language-json codeblock-code" id="schema-example-json">{{ example | safe }}</code></pre>
+                    </div>
+
+                    <h2 class="govuk-heading-m">Field reference</h2>
+                    <table class="schema-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>id</td><td>string or number</td><td>Yes</td><td>Stable identifier for this service record.</td></tr>
+                            <tr><td>other_ids</td><td>object</td><td>No</td><td>Identifiers for this service in other systems (e.g. CMDB, ServiceNow, Jira). Property names are system identifiers; values are the corresponding ID strings or numbers.</td></tr>
+                            <tr><td>name</td><td>string or number</td><td>No</td><td>Public-facing name of the service.</td></tr>
+                            <tr><td>service_line</td><td>string or number</td><td>No</td><td>Name of the parent service line (optional).</td></tr>
+                            <tr><td>service_line_id</td><td>string or number</td><td>No</td><td>Identifier of the parent service line (optional).</td></tr>
+                            <tr><td>service_owners</td><td>array</td><td>No</td><td>One or more individuals accountable for the service (e.g. SRO, Product Manager).</td></tr>
+                            <tr><td>phase</td><td>string or number</td><td>No</td><td>Delivery phase of the service's life-cycle (e.g. discovery, alpha, beta, live, retired).</td></tr>
+                            <tr><td>description</td><td>string</td><td>No</td><td>Short narrative description of what the service does and for whom.</td></tr>
+                            <tr><td>public_url</td><td>string</td><td>No</td><td>Canonical public URL of the live service (if applicable).</td></tr>
+                            <tr><td>created_at</td><td>string</td><td>No</td><td>Date/time when the service record was first created (UTC, ISO 8601).</td></tr>
+                            <tr><td>updated_at</td><td>string</td><td>No</td><td>Date/time when the service record was last updated (UTC, ISO 8601).</td></tr>
+                            <tr><td>performance_data</td><td>array</td><td>No</td><td>Key performance indicators for the service.</td></tr>
+                            <tr><td>categories</td><td>array</td><td>No</td><td>Classification tags for the service.</td></tr>
+                            <tr><td>related_services</td><td>array</td><td>No</td><td>Links to related services (e.g. dependencies).</td></tr>
+                            <tr><td>contacts</td><td>array</td><td>No</td><td>Contact roles and people for the service.</td></tr>
+                            <tr><td>resources</td><td>array</td><td>No</td><td>Links to resources such as runbooks, code repositories, etc.</td></tr>
+                            <tr><td>objectives</td><td>array</td><td>No</td><td>Objectives for the service.</td></tr>
+                            <tr><td>milestones</td><td>array</td><td>No</td><td>Milestones for the service.</td></tr>
+                            <tr><td>criticality</td><td>string or number</td><td>No</td><td>Criticality or tier of the service.</td></tr>
+                            <tr><td>tech_stack</td><td>array</td><td>No</td><td>Technology stack for the service.</td></tr>
+                            <tr><td>assurance</td><td>object</td><td>No</td><td>Assurance and compliance information.</td></tr>
+                            <tr><td>usage_profile</td><td>object</td><td>No</td><td>Usage profile for the service.</td></tr>
+                            <tr><td>telemetry</td><td>object</td><td>No</td><td>Telemetry and monitoring links.</td></tr>
+                            <tr><td>missions</td><td>array</td><td>No</td><td>Related government missions.</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3 class="govuk-heading-s">Object definitions</h3>
+                    <h4 class="govuk-heading-xs">anyArray</h4>
+                    <table class="schema-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>array of object, string, number, boolean, or null</td><td>Permissive array for any type of value (used for most arrays in this schema).</td></tr>
+                        </tbody>
+                    </table>
+                    <h4 class="govuk-heading-xs">service_owners (example structure)</h4>
+                    <table class="schema-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>first_name</td><td>string</td><td>Given name.</td></tr>
+                            <tr><td>last_name</td><td>string</td><td>Family name.</td></tr>
+                            <tr><td>email</td><td>string</td><td>Work email address.</td></tr>
+                            <tr><td>user_id</td><td>string</td><td>Identifier in an identity management system.</td></tr>
+                        </tbody>
+                    </table>
+                    <h4 class="govuk-heading-xs">contacts (example structure)</h4>
+                    <table class="schema-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>role</td><td>string</td><td>Role of the contact (e.g. Product Manager).</td></tr>
+                            <tr><td>person</td><td>object</td><td>Person object (see above).</td></tr>
+                        </tbody>
+                    </table>
+                    <h4 class="govuk-heading-xs">resources (example structure)</h4>
+                    <table class="schema-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>type</td><td>string</td><td>Type of resource (e.g. runbook, code_repository).</td></tr>
+                            <tr><td>url</td><td>string</td><td>URL to the resource.</td></tr>
+                            <tr><td>description</td><td>string</td><td>Description of the resource.</td></tr>
+                        </tbody>
+                    </table>
+                    <h4 class="govuk-heading-xs">objectives (example structure)</h4>
+                    <table class="schema-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>description</td><td>string</td><td>Objective description.</td></tr>
+                            <tr><td>target</td><td>string</td><td>Target value.</td></tr>
+                            <tr><td>status</td><td>string</td><td>Status of the objective.</td></tr>
+                        </tbody>
+                    </table>
+                    <h4 class="govuk-heading-xs">milestones (example structure)</h4>
+                    <table class="schema-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>name</td><td>string</td><td>Name of the milestone.</td></tr>
+                            <tr><td>due</td><td>string</td><td>Due date.</td></tr>
+                            <tr><td>status</td><td>string</td><td>Status of the milestone.</td></tr>
+                        </tbody>
+                    </table>
+                    <h4 class="govuk-heading-xs">tech_stack (example structure)</h4>
+                    <table class="schema-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>layer</td><td>string</td><td>Layer of the stack (e.g. frontend, backend, database).</td></tr>
+                            <tr><td>name</td><td>string</td><td>Name of the technology.</td></tr>
+                            <tr><td>version</td><td>string or number</td><td>Version of the technology.</td></tr>
+                        </tbody>
+                    </table>
+                    <h4 class="govuk-heading-xs">missions (example structure)</h4>
+                    <table class="schema-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>id</td><td>string</td><td>Mission identifier.</td></tr>
+                            <tr><td>name</td><td>string</td><td>Name of the mission.</td></tr>
+                            <tr><td>status</td><td>string</td><td>Status of the mission.</td></tr>
+                            <tr><td>link</td><td>string</td><td>URL to the mission details.</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h2 class="govuk-heading-m">ServiceNow Mapping</h2>
+                    <p class="govuk-body">
+                        A mapping definition exists for data transformation between ServiceNow and this schema, and vice versa. This enables automated data exchange and integration between ServiceNow and UK Government service records.
+                    </p>
+
+                    <h2 class="govuk-heading-m">JSON Schema Tools</h2>
+                    <p class="govuk-body">
+                        You can find validators, editors, converters, and more for JSON Schema at
+                        <a href="https://json-schema.org/tools?query=&sortBy=name&sortOrder=ascending&groupBy=toolingTypes&licenses=&languages=&drafts=&toolingTypes=&environments=&showObsolete=false" class="govuk-link govuk-link--no-visited-state" rel="noopener" target="_blank">json-schema.org/tools <span class="govuk-visually-hidden">(opens in new tab)</span></a>.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block bodyEnd %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document
+                .querySelectorAll('.codeblock-pre code')
+                .forEach((el) => {
+                    if (window.hljs) 
+                        hljs.highlightElement(el);
+                    }
+                );
+            // Copy button for schema example
+            document
+                .querySelectorAll('.codeblock-copy')
+                .forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        const blockName = btn.getAttribute('data-copy-for');
+                        const block = document.querySelector('.codeblock[data-codeblock="' + blockName + '"]');
+                        const activePre = block.querySelector('.codeblock-pre.active');
+                        const activeCode = activePre
+                            ? activePre.querySelector('code')
+                            : null;
+                        if (activeCode) {
+                            const code = activeCode.textContent;
+                            navigator
+                                .clipboard
+                                .writeText(code)
+                                .then(function () {
+                                    btn
+                                        .classList
+                                        .add('copied');
+                                    btn.innerHTML = '<span class="material-symbols-outlined">check</span>';
+                                    setTimeout(function () {
+                                        btn
+                                            .classList
+                                            .remove('copied');
+                                        btn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
+                                    }, 2000);
+                                });
+                        }
+                    });
+                });
+        });
+    </script>
+{% endblock %}

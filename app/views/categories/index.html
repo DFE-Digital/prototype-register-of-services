@@ -1,0 +1,29 @@
+    {% extends "layouts/layout.html" %}
+    {% set title = "Categories" %}
+    {% set serviceNav = "Categories" %}
+    {% set containerClass = "govuk-width-container" %}
+
+
+
+    {% block content %}
+           
+            <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Browse by taxonomy</h1>
+            <p class="govuk-body-l">Browse services by how they are categorised.</p>
+            <div class="dfe-grid-container">
+                {% for category in categories | sort(attribute='name') %}
+                    <div class="dfe-card">
+                        <div class="dfe-card-container">
+                            <h2 class="govuk-heading-m">
+                                <a href="/categories/{{ category.id }}" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">{{ category.name }}</a>
+                            </h2>
+                            {% if category.description %}
+                            <p class="govuk-body">{{ category.description }}</p>
+                            {% endif %}
+                            {% if categoryCounts[category.id] %}
+                            <p class="govuk-body-s">Items in this category: {{ categoryCounts[category.id] }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+    {% endblock %}

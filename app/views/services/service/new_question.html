@@ -1,0 +1,113 @@
+{% extends "layouts/layout.html" %}
+{% set title = 'Add a new service' %}
+{% set serviceNav = "Services" %}
+{% set mainClasses = 'govuk-!-padding-top-0' %}
+
+{% block content %}
+<div class="govuk-width-container">
+  <a href="{% if prevStep is not none %}/services/new/{{ prevStep }}{% else %}/services{% endif %}" class="govuk-back-link">Back</a>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-xl govuk-!-margin-top-5">Question {{ step + 1 }} of {{ totalSteps }}</span>
+      <form class="govuk-form" method="post" action="/services/new/{{ step }}">
+        {% if errors %}
+          <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
+            <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+            <ul class="govuk-list govuk-error-summary__list">
+              {% for error in errors %}
+                <li><a href="{{ error.href }}">{{ error.text }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+        {% set errors = errors or [] %}
+        {% set fieldError = errors | selectattr('href', 'equalto', '#q' ~ step) | list | first %}
+        <div class="govuk-form-group{% if fieldError %} govuk-form-group--error{% endif %}">
+          {% if question.inputType == 'textbox' %}
+              <h1 class="govuk-label-wrapper">
+              <label class="govuk-label govuk-label--l" for="q{{ step }}">{{ question.question }}</label>
+            </h1>
+            {% if fieldError %}
+              <span id="q{{ step }}-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> {{ fieldError.text }}
+              </span>
+            {% endif %}
+            <input class="govuk-input{% if fieldError %} govuk-input--error{% endif %}" 
+                   id="q{{ step }}" 
+                   name="q{{ step }}" 
+                   type="text" 
+                   value="{{ value }}" 
+                   {% if fieldError %}aria-describedby="q{{ step }}-error"{% endif %}
+                   >
+          {% elif question.inputType == 'textarea' %}
+            <h1 class="govuk-label-wrapper">
+              <label class="govuk-label govuk-label--l" for="q{{ step }}">{{ question.question }}</label>
+            </h1>
+            {% if fieldError %}
+              <span id="q{{ step }}-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> {{ fieldError.text }}
+              </span>
+            {% endif %}
+            <textarea class="govuk-textarea{% if fieldError %} govuk-textarea--error{% endif %}" 
+                      id="q{{ step }}" 
+                      name="q{{ step }}" 
+                      rows="4" 
+                      {% if fieldError %}aria-describedby="q{{ step }}-error"{% endif %}
+                      >{{ value }}</textarea>
+          {% elif question.inputType == 'radio' %}
+            <h1 class="govuk-label-wrapper">
+              <span class="govuk-label govuk-label--l">{{ question.question }}</span>
+            </h1>
+            <fieldset class="govuk-fieldset" aria-describedby="{% if errors %}q{{ step }}-error{% endif %}">
+              {% if errors %}
+                <span id="q{{ step }}-error" class="govuk-error-message">
+                  <span class="govuk-visually-hidden">Error:</span> {{ errors[0].text }}
+                </span>
+              {% endif %}
+              <div class="govuk-radios{% if errors %} govuk-radios--error{% endif %}" data-module="govuk-radios">
+                {% for opt in question.options %}
+                  <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" 
+                           id="q{{ step }}_{{ loop.index0 }}" 
+                           name="q{{ step }}" 
+                           type="radio" 
+                           value="{{ opt }}" 
+                           {% if value == opt %}checked{% endif %}>
+                    <label class="govuk-label govuk-radios__label" for="q{{ step }}_{{ loop.index0 }}">{{ opt }}</label>
+                  </div>
+                {% endfor %}
+              </div>
+            </fieldset>
+          {% elif question.inputType == 'checkbox' %}
+            <h1 class="govuk-label-wrapper">
+              <span class="govuk-label govuk-label--l">{{ question.question }}</span>
+            </h1>
+            <fieldset class="govuk-fieldset" aria-describedby="q{{ step }}-hint{% if fieldError %} q{{ step }}-error{% endif %}">
+              <div class="govuk-hint" id="q{{ step }}-hint">Select all that apply</div>
+              {% if fieldError %}
+                <span id="q{{ step }}-error" class="govuk-error-message">
+                  <span class="govuk-visually-hidden">Error:</span> {{ fieldError.text }}
+                </span>
+              {% endif %}
+              <div class="govuk-checkboxes{% if fieldError %} govuk-checkboxes--error{% endif %}" data-module="govuk-checkboxes">
+                {% for opt in question.options %}
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" 
+                           id="q{{ step }}_{{ loop.index0 }}" 
+                           name="q{{ step }}[]" 
+                           type="checkbox" 
+                           value="{{ opt }}" 
+                           {% if value and opt in value %}checked{% endif %}>
+                    <label class="govuk-label govuk-checkboxes__label" for="q{{ step }}_{{ loop.index0 }}">{{ opt }}</label>
+                  </div>
+                {% endfor %}
+              </div>
+            </fieldset>
+          {% endif %}
+        </div>
+        <button class="govuk-button" data-module="govuk-button" type="submit">Continue</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %} 

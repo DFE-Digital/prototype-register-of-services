@@ -1,0 +1,131 @@
+{% extends "layouts/layout.html" %}
+{% set title = service.name %}
+{% set serviceNav = "Reports" %}
+
+{% block content %}
+<div class="govuk-width-container">
+    <a href="/reports/services" class="govuk-back-link">Back to all services</a>
+    <h1 class="govuk-heading-xl">{{ service.name }}</h1>
+
+    {% set groups = [
+        { "key": "customer_experience", "label": "Customer Experience", "metrics": [
+            { "key": "csat", "label": "CSAT (%)" },
+            { "key": "nps", "label": "NPS" },
+            { "key": "ces", "label": "CES" },
+            { "key": "first_contact_resolution", "label": "First-Contact Resolution (%)" }
+        ]},
+        { "key": "availability_performance", "label": "Availability & Performance", "metrics": [
+            { "key": "uptime", "label": "Uptime (%)" },
+            { "key": "sla_compliance", "label": "SLA Compliance (%)" },
+            { "key": "mttd", "label": "MTTD" },
+            { "key": "mttr", "label": "MTTR" },
+            { "key": "error_budget_burn", "label": "Error Budget Burn" },
+            { "key": "latency_p95", "label": "Latency (p95)" }
+        ]},
+        { "key": "usage_adoption", "label": "Usage & Adoption", "metrics": [
+            { "key": "active_users_mau", "label": "Active Users (MAU)" },
+            { "key": "new_signups", "label": "New Sign-ups" },
+            { "key": "churn_rate", "label": "Churn Rate" },
+            { "key": "session_length", "label": "Session Length" },
+            { "key": "transactions", "label": "Transactions" },
+            { "key": "conversion_rate", "label": "Conversion Rate" }
+        ]},
+        { "key": "operational_health", "label": "Operational Health", "metrics": [
+            { "key": "incident_count", "label": "Incident Count" },
+            { "key": "major_outages", "label": "Major Outages" },
+            { "key": "problem_backlog", "label": "Problem Backlog" },
+            { "key": "change_success_rate", "label": "Change Success Rate" },
+            { "key": "deployment_frequency", "label": "Deployment Frequency" },
+            { "key": "lead_time", "label": "Lead Time" }
+        ]},
+        { "key": "security_risk", "label": "Security & Risk", "metrics": [
+            { "key": "security_incidents", "label": "Security Incidents" },
+            { "key": "vuln_remediation_time", "label": "Vulnerability Remediation Time" },
+            { "key": "compliance_metrics", "label": "Compliance Metrics" },
+            { "key": "open_risks", "label": "Open Risks" }
+        ]},
+        { "key": "financial_business", "label": "Financial & Business Impact", "metrics": [
+            { "key": "cost_per_transaction", "label": "Cost per Transaction" },
+            { "key": "arpu", "label": "ARPU" },
+            { "key": "cost_of_downtime", "label": "Cost of Downtime" },
+            { "key": "roi_feature_releases", "label": "ROI of Feature Releases" }
+        ]},
+        { "key": "strategic_leading", "label": "Strategic & Leading Indicators", "metrics": [
+            { "key": "innovation_pipeline", "label": "Innovation Pipeline" },
+            { "key": "technical_debt", "label": "Technical Debt" },
+            { "key": "partner_performance", "label": "Partner Performance" },
+            { "key": "roadmap_progress", "label": "Roadmap Progress" }
+        ]}
+    ] %}
+
+    {% for group in groups %}
+        <div class="govuk-summary-card govuk-!-margin-bottom-6">
+            <div class="govuk-summary-card__title-wrapper">
+                <h2 class="govuk-summary-card__title">{{ group.label }}</h2>
+                {% set complete = true %}
+                {% for metric in group.metrics %}
+                    {% if not (service.reporting_metrics and service.reporting_metrics[group.key] and service.reporting_metrics[group.key][metric.key]) %}
+                        {% set complete = false %}
+                    {% endif %}
+                {% endfor %}
+                {% if complete %}
+                    <span class="govuk-tag govuk-tag--green">Complete</span>
+                {% else %}
+                    <span class="govuk-tag govuk-tag--yellow">Incomplete</span>
+                {% endif %}
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    {% for metric in group.metrics %}
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">{{ metric.label }}</dt>
+                            <dd class="govuk-summary-list__value">
+                                {{ service.reporting_metrics[group.key][metric.key] or 'Not reported' }}
+                            </dd>
+                            <dd class="govuk-summary-list__actions">
+                                {% if service.reporting_metrics[group.key][metric.key] %}
+                                    <span class="govuk-tag govuk-tag--green">✓</span>
+                                {% else %}
+                                    <span class="govuk-tag govuk-tag--yellow">!</span>
+                                {% endif %}
+                            </dd>
+                        </div>
+                    {% endfor %}
+                </dl>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="govuk-summary-card govuk-!-margin-bottom-6">
+        <div class="govuk-summary-card__title-wrapper">
+            <h2 class="govuk-summary-card__title">Milestones</h2>
+        </div>
+        <div class="govuk-summary-card__content">
+            <table class="govuk-table">
+                <thead>
+                    <tr>
+                        <th>Milestone</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for milestone in service.reporting_metrics.milestones %}
+                        <tr>
+                            <td>{{ milestone.milestone }}</td>
+                            <td>{{ milestone.date }}</td>
+                            <td>
+                                {% if milestone.on_track %}
+                                    <span class="govuk-tag govuk-tag--green">On track</span>
+                                {% else %}
+                                    <span class="govuk-tag govuk-tag--red">At risk</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %} 

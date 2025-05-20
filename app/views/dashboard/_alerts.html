@@ -1,0 +1,220 @@
+<div class="dashboard-section">
+    <div class="standards-header">
+        <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Alerts</h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-0">Services requiring attention</p>
+    </div>
+    <div class="alert-panels-container">
+        <div class="alert-panels-carousel" id="alert-panels">
+            <div class="alert-panel" id="panel1" aria-labelledby="panel1-label">
+                <div class="alert-panel__header">
+                    <div class="alert-panel__header-content">
+                        <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
+                            <span class="govuk-tag govuk-tag--red govuk-!-margin-bottom-2">Needs attention</span>
+                                            Apply for Teacher Training
+                                        </h2>
+                        <p class="govuk-body-s govuk-!-margin-bottom-0">Service requires attention based on recent assessment outcomes and metrics</p>
+                    </div>
+                    <div class="alert-panel__header-actions">
+                        <div class="alert-actions-dropdown">
+                            <button class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0" 
+                                                    aria-haspopup="true" 
+                                                    aria-expanded="false" 
+                                                    aria-controls="dropdown-menu-1"
+                                                    onclick="toggleDropdown(this)">
+                                                Actions
+                                                <span class="arrow-down" aria-hidden="true">▼</span>
+                            </button>
+                            <div id="dropdown-menu-1" 
+                                                 class="dropdown-menu" 
+                                                 role="menu" 
+                                                 aria-label="Alert actions">
+                                <a href="/v1/service/{{service.slug}}" 
+                                                   class="dropdown-item" 
+                                                   role="menuitem"
+                                                   tabindex="0">View service</a>
+                                <a href="/v1/service/{{service.slug}}/actions" 
+                                                   class="dropdown-item" 
+                                                   role="menuitem"
+                                                   tabindex="0">View actions</a>
+                                <hr class="dropdown-divider" role="separator">
+                                <a href="#" 
+                                                   class="dropdown-item text-red" 
+                                                   role="menuitem" 
+                                                   onclick="dismissAlert(this)"
+                                                   tabindex="0"
+                                                   aria-label="Dismiss notification for Apply for Teacher Training">Dismiss notification</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-panel__content">
+                    <div class="alert-grid">
+                        <div class="alert-item">
+                            <div class="alert-item__content">
+                                <h3 class="govuk-heading-s">Beta Assessment</h3>
+                                <div class="metric-value">
+                                    <span class="status-tag status-red">Red</span>
+                                    <span class="metric-date">Assessed: 2 April 2024</span>
+                                </div>
+                            </div>
+                            <div class="alert-item__actions">
+                                <a href="#" class="govuk-link govuk-link--no-visited-state">View assessment report</a>
+                            </div>
+                        </div>
+
+                        <div class="alert-item">
+                            <div class="alert-item__content">
+                                <h3 class="govuk-heading-s">User Satisfaction</h3>
+                                <div class="metric-value">
+                                    <span class="metric-number">62%</span>
+                                    <div class="standards-progress">
+                                        <div class="standards-progress__bar warning" style="width: 62%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alert-item__actions">
+                                <a href="#" class="govuk-link govuk-link--no-visited-state">Review satisfaction data</a>
+                            </div>
+                        </div>
+
+                        <div class="alert-item">
+                            <div class="alert-item__content">
+                                <h3 class="govuk-heading-s">Standards Compliance</h3>
+                                <div class="metric-value">
+                                    <span class="metric-number">45%</span>
+                                    <span class="metric-detail">17 of 37 met</span>
+                                </div>
+                            </div>
+                            <div class="alert-item__actions">
+                                <a href="#" class="govuk-link govuk-link--no-visited-state">View standards breakdown</a>
+                            </div>
+                        </div>
+
+                        <div class="alert-item alert-item--actions">
+                            <div class="alert-item__content">
+                                <h3 class="govuk-heading-s">Next Steps</h3>
+                                <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-4">
+                                    <li>Schedule assessment review</li>
+                                    <li>Review recent user feedback</li>
+                                    <li>Update standards evidence</li>
+                                </ul>
+                            </div>
+                            <div class="alert-item__actions">
+                                <a href="#" class="govuk-button govuk-!-margin-bottom-0">
+                                                    View all actions
+                                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-panel" id="panel2" aria-labelledby="panel2-label">
+                <div class="alert-panel__header">
+                    <div class="alert-panel__header-content">
+                        <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
+                            <span class="govuk-tag govuk-tag--red govuk-!-margin-bottom-2">Needs attention</span>
+                                            Register Trainee Teachers
+                                        </h2>
+                        <p class="govuk-body-s govuk-!-margin-bottom-0">Service requires attention based on assessment outcome and standards compliance</p>
+                    </div>
+                    <div class="alert-panel__header-actions">
+                        <div class="alert-actions-dropdown">
+                            <button class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0" 
+                                                    aria-haspopup="true" 
+                                                    aria-expanded="false" 
+                                                    aria-controls="dropdown-menu-2"
+                                                    onclick="toggleDropdown(this)">
+                                                Actions
+                                                <span class="arrow-down" aria-hidden="true">▼</span>
+                            </button>
+                            <div id="dropdown-menu-2" 
+                                                 class="dropdown-menu" 
+                                                 role="menu" 
+                                                 aria-label="Alert actions">
+                                <a href="#" 
+                                                   class="dropdown-item" 
+                                                   role="menuitem"
+                                                   tabindex="0">View service</a>
+                                <a href="#" 
+                                                   class="dropdown-item" 
+                                                   role="menuitem"
+                                                   tabindex="0">View actions</a>
+                                <hr class="dropdown-divider" role="separator">
+                                <a href="#" 
+                                                   class="dropdown-item text-red" 
+                                                   role="menuitem" 
+                                                   onclick="dismissAlert(this)"
+                                                   tabindex="0"
+                                                   aria-label="Dismiss notification for Register Trainee Teachers">Dismiss notification</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-panel__content">
+                    <div class="alert-grid">
+                        <div class="alert-item">
+                            <div class="alert-item__content">
+                                <h3 class="govuk-heading-s">Live Assessment</h3>
+                                <div class="metric-value">
+                                    <span class="status-tag status-amber">Amber</span>
+                                    <span class="metric-date">Assessed: 12 April 2024</span>
+                                </div>
+                            </div>
+                            <div class="alert-item__actions">
+                                <a href="#" class="govuk-link govuk-link--no-visited-state">View assessment report</a>
+                            </div>
+                        </div>
+
+                        <div class="alert-item">
+                            <div class="alert-item__content">
+                                <h3 class="govuk-heading-s">Standards Compliance</h3>
+                                <div class="metric-value">
+                                    <span class="metric-number">58%</span>
+                                    <span class="metric-detail">21 of 37 met</span>
+                                </div>
+                            </div>
+                            <div class="alert-item__actions">
+                                <a href="#" class="govuk-link govuk-link--no-visited-state">View standards breakdown</a>
+                            </div>
+                        </div>
+
+                        <div class="alert-item alert-item--actions">
+                            <div class="alert-item__content">
+                                <h3 class="govuk-heading-s">Next Steps</h3>
+                                <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-4">
+                                    <li>Schedule assessment review</li>
+                                    <li>Update standards evidence</li>
+                                </ul>
+                            </div>
+                            <div class="alert-item__actions">
+                                <a href="#" class="govuk-button govuk-!-margin-bottom-0">
+                                                    View all actions
+                                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-panels-controls">
+                <nav class="govuk-pagination" role="navigation" aria-label="Alert panel navigation">
+                    <ul class="govuk-pagination__list">
+                        <li class="govuk-pagination__item">
+                            <button onclick="switchPanel(1)" class="govuk-pagination__link" aria-label="Show alert for Apply for Teacher Training" aria-current="true">
+                                                1
+                                            </button>
+                        </li>
+                        <li class="govuk-pagination__item">
+                            <button onclick="switchPanel(2)" class="govuk-pagination__link" aria-label="Show alert for Register Trainee Teachers">
+                                                2
+                                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

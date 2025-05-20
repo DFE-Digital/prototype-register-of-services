@@ -1,0 +1,17 @@
+{% extends "layouts/layout.html" %}
+{% set title = 'Service submitted' %}
+
+{% block content %}
+<div class="govuk-width-container">
+  <div class="govuk-panel govuk-panel--confirmation">
+    <h1 class="govuk-panel__title">
+      Product submitted for review
+    </h1>
+  </div>
+  <div class="govuk-!-margin-bottom-6"></div>
+  <p class="govuk-body-l">The details will be reviewed and you will be notified of any next steps within 2 working days.</p>
+  <p class="govuk-body">If you need help in the meantime, email <a class="govuk-link" href="mailto:ddt.registers@education.gov.uk">ddt.registers@education.gov.uk</a></p>
+  <p class="govuk-body"><a class="govuk-link" href="/services/submissions">View your service submissions</a></p>
+  <a href="/services" class="govuk-button govuk-button--secondary">Back to services</a>
+</div>
+{% endblock %} 

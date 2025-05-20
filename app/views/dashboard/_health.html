@@ -1,0 +1,66 @@
+<div class="govuk-grid-row govuk-!-margin-top-6">
+    <div class="govuk-grid-column-full">
+        <div class="dashboard-section">
+            <div class="standards-header">
+                <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Your services</h2>
+                <p class="govuk-body-s govuk-!-margin-bottom-0">Service health and performance of services you manage</p>
+            </div>
+
+            <table class="govuk-table service-assessment-table">
+                <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                        <th scope="col" class="govuk-table__header">Service</th>
+                        <th scope="col" class="govuk-table__header">Current service phase</th>
+                        <th scope="col" class="govuk-table__header">Standards compliance</th>
+                        <th scope="col" class="govuk-table__header">Accessibility of service</th>
+                        <th scope="col" class="govuk-table__header">User satisfaction score</th>
+                        <th scope="col" class="govuk-table__header">Availability of service</th>
+                    </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                    {% for service in services %}
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">
+                            <a href="/services/service/{{ service.id }}" class="govuk-link govuk-link--no-underline govuk-link--no-visited-state">{{ service.name }}</a>
+                        </td>
+                        <td class="govuk-table__cell">
+                            <span class="status-tag status-blue">
+                                {# Show phase as taxonomy name, fallback to code if not found #}
+                                {% if service.phase and phases[service.phase] %}
+                                    {{ phases[service.phase] }}
+                                {% else %}
+                                    {{ service.phase }}
+                                {% endif %}
+                            </span>
+                        </td>
+                        <td class="govuk-table__cell">
+                              <span class="status-tag {% if service.Standards >= 28 %}status-green{% elif service.Standards >= 20 %}status-amber{% else %}status-red{% endif %}">
+                                            {{ service.Standards }} of 32
+                                        </span>
+                        </td>
+                        <td class="govuk-table__cell">
+                             <span class="status-tag {% if service.Accessibility == 'Full' %}status-green{% else %}status-amber{% endif %}">
+                                           {{ service.Accessibility }}
+                                        </span>
+                        </td>
+                        <td class="govuk-table__cell">
+                          
+                                        <span class="status-tag {% if service.user_satisfaction >= 8 %}status-green{% elif  service.user_satisfaction >= 6 %}status-amber{% else %}status-red{% endif %}">
+                                           {{ service.user_satisfaction }} / 10
+                                        </span>
+                                 
+                        </td>
+                        <td class="govuk-table__cell">
+                          
+                                        <span class="status-tag {% if  service.Availability >= 99 %}status-green{% elif service.Availability >= 95 %}status-amber{% else %}status-red{% endif %}">
+                                            {{ service.Availability }}%
+                                        </span>
+                                  
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

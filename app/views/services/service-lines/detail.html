@@ -1,0 +1,592 @@
+{% extends "layouts/layout.html" %}
+{% set title = serviceLine.name + " - Service Line" %}
+{% set mainClasses = "govuk-!-padding-top-0 govuk-!-padding-bottom-0" %}
+{% set serviceNav = "Services" %}
+
+{% block content %}
+    <section class="dfe-ros-service-header" style="background-color: #f4f8fb; border-bottom: 1px solid #8eb8dc;">
+        <div class="govuk-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="service-header govuk-!-margin-bottom-4 govuk-!-margin-top-5">
+                        <span class="govuk-caption-l">Service line</span>
+                        <h1 class="govuk-heading-l ">{{ serviceLine.name }}</h1>
+                    </div>
+
+                    <div id="manage-service"></div>
+
+                    <table class="govuk-table govuk-!-margin-bottom-5">
+                        <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th class="govuk-table__header">Service owner</th>
+                                <th class="govuk-table__header">Business area</th>
+                                <th class="govuk-table__header">Services in this line</th>
+                            </tr>
+                        </thead>
+                        <tbody class="govuk-table__body">
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">
+                                    <a href="/services/sro/{{ serviceLine.sro.email }}" class="govuk-link govuk-link--no-visited-state">{{ serviceLine.sro.name or 'N/A' }}</a>
+                                </td>
+                                <td class="govuk-table__cell">
+                                    <a href="/services/business-area/{{ serviceLine.business_area | lower }}" class="govuk-link govuk-link--no-visited-state">{{ serviceLine.business_area or 'N/A' }}</a>
+                                </td>
+                                <td class="govuk-table__cell">{{ services.length or 'N/A' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="dfe-service-content govuk-!-padding-top-9" id="service-line-content">
+
+        <div class="govuk-width-container">
+            <div class="dashboard-section">
+                <div class="standards-header">
+                    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Service line summary</h2>
+                </div>
+
+                <div class="service-panel-grid">
+                    <!-- Description Card -->
+                    <div class="service-panel-card service-panel-card__two-thirds">
+                        <div class="card-header">
+                            <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Description</h3>
+                            <button class="info-button" onclick="openModal('service-line-description-info')" aria-label="About service line description">
+                                <span class="govuk-visually-hidden">About service line description</span>
+                                <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                            </button>
+                        </div>
+                        <div class="card-content">
+                            <p class="govuk-body">{{ serviceLine.description }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Service Resources Card -->
+                    <div class="service-panel-card service-panel-card__one-third">
+                        <div class="card-header">
+                            <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Service resources</h3>
+                            <button class="info-button" onclick="openModal('service-line-resources-info')" aria-label="About service resources">
+                                <span class="govuk-visually-hidden">About service resources</span>
+                                <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                            </button>
+                        </div>
+                        <div class="card-content">
+                            <ul class="govuk-list govuk-list--spaced">
+                                <li>
+                                    <a href="#" class="govuk-link govuk-link--no-visited-state">
+                                    Teacher services insight library
+                                </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="govuk-link govuk-link--no-visited-state">
+                                    Service blueprint 
+                                </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="service-panel-grid">
+                        <div class="service-panel-card service-panel-card__one-third">
+                            <div class="card-header">
+                                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Estimated monthly users</h3>
+                                <button class="info-button" onclick="openModal('service-line-monthly-users-info')" aria-label="About estimated monthly users">
+                                    <span class="govuk-visually-hidden">About estimated monthly users</span>
+                                    <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div class="metric-content">
+                                    <div class="metric-value">
+                                        <span class="metric-number">{{ serviceLine.estimated_monthly_users | formatNumber or 'N/A' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-panel-card service-panel-card__one-third">
+                            <div class="card-header">
+                                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Annual interactions</h3>
+                                <button class="info-button" onclick="openModal('service-line-annual-interactions-info')" aria-label="About annual interactions">
+                                    <span class="govuk-visually-hidden">About annual interactions</span>
+                                    <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div class="metric-content">
+                                    <div class="metric-value">
+                                        <span class="metric-number">{{ serviceLine.annual_service_interactions | formatNumber or 'N/A' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-panel-card service-panel-card__one-third">
+                            <div class="card-header">
+                                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Peak daily visits</h3>
+                                <button class="info-button" onclick="openModal('service-line-peak-daily-visits-info')" aria-label="About peak daily visits">
+                                    <span class="govuk-visually-hidden">About peak daily visits</span>
+                                    <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div class="metric-content">
+                                    <div class="metric-value">
+                                        <span class="metric-number">{{ serviceLine.peak_daily_visits | formatNumber or 'N/A' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-width-container" id="patterns-components">
+            <div class="dashboard-section">
+                <div class="standards-header">
+                    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Patterns and components</h2>
+                    <p class="govuk-body-s govuk-!-margin-bottom-0">Patterns and components used across these service lines.</p>
+                </div>
+                <div class="service-panel-grid">
+                    <!-- Patterns Card -->
+                    <div class="service-panel-card service-panel-card__half">
+                        <div class="card-header">
+                            <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Patterns</h3>
+                            <button class="info-button" onclick="openModal('service-line-patterns-info')" aria-label="About patterns used">
+                                <span class="govuk-visually-hidden">About patterns used</span>
+                                <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                            </button>
+                        </div>
+                        <div class="card-content">
+                            {% set all_pattern_ids = [] %}
+                            {% for service in services %}
+                                {% for cat in service.categories %}
+                                    {% if cat.type == 'service_patterns' %}
+                                        {% for pid in cat.values %}
+                                            {% if pid not in all_pattern_ids %}
+                                                {% set all_pattern_ids = all_pattern_ids.concat([pid]) %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                            {% if all_pattern_ids.length > 0 %}
+                                <ul class="govuk-list govuk-list--spaced">
+                                    {% for pid in all_pattern_ids %}
+                                        {% set pattern = false %}
+                                        {% if taxonomy.service_patterns and taxonomy.service_patterns.items %}
+                                            {% for item in taxonomy.service_patterns.items %}
+                                                {% if item.id == pid %}
+                                                    {% set pattern = item %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                        <li>
+                                            <a href="/services?q=&pattern={{ pattern and pattern.id or pid }}" class="govuk-link govuk-link--no-visited-state">{{ pattern and pattern.name or pid }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <span class="govuk-body-s">No patterns found.</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- Technology Card -->
+                    <div class="service-panel-card service-panel-card__half">
+                        <div class="card-header">
+                            <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Technology</h3>
+                            <button class="info-button" onclick="openModal('service-line-technology-info')" aria-label="About technology used">
+                                <span class="govuk-visually-hidden">About technology used</span>
+                                <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                            </button>
+                        </div>
+                        <div class="card-content">
+                            {% set all_tech_ids = [] %}
+                            {% for service in services %}
+                                {% for cat in service.categories %}
+                                    {% if cat.type == 'technologies' %}
+                                        {% for tid in cat.values %}
+                                            {% if tid not in all_tech_ids %}
+                                                {% set all_tech_ids = all_tech_ids.concat([tid]) %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                            {% if all_tech_ids.length > 0 %}
+                                <ul class="govuk-list govuk-list--spaced">
+                                    {% for tid in all_tech_ids %}
+                                        {% set tech = false %}
+                                        {% if taxonomy.technology and taxonomy.technology.items %}
+                                            {% for item in taxonomy.technology.items %}
+                                                {% if item.id == tid %}
+                                                    {% set tech = item %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                        <li>
+                                           <a href="/services?q=&technology={{ tech.id }}" class="govuk-link govuk-link--no-visited-state">{{ tech and tech.name or tid }}</a>
+                                          
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <span class="govuk-body-s">No technology found.</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-width-container">
+            <div class="dashboard-section">
+                <div class="standards-header">
+                    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Points of contact for more information</h2>
+                </div>
+
+                <div class="service-panel-grid">
+                    <!-- Description Card -->
+                    <div class="service-panel-card service-panel-card__full">
+                        <div class="card-header">
+                            <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Contacts</h3>
+                            <button class="info-button" onclick="openModal('service-line-description-info')" aria-label="About service line description">
+                                <span class="govuk-visually-hidden">Aboutcontacts</span>
+                                <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                            </button>
+                        </div>
+                        <div class="card-content">
+                            <table class="govuk-table compact-table">
+                                <thead class="govuk-table__head">
+                                    <tr class="govuk-table__row">
+                                        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Name</th>
+                                        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Role</th>
+                                        <th scope="col" class="govuk-table__header">Ask me about</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="govuk-table__body">
+                                    <tr class="govuk-table__row">
+                                        <th scope="row" class="govuk-table__header">
+                                            <a href="#" class="govuk-link govuk-link--no-visited-state">Betty Ross</a>
+                                        </th>
+                                        <td class="govuk-table__cell">Policy Lead</td>
+                                        <td class="govuk-table__cell">Lead policy development</td>
+                                    </tr>
+                                    <tr class="govuk-table__row">
+                                        <th scope="row" class="govuk-table__header">
+                                            <a href="#" class="govuk-link govuk-link--no-visited-state">Carol Danvers</a>
+                                        </th>
+                                        <td class="govuk-table__cell">Lead Product Manager</td>
+                                        <td class="govuk-table__cell">Defining product vision and aligning stakeholder priorities</td>
+                                    </tr>
+                                    <tr class="govuk-table__row">
+                                        <th scope="row" class="govuk-table__header">
+                                            <a href="#" class="govuk-link govuk-link--no-visited-state">Tony Stark</a>
+                                        </th>
+                                        <td class="govuk-table__cell">Lead Delivery Manager</td>
+                                        <td class="govuk-table__cell">Setting delivery strategy, managing risks and boosting team performance</td>
+                                    </tr>
+                                    <tr class="govuk-table__row">
+                                        <th scope="row" class="govuk-table__header">
+                                            <a href="#" class="govuk-link govuk-link--no-visited-state">Natasha Romanoff</a>
+                                        </th>
+                                        <td class="govuk-table__cell">Delivery Manager</td>
+                                        <td class="govuk-table__cell">Coordinating sprints, removing blockers and ensuring on-time delivery</td>
+                                    </tr>
+                                    <tr class="govuk-table__row">
+                                        <th scope="row" class="govuk-table__header">
+                                            <a href="#" class="govuk-link govuk-link--no-visited-state">Peter Parker</a>
+                                        </th>
+                                        <td class="govuk-table__cell">Lead User Researcher</td>
+                                        <td class="govuk-table__cell">Planning and conducting research to uncover user needs, behaviours and pain points</td>
+                                    </tr>
+                                    <tr class="govuk-table__row">
+                                        <th scope="row" class="govuk-table__header">
+                                            <a href="#" class="govuk-link govuk-link--no-visited-state">Steve Rogers</a>
+                                        </th>
+                                        <td class="govuk-table__cell">Lead Service Designer</td>
+                                        <td class="govuk-table__cell">End-to-end service design and optimisation of user journeys</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-width-container">
+            <div class="dashboard-section">
+                <div class="standards-header">
+                    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Services in this service line</h2>
+                </div>
+
+                <div class="service-listing govuk-!-margin-top-6">
+                    {% if services.length > 0 %}
+                        {% for service in services | sort(attribute = 'name') %}
+                            {% set user_group_cat = false %}
+                            {% for cat in service.categories %}
+                                {% if cat.type == 'user_groups' %}
+                                    {% set user_group_cat = cat %}
+                                {% endif %}
+                            {% endfor %}
+
+                            {% set pattern_cat = false %}
+                            {% for cat in service.categories %}
+                                {% if cat.type == 'service_patterns' %}
+                                    {% set pattern_cat = cat %}
+                                {% endif %}
+                            {% endfor %}
+
+                            {% set archetype_cat = false %}
+                            {% for cat in service.categories %}
+                                {% if cat.type == 'service_archetypes' %}
+                                    {% set archetype_cat = cat %}
+                                {% endif %}
+                            {% endfor %}
+
+                            {% set user_group_ids = user_group_cat and user_group_cat.values or[] %}
+                            {% set pattern_ids = pattern_cat and pattern_cat.values or[] %}
+                            {% set archetype_ids = archetype_cat and archetype_cat.values or[] %}
+
+                            <div class="service-row" tabindex="0" data-pattern-ids="{{ pattern_ids | join(',') }}">
+                                <div class="service-row-main">
+                                    <div class="service-row-title-meta">
+                                        <div class="service-row-title">
+                                            <span class="service-name">{{ service.name }}</span>
+                                        </div>
+                                        <div class="service-row-meta-blocks">
+                                            <div class="service-meta-block">
+                                                <span class="service-meta-label">Phase</span>
+                                                {% set phase_id = '' %}
+                                                {% for category in service.categories %}
+                                                    {% if category.type === 'phases' and category.values and category.values.length > 0 %}
+                                                        {% set phase_id = category.values[0] %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <span class="service-meta-value" data-phase-id="{{ phase_id }}">
+                                                    {% set has_phase = false %}
+                                                    {% for category in service.categories %}
+                                                        {% if category.type === 'phases' and category.values and category.values.length > 0 %}
+                                                            {% for item in taxonomy.phases.items %}
+                                                                {% if item.id === category.values[0] %}
+                                                                    {{ item.name }}
+                                                                    {% set has_phase = true %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% if not has_phase %}
+                                                    Not defined
+                                                {% endif %}
+                                                </span>
+                                            </div>
+                                            <div class="service-meta-block">
+                                                <span class="service-meta-label">Service owner</span>
+                                                <span class="service-meta-value">
+                                                    {{ service.service_owner or 'Not defined' }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="chevron-btn" aria-label="Expand details" tabindex="-1">
+                                        <span class="chevron">▼</span>
+                                    </button>
+                                </div>
+                                <div class="service-row-details" hidden>
+                                    <div class="service-details-desc">
+                                        <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Description</h3>
+                                        {% if service.description %}
+                                            <p class="govuk-body service-description">{{ service.description }}</p>
+                                        {% else %}
+                                            <p class="govuk-body">No description available.</p>
+                                        {% endif %}
+                                    </div>
+                                    <div class="service-details-grid">
+                                        <div class="service-details-col">
+                                            <h3 class="govuk-heading-s govuk-!-margin-bottom-2">User groups</h3>
+                                            {% if taxonomy.user_groups and user_group_ids.length > 0 %}
+                                                <ul class="govuk-list">
+                                                    {% for val in user_group_ids %}
+                                                        {% set item = taxonomy.user_groups.items | selectattr('id', 'equalto', val) | first %}
+                                                        <li>{{ item and item.name or val }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% else %}
+                                                <span class="govuk-body">Not defined</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="service-details-col">
+                                            <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Service patterns</h3>
+                                            {% if taxonomy.service_patterns and pattern_ids.length > 0 %}
+                                                <ul class="govuk-list">
+                                                    {% for val in pattern_ids %}
+                                                        {% set item = false %}
+                                                        {% for pattern in taxonomy.service_patterns.items %}
+                                                            {% if pattern.id == val %}
+                                                                {% set item = pattern %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        <li>{{ item.name }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% else %}
+                                                <span class="govuk-body">Not defined</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="service-details-col">
+                                            <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Service archetype</h3>
+                                            {% if taxonomy.service_archetypes and archetype_ids.length > 0 %}
+                                                <ul class="govuk-list">
+                                                    {% for val in archetype_ids %}
+                                                        {% set item = taxonomy.service_archetypes.items | selectattr('id', 'equalto', val) | first %}
+                                                        <li>{{ item and item.name or val }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% else %}
+                                                <span class="govuk-body">Not defined</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <a href="{{ '/services/service/' + service.id }}" class="govuk-button govuk-!-margin-top-3 govuk-!-margin-bottom-0" >View service</a>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+
+                        <p class="govuk-body govuk-!-margin-top-6">
+                            <a href="{{ '/services/service/' + service.id }}" class="govuk-link govuk-link--no-visited-state">Raise a request</a> if you think a service is missing from this service line.
+                            </p>
+                    {% else %}
+                        <div class="no-results">
+                            <p class="govuk-body">No services found in this service line.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Accordion toggle
+            document
+                .querySelectorAll('.service-row')
+                .forEach(function (row) {
+                    const chevronBtn = row.querySelector('.chevron-btn');
+                    const details = row.querySelector('.service-row-details');
+                    const chevron = row.querySelector('.chevron');
+
+                    function toggleRow(e) {
+                        // Only toggle if not clicking a link
+                        if (e.target.tagName === 'A') 
+                            return;
+                        const expanded = !row
+                            .classList
+                            .contains('open');
+                        row
+                            .classList
+                            .toggle('open', expanded);
+                        details.hidden = !expanded;
+                        chevron.setAttribute('aria-expanded', expanded);
+                    }
+
+                    row.addEventListener('click', toggleRow);
+                    row.addEventListener('keydown', function (e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            toggleRow(e);
+                        }
+                    });
+                    chevronBtn.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        toggleRow(e);
+                    });
+                });
+        });
+    </script>
+
+    <!-- Modals for info buttons -->
+    <div class="modal-container" id="service-line-description-info-modal" tabindex="-1" aria-modal="true" role="dialog">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close" onclick="closeModal('service-line-description-info')">&times;</button>
+            <div class="modal-header">
+                <h2 class="govuk-heading-m">About service line description</h2>
+            </div>
+            <div class="modal-body">
+                <p>This is a summary of what the service line covers, its purpose, and its main features.</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-container" id="service-line-resources-info-modal" tabindex="-1" aria-modal="true" role="dialog">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close" onclick="closeModal('service-line-resources-info')">&times;</button>
+            <div class="modal-header">
+                <h2 class="govuk-heading-m">About service resources</h2>
+            </div>
+            <div class="modal-body">
+                <p>Resources and links relevant to this service line, such as insight libraries and supporting documentation.</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-container" id="service-line-monthly-users-info-modal" tabindex="-1" aria-modal="true" role="dialog">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close" onclick="closeModal('service-line-monthly-users-info')">&times;</button>
+            <div class="modal-header">
+                <h2 class="govuk-heading-m">About estimated monthly users</h2>
+            </div>
+            <div class="modal-body">
+                <p>The estimated number of unique users who interact with this service line each month.</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-container" id="service-line-annual-interactions-info-modal" tabindex="-1" aria-modal="true" role="dialog">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close" onclick="closeModal('service-line-annual-interactions-info')">&times;</button>
+            <div class="modal-header">
+                <h2 class="govuk-heading-m">About annual interactions</h2>
+            </div>
+            <div class="modal-body">
+                <p>The total number of interactions (such as logins, submissions, or downloads) with this service line over a year.</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-container" id="service-line-peak-daily-visits-info-modal" tabindex="-1" aria-modal="true" role="dialog">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close" onclick="closeModal('service-line-peak-daily-visits-info')">&times;</button>
+            <div class="modal-header">
+                <h2 class="govuk-heading-m">About peak daily visits</h2>
+            </div>
+            <div class="modal-body">
+                <p>The highest number of visits recorded in a single day for this service line.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals for patterns and technology info -->
+    <div class="modal-container" id="service-line-patterns-info-modal" tabindex="-1" aria-modal="true" role="dialog">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close" onclick="closeModal('service-line-patterns-info')">&times;</button>
+            <div class="modal-header">
+                <h2 class="govuk-heading-m">About patterns used</h2>
+            </div>
+            <div class="modal-body">
+                <p>This lists all unique service patterns used by services in this service line.</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-container" id="service-line-technology-info-modal" tabindex="-1" aria-modal="true" role="dialog">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close" onclick="closeModal('service-line-technology-info')">&times;</button>
+            <div class="modal-header">
+                <h2 class="govuk-heading-m">About technology used</h2>
+            </div>
+            <div class="modal-body">
+                <p>This lists all unique technology components used by services in this service line.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

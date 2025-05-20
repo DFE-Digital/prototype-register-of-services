@@ -1,0 +1,52 @@
+{% extends "layouts/layout.html" %}
+{% set title = service.name + " - Service Register" %}
+{% set serviceNav = "Services" %}
+
+{% block content %}
+
+   
+        <div class="govuk-width-container">
+
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <span class="govuk-caption-xl">Services</span>
+                    <h1 class="govuk-heading-xl">Add a new service</h1>
+
+<p class="govuk-body">
+            Before adding a new service, please check the register for any existing entries.</p>
+            <p class="govuk-body">
+            You may need to check that the product or service is known by another name.
+          </p>
+          <p class="govuk-body">
+            You must be in one of the following roles to add a service:
+            <ul class="govuk-list govuk-list--bullet">
+              <li>Service Owner</li>
+              <li>Service Manager</li>
+              <li>Lead Product Manager</li>
+              <li>Senior Responsible Officer (SRO)</li>
+            </ul>
+          </p>
+          <p class="govuk-body">
+            All submissions are checked and verified before they become available in the register. This can take up to 2 working days.
+          </p>
+
+<a href="/services/new/0" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button">
+  Start now
+  <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false">
+    <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+  </svg>
+</a>
+                </div>
+
+                <div class="govuk-grid-column-one-third">
+                    
+
+                </div>
+
+            </div>
+
+        </div>
+
+  
+
+{% endblock %}

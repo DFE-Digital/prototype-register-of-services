@@ -1,0 +1,27 @@
+{% extends "layouts/layout.html" %}
+{% set title = service.name + " - Edit Metrics" %}
+{% set serviceNav = "Services" %}
+{% set nav = 'metrics' %}
+{% block content %}
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter">
+      {% include 'services/service/_nav.html' %}
+    </div>
+    <div class="govuk-grid-column-three-quarters">
+      <h1 class="govuk-heading-l">Edit Service Metrics</h1>
+      <form method="post">
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="user_satisfaction">User satisfaction (%)</label>
+            <input class="govuk-input" id="user_satisfaction" name="user_satisfaction" type="number" min="0" max="100" step="0.1" value="{{ service.user_satisfaction or '' }}">
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="availability">Availability (%)</label>
+            <input class="govuk-input" id="availability" name="availability" type="number" min="0" max="100" step="0.01" value="{{ service.availability or '' }}">
+        </div>
+        <button class="govuk-button" type="submit">Save changes</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %} 

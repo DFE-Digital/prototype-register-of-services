@@ -1,0 +1,141 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Policy explorer" %}
+{% set serviceNav = "Policy" %}
+
+{% block content %}
+<div class="govuk-width-container">
+    <div class="policy-header">
+        <h1 class="govuk-heading-xl">Policy explorer</h1>
+        <p class="govuk-body-l">Explore our policy areas and find related services.</p>
+    </div>
+
+    <div class="policy-tree">
+        {% for mission in missions %}
+            {% for pillar in mission.pillars %}
+                <div class="policy-tree-item">
+                    <div class="policy-tree-branch">
+                        <button class="policy-tree-toggle" 
+                                aria-expanded="{% if selectedPriority and selectedPriority.pillarId == pillar.id %}true{% else %}false{% endif %}"
+                                aria-controls="pillar-{{ pillar.id }}">
+                            <span class="policy-tree-icon material-symbols-outlined" aria-hidden="true">expand_more</span>
+                            <span class="policy-tree-label">{{ pillar.name }}</span>
+                            <span class="policy-tree-mission">{{ mission.name }}</span>
+                        </button>
+                    </div>
+
+                    <div id="pillar-{{ pillar.id }}" 
+                         class="policy-tree-panel {% if selectedPriority and selectedPriority.pillarId == pillar.id %}is-open{% endif %}">
+                        {% if pillar.description %}
+                            <div class="policy-tree-description">
+                                <p class="govuk-body">{{ pillar.description }}</p>
+                            </div>
+                        {% endif %}
+
+                        {% if pillar.priorities %}
+                            {% for priority in pillar.priorities %}
+                                <div class="policy-tree-item">
+                                    <div class="policy-tree-branch">
+                                        <button class="policy-tree-toggle policy-tree-toggle--priority" 
+                                                aria-expanded="{% if selectedPriority and selectedPriority.id == priority.id %}true{% else %}false{% endif %}"
+                                                aria-controls="priority-{{ priority.id }}">
+                                            <span class="policy-tree-icon material-symbols-outlined" aria-hidden="true">expand_more</span>
+                                            <span class="policy-tree-label">{{ priority.name }}</span>
+                                        </button>
+                                    </div>
+
+                                    <div id="priority-{{ priority.id }}" 
+                                         class="policy-tree-panel {% if selectedPriority and selectedPriority.id == priority.id %}is-open{% endif %}">
+                                        {% if priority.description %}
+                                            <div class="policy-tree-description">
+                                                <p class="govuk-body">{{ priority.description }}</p>
+                                            </div>
+                                        {% endif %}
+
+                                        {% if matchingServices and selectedPriority and selectedPriority.id == priority.id %}
+                                            <div class="policy-tree-services">
+                                                {% if matchingServices.length %}
+                                                    {% for service in matchingServices %}
+                                                        <div class="policy-tree-item">
+                                                            <div class="policy-tree-branch">
+                                                                <div class="policy-tree-service">
+                                                                    <div class="policy-tree-service-content">
+                                                                        <h4 class="govuk-heading-s">{{ service.name }}</h4>
+                                                                        {% if service.description %}
+                                                                            <p class="govuk-body">{{ service.description }}</p>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                    <div class="policy-tree-service-actions">
+                                                                        <a href="{{ service.public_url }}" 
+                                                                           class="govuk-button govuk-button--secondary"
+                                                                           target="_blank"
+                                                                           rel="noopener">
+                                                                            View service
+                                                                            <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <div class="govuk-inset-text">
+                                                        <p class="govuk-body">No services are currently associated with this priority.</p>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle tree toggles
+    document.querySelectorAll('.policy-tree-toggle').forEach(toggle => {
+        const content = document.getElementById(toggle.getAttribute('aria-controls'));
+        const icon = toggle.querySelector('.material-symbols-outlined');
+        
+        if (content) {
+            // Set initial state
+            if (toggle.getAttribute('aria-expanded') === 'true') {
+                content.classList.add('is-open');
+                icon.textContent = 'expand_less';
+            }
+
+            toggle.addEventListener('click', () => {
+                const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+                
+                // Update toggle state
+                toggle.setAttribute('aria-expanded', !isExpanded);
+                content.classList.toggle('is-open');
+                icon.textContent = isExpanded ? 'expand_more' : 'expand_less';
+
+                // If this is a pillar toggle, close other pillars
+                if (!toggle.classList.contains('policy-tree-toggle--priority')) {
+                    document.querySelectorAll('.policy-tree-item').forEach(item => {
+                        if (item !== toggle.closest('.policy-tree-item')) {
+                            const itemToggle = item.querySelector('.policy-tree-toggle:not(.policy-tree-toggle--priority)');
+                            const itemContent = item.querySelector('.policy-tree-panel');
+                            const itemIcon = item.querySelector('.material-symbols-outlined');
+                            
+                            if (itemToggle && itemContent && itemIcon) {
+                                itemToggle.setAttribute('aria-expanded', 'false');
+                                itemContent.classList.remove('is-open');
+                                itemIcon.textContent = 'expand_more';
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

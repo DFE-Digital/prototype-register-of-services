@@ -1,0 +1,142 @@
+[
+    {
+      "question": "What is the name of the product?",
+      "options": [],
+      "required": true,
+      "inputType": "textbox"
+    },
+    {
+      "question": "Provide a short description of the product",
+      "options": [],
+      "required": true,
+      "inputType": "textarea"
+    },
+    {
+      "question": "If you think this product is part of a wider service, what is that service called?",
+      "options": [],
+      "required": false,
+      "inputType": "textbox"
+    },
+    {
+      "question": "Who is primarily responsible for the product?",
+      "options": [],
+      "required": true,
+      "inputType": "textbox"
+    },
+    {
+      "question": "What is this person's job title?",
+      "options": [],
+      "required": true,
+      "inputType": "textbox"
+    },
+    {
+      "question": "What business area is primarily responsible for the service?",
+      "options": [
+        "Families",
+        "Funding",
+        "Regions",
+        "Schools",
+        "Skills",
+        "Operations and Infrastructure (OIG)",
+        "Customer Experience and Design (CXD)",
+        "Other"
+      ],
+      "required": true,
+      "inputType": "radio"
+    },
+    {
+      "question": "What phase is the product in?",
+      "options": [
+        "Discovery",
+        "Alpha",
+        "Private Beta",
+        "Public Beta",
+        "Live",
+        "Decomissioning",
+        "Decomissioned",
+        "Paused",
+        "Other"
+      ],
+      "required": true,
+      "inputType": "radio"
+    },
+    {
+      "question": "Provide the website address (URL) of where the product is accessed from (if it's in beta or live)",
+      "options": [],
+      "required": false,
+      "inputType": "textbox"
+    },
+    {
+      "question": "What does this product enable users to do?",
+      "options": [
+        "Appeal something",
+        "Apply for something",
+        "Book something",
+        "Check eligibility",
+        "Check something",
+        "Delete something",
+        "Download something",
+        "End something",
+        "Find something",
+        "Give feedback",
+        "Learn something",
+        "Manage something",
+        "Pay for something",
+        "Receive something",
+        "Register for something",
+        "Report something",
+        "Sign in (Authenticate)",
+        "Start something",
+        "Upload something",
+        "Verify something",
+        "Other"
+      ],
+      "required": true,
+      "inputType": "checkbox"
+    },
+    {
+      "question": "Who uses the product?",
+      "options": [
+        "Adult learner or adult career seeker (aged 19 or older)",
+        "Careers adviser or work coach",
+        "Child or young person",
+        "DfE workforce",
+        "Education provider and early years workforce",
+        "Employer workforce",
+        "External user of DfE data",
+        "Local authority workforce",
+        "Parent or carer",
+        "Training or qualifications provider workforce",
+        "Voluntary and third sector workforce",
+        "Other"
+      ],
+      "required": true,
+      "inputType": "checkbox"
+    },
+    {
+      "question": "What components or integrations does the product use?",
+      "options": [
+        "DfE Sign in",
+        "DfE Identity",
+        "GOV One Login",
+        "GOV Notify (Email and SMS)",
+        "GOV Pay",
+        "GOV Forms",
+        "Single Sign On / Entra ID - Usually for internal services",
+        "Other"
+      ],
+      "required": true,
+      "inputType": "checkbox"
+    },
+    {
+      "question": "Do you know if this product aims to deliver on any of the Government Mission outcomes?",
+      "options": [
+        "Yes",
+        "No",
+        "Unsure - show me what the outcomes are"
+      ],
+      "required": true,
+      "inputType": "radio"
+    }
+  ]
+  

@@ -1,0 +1,501 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Users and needs" %}
+{% set mainClasses = "govuk-!-padding-top-0 govuk-!-padding-bottom-0" %}
+{% set serviceNav = "Services" %}
+
+{% block content %}
+
+    <section class="dfe-ros-service-header" style="background-color: #f4f8fb; border-bottom: 1px solid #8eb8dc;">
+        <div class="govuk-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="service-header-flex govuk-!-margin-bottom-4 govuk-!-margin-top-5">
+                        <h1 class="govuk-heading-l ">{{ service.name }}</h1>
+                        <div class="service-actions">
+                            <button class="service-action-btn" type="button" aria-label="Watch" onclick="openModal('watch-info')">
+                                <span class="material-symbols-outlined" aria-hidden="true">star</span>
+                                <span class="service-action-label">Favourite</span>
+                            </button>
+                            <button class="service-action-btn" type="button" aria-label="Share" onclick="openModal('share-info')">
+                                <span class="material-symbols-outlined icon-share" aria-hidden="true">share</span>
+                                <span class="service-action-label">Share</span>
+                            </button>
+                            <button class="service-action-btn" type="button" aria-label="Export" onclick="openModal('export-info')">
+                                <span class="material-symbols-outlined icon-export" aria-hidden="true">download</span>
+                                <span class="service-action-label">Download</span>
+                            </button>
+                            <button class="service-action-btn" type="button" aria-label="Edit">
+                                <span class="material-symbols-outlined icon-edit" aria-hidden="true">Edit</span>
+                                <span class="service-action-label">Edit</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="manage-service"></div>
+
+                    <table class="govuk-table govuk-!-margin-bottom-5">
+                        <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th class="govuk-table__header">Reference</th>
+                                <th class="govuk-table__header">Phase</th>
+                                <th class="govuk-table__header">Service owner</th>
+                                <th class="govuk-table__header">Part of service line</th>
+                                <th class="govuk-table__header">Start page</th>
+                            </tr>
+                        </thead>
+                        <tbody class="govuk-table__body">
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">{{ service.id or 'N/A' }}</td>
+                                <td class="govuk-table__cell">
+                                    {% set phase_id = '' %}
+                                    {% for category in service.categories %}
+                                        {% if category.type === 'phases' and category.values and category.values.length > 0 %}
+                                            {% set phase_id = category.values[0] %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <span class="service-meta-value" data-phase-id="{{ phase_id }}">
+                                        {% set has_phase = false %}
+                                        {% for category in service.categories %}
+                                            {% if category.type === 'phases' and category.values and category.values.length > 0 %}
+                                                {% for item in taxonomy.phases.items %}
+                                                    {% if item.id === category.values[0] %}
+                                                        <span class="govuk-tag govuk-tag--blue">{{ item.name }}</span>
+                                                        {% set has_phase = true %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if not has_phase %}
+                                            Not defined
+                                        {% endif %}
+                                    </span>
+                                </td>
+                                <td class="govuk-table__cell">{{ service.service_owner or 'N/A' }}</td>
+                                <td class="govuk-table__cell">
+                                    <a href="/services/service-lines/{{ service.service_line_id }}" class="govuk-link govuk-link--no-visited-state">{{ service.service_line or 'N/A' }}</a>
+                                </td>
+                                <td class="govuk-table__cell">
+                                    <a href="{{ service.public_url }}" class="govuk-link govuk-link--no-visited-state" >View service</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <nav class="app-sub-navigation" aria-label="Application menu">
+                <ul class="app-sub-navigation__list">
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}">Overview</a>
+                    </li>
+
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/taxonomy">Taxonomy</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link"  aria-current="page" href="/services/service/{{ service.id }}/user-need">Users and needs</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/compliance">Compliance</a>
+                    </li>
+
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/assurance">Assurance</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/resources">Resources</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/data">Data</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </section>
+
+    <section class="dfe-service-content govuk-!-padding-top-9" id="service-content">
+        <div class="govuk-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                   
+
+                 
+
+                    <div class="dashboard-section ">
+                        <div class="standards-header">
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">User research</h2>
+                            <p class="govuk-body-s govuk-!-margin-bottom-0">Research confidence and key insights</p>
+                        </div>
+                        <div class="service-panel-grid">
+                            <div class="service-panel-card service-panel-card__half">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Research confidence</h3>
+                                    <button class="info-button" onclick="openModal('confidence-info')" aria-label="About research confidence">
+                                        <span class="govuk-visually-hidden">About research confidence</span>
+                                        <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="confidence-assessment">
+                                        <div class="metric-value">
+                                            <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Confidence in user understanding</h4>
+                                            <span class="status-tag status-green">Medium-High</span>
+                                            <p class="govuk-body-s">Last updated: 27 July 2023</p>
+                                        </div>
+                                        <div class="confidence-summary">
+                                            <h4 class="govuk-heading-s">What we know</h4>
+                                            <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16">
+                                                <li>Good coverage of primary user groups</li>
+                                                <li>Recent research validates key assumptions</li>
+                                                <li>Some gaps in accessibility research</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="{{ service.assurance.assessments[0].links[0].href }}" class="govuk-link govuk-link--no-visited-state">View research report</a>
+                                </div>
+                            </div>
+                            <div class="service-panel-card service-panel-card__half">
+                                <div class="card-header">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Key insights</h3>
+                                    <button class="info-button" onclick="openModal('key-insights-info')" aria-label="About key insights">
+                                        <span class="govuk-visually-hidden">About key insights</span>
+                                        <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="key-insights">
+                                        <div class="insight-section">
+                                            <h4 class="govuk-heading-s">User needs</h4>
+                                            <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16">
+                                                <li>Users need clear guidance on assessment requirements</li>
+                                                <li>Staff require better support for complex cases</li>
+                                                <li>Accessibility needs vary significantly across user groups</li>
+                                            </ul>
+                                        </div>
+                                        <div class="insight-section">
+                                            <h4 class="govuk-heading-s">Pain points</h4>
+                                            <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16">
+                                                <li>Complex forms cause confusion and errors</li>
+                                                <li>Navigation between sections needs improvement</li>
+                                                <li>Help content is not easily discoverable</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="#" class="govuk-link govuk-link--no-visited-state">View all insights</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section govuk-!-margin-top-6">
+                        <div class="standards-header">
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">User needs and journeys</h2>
+                            <p class="govuk-body-s govuk-!-margin-bottom-0">Summary of user groups, needs, journeys, pain points, and evidence</p>
+                        </div>
+
+                        <!-- 1. User research summary -->
+                        <div class="service-panel-card service-panel-card__full govuk-!-margin-bottom-6">
+                            <div class="card-header">
+                                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">User research summary</h3>
+                                <button class="info-button" onclick="openModal('users-info')" aria-label="More about user research">
+                                    <span class="govuk-visually-hidden">More about user research</span>
+                                    <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <dl class="govuk-summary-list">
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">Total research rounds</dt>
+                                        <dd class="govuk-summary-list__value">7 (2022–2024)</dd>
+                                    </div>
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">Total participants</dt>
+                                        <dd class="govuk-summary-list__value">54</dd>
+                                    </div>
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">Primary user types</dt>
+                                        <dd class="govuk-summary-list__value">UK teachers, overseas teachers, school HR staff, recruiters</dd>
+                                    </div>
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">Participants with access needs</dt>
+                                        <dd class="govuk-summary-list__value">12 (screen reader, dyslexia, mobility, low vision)</dd>
+                                    </div>
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">Research methods</dt>
+                                        <dd class="govuk-summary-list__value">Remote interviews, usability testing, surveys, analytics</dd>
+                                    </div>
+                                    <div class="govuk-summary-list__row">
+                                        <dt class="govuk-summary-list__key">Recent focus</dt>
+                                        <dd class="govuk-summary-list__value">Bulk verification, document upload, accessibility, edge cases</dd>
+                                    </div>
+                                </dl>
+                            </div>
+                        </div>
+
+                        <!-- 2. Key user needs & goals -->
+                        <div class="service-panel-card service-panel-card__full govuk-!-margin-bottom-6">
+                            <div class="card-header">
+                                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Key user needs & goals</h3>
+                                <button class="info-button" onclick="openModal('needs-info')" aria-label="See examples of user needs">
+                                    <span class="govuk-visually-hidden">See examples of user needs</span>
+                                    <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <table class="govuk-table govuk-!-margin-bottom-0">
+                                    <thead>
+                                        <tr>
+                                            <th>User group</th>
+                                            <th>Top needs/goals</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Overseas-trained teachers</td>
+                                            <td>Clear, step-by-step guidance on uploading and validating foreign documents</td>
+                                        </tr>
+                                        <tr>
+                                            <td>UK-trained teachers</td>
+                                            <td>Quick way to download proof of QTS to share with employers</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Recruiters</td>
+                                            <td>Bulk-verification tools and CSV export</td>
+                                        </tr>
+                                        <tr>
+                                            <td>All users</td>
+                                            <td>Reassurance around data security and transparency on processing times</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- 3. Top tasks & user journeys -->
+                        <div class="service-panel-card service-panel-card__full govuk-!-margin-bottom-6">
+                            <div class="card-header">
+                                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Top tasks & user journeys</h3>
+                                <button class="info-button" onclick="openModal('journeys-info')" aria-label="See user journey flows">
+                                    <span class="govuk-visually-hidden">See user journey flows</span>
+                                    <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <table class="govuk-table govuk-!-margin-bottom-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Journey</th>
+                                            <th>Steps</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Find and download my QTS certificate</td>
+                                            <td>Landing page → Sign-in → View qualifications → Download</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Submit overseas qualification for assessment</td>
+                                            <td>Landing → Eligibility check → Upload form → Payment → Confirmation</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Check status of my application</td>
+                                            <td>Landing → Sign-in → Status dashboard → FAQs for next steps</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- 4. Pain points & barriers -->
+                        <div class="service-panel-card service-panel-card__full govuk-!-margin-bottom-6">
+                            <div class="card-header">
+                                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Pain points & barriers</h3>
+                                <button class="info-button" onclick="openModal('painpoints-info')" aria-label="See more pain points">
+                                    <span class="govuk-visually-hidden">See more pain points</span>
+                                    <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <ul class="govuk-list govuk-list--bullet">
+                                    <li>Complex form questions around qualification equivalence</li>
+                                    <li>Lack of progress indicators (users unsure how far they've got)</li>
+                                    <li>Slow upload feedback or cryptic error messages on document formats</li>
+                                    <li>Difficulty finding the right help content for corner cases</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- 5. Accessibility & inclusion considerations -->
+                        <div class="service-panel-card service-panel-card__full govuk-!-margin-bottom-6">
+                            <div class="card-header">
+                                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Accessibility & inclusion considerations</h3>
+                                <button class="info-button" onclick="openModal('accessibility-info')" aria-label="See accessibility details">
+                                    <span class="govuk-visually-hidden">See accessibility details</span>
+                                    <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <ul class="govuk-list govuk-list--bullet">
+                                    <li><strong>Comprehension skills:</strong> plain-English explanations, glossary of QTS terms</li>
+                                    <li><strong>Device & interaction skills:</strong> mobile-friendly upload, keyboard navigation</li>
+                                    <li><strong>Emotional state:</strong> clear reassurance, live chat or phone support link</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- 6. Evidence & confidence -->
+                        <div class="service-panel-card service-panel-card__full govuk-!-margin-bottom-6">
+                            <div class="card-header">
+                                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Evidence & confidence</h3>
+                                <button class="info-button" onclick="openModal('evidence-info')" aria-label="See research evidence">
+                                    <span class="govuk-visually-hidden">See research evidence</span>
+                                    <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <ul class="govuk-list govuk-list--bullet">
+                                    <li>Surveys of 500 UK teachers</li>
+                                    <li>10 contextual interviews with overseas applicants</li>
+                                    <li>Analytics on drop-off rates</li>
+                                    <li>Research confidence: <strong>Medium-High</strong> (recent research validated core assumptions, but further testing needed around edge cases)</li>
+                                    <li><a href="#" class="govuk-link govuk-link--no-visited-state" onclick="openModal('evidence-modal')">Download full research report</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- 6b. Research artefacts -->
+                        <div class="service-panel-card service-panel-card__full govuk-!-margin-bottom-6">
+                            <div class="card-header">
+                                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Research artefacts</h3>
+                                <button class="info-button" onclick="openModal('artefacts-info')" aria-label="See research artefacts">
+                                    <span class="govuk-visually-hidden">See research artefacts</span>
+                                    <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <ul class="govuk-list govuk-list--spaced">
+                                    <li><a href="#" class="govuk-link govuk-link--no-visited-state">Insights library</a></li>
+                                    <li><a href="#" class="govuk-link govuk-link--no-visited-state">Presentation slides</a></li>
+                                    <li><a href="#" class="govuk-link govuk-link--no-visited-state">Raw research data (CSV)</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+
+                  
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'services/service/_modals.html' %}
+
+  
+    <script>
+        function copyAISummary() {
+            const panel = document.getElementById('ai-summary-panel');
+            const btn = document.getElementById('copy-summary-btn');
+            const original = btn.innerText;
+            btn.innerText = 'Copied!';
+            setTimeout(() => {
+                btn.innerText = original;
+            }, 1500);
+        }
+
+        function toggleAISummary() {
+            const panel = document.getElementById('ai-summary-panel');
+            const btn = document.getElementById('ai-summary-toggle-btn');
+            const label = btn.querySelector('.ai-summary-toggle-label');
+            const chevron = btn.querySelector('.ai-summary-toggle-chevron');
+            const cardContent = document.getElementById('ai-summary-card-content');
+            const expanded = btn.getAttribute('aria-expanded') === 'true';
+            if (expanded) {
+                panel.style.display = 'none';
+                btn.setAttribute('aria-expanded', 'false');
+                label.innerText = 'Show analysis summary';
+                chevron.style.transform = 'rotate(0deg)';
+                cardContent.style.paddingTop = '0';
+                cardContent.style.paddingBottom = '0';
+                cardContent.style.marginTop = '-41px';
+            } else {
+                panel.style.display = 'block';
+                btn.setAttribute('aria-expanded', 'true');
+                label.innerText = 'Hide analysis summary';
+                chevron.style.transform = 'rotate(180deg)';
+                cardContent.style.paddingTop = '';
+                cardContent.style.paddingBottom = '';
+                cardContent.style.marginTop = '';
+            }
+        }
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId + '-modal');
+            if (modal) {
+                modal
+                    .classList
+                    .add('show');
+                document.body.style.overflow = 'hidden';
+                modal
+                    .querySelector('.modal-content')
+                    .classList
+                    .add('show');
+                modal
+                    .querySelector('.modal-close')
+                    .focus();
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId + '-modal');
+            if (modal) {
+                modal
+                    .classList
+                    .remove('show');
+                document.body.style.overflow = '';
+                modal
+                    .querySelector('.modal-content')
+                    .classList
+                    .remove('show');
+            }
+        }
+
+        // Initialize all modals
+        document.addEventListener('DOMContentLoaded', function () {
+            const modals = document.querySelectorAll('.modal-container');
+            modals.forEach(modal => {
+                const closeBtn = modal.querySelector('.modal-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        modal
+                            .classList
+                            .remove('show');
+                        document.body.style.overflow = '';
+                        modal
+                            .querySelector('.modal-content')
+                            .classList
+                            .remove('show');
+                    });
+                }
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal
+                            .classList
+                            .remove('show');
+                        document.body.style.overflow = '';
+                        modal
+                            .querySelector('.modal-content')
+                            .classList
+                            .remove('show');
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
