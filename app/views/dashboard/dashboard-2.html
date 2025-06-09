@@ -7,13 +7,13 @@
 {% block content %}
 <div class="govuk-width-container dfe-ros-search-container">
   <form class="dfe-ros-search-form" action="/services" method="get" role="search">
-    <h1 class="govuk-heading-xl govuk-!-font-size-80 govuk-!-margin-top-9 govuk-!-padding-top-9">Search</h1>
+    <h1 class="govuk-heading-xl govuk-!-font-size-80 govuk-!-margin-top-9 govuk-!-padding-top-5">Search</h1>
     <div class="dfe-ros-search-item-wrapper">
       <label class="dfe-ros-search-label govuk-!-margin-bottom-2" for="dashboard-search-main">
         Search the register for products, services, patterns and more
       </label>
       <div class="dfe-ros-search-input-wrapper">
-        <input class="dfe-ros-search-input" id="dashboard-search-main" name="q" type="search" placeholder="Search services..." autocomplete="off">
+        <input class="dfe-ros-search-input" id="dashboard-search-main" name="q" type="search" placeholder="Search the register..." autocomplete="off">
         <button class="dfe-ros-search-submit" type="submit">
           <svg class="dfe-ros-search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <circle cx="12.0161" cy="11.0161" r="8.51613" stroke="currentColor" stroke-width="3"/>
@@ -22,6 +22,7 @@
           <span class="govuk-visually-hidden">Search</span>
         </button>
       </div>
+      <p class="govuk-body-s govuk-!-margin-top-3"><a href="/services" class="govuk-link govuk-link--no-visited-state">Advanced search and filter</a></p>
     </div>
   </form>
 </div>
@@ -31,7 +32,7 @@
   flex-direction: column;
   align-items: left;
   justify-content: flex-start;
-  min-height: 60vh;
+
 }
 .dfe-ros-search-form {
   max-width: 75%;

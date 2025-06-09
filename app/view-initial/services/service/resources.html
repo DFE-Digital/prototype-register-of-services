@@ -1,0 +1,124 @@
+{% extends "layouts/layout.html" %}
+{% set title = service.name + " - Service Register" %}
+{% set mainClasses = "govuk-!-padding-top-0 govuk-!-padding-bottom-0" %}
+{% set serviceNav = "Services" %}
+
+{% block content %}
+
+    <section class="dfe-ros-service-header" style="background-color: #f4f8fb; border-bottom: 1px solid #8eb8dc;">
+        <div class="govuk-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="service-header-flex govuk-!-margin-bottom-4 govuk-!-margin-top-5">
+                        <h1 class="govuk-heading-l ">{{ service.name }}</h1>
+                        <div class="service-actions">
+                            <button class="service-action-btn" type="button" aria-label="Watch" onclick="openModal('watch-info')">
+                                <span class="material-symbols-outlined" aria-hidden="true">star</span>
+                                <span class="service-action-label">Favourite</span>
+                            </button>
+                            <button class="service-action-btn" type="button" aria-label="Share" onclick="openModal('share-info')">
+                                <span class="material-symbols-outlined icon-share" aria-hidden="true">share</span>
+                                <span class="service-action-label">Share</span>
+                            </button>
+                            <button class="service-action-btn" type="button" aria-label="Export" onclick="openModal('export-info')">
+                                <span class="material-symbols-outlined icon-export" aria-hidden="true">download</span>
+                                <span class="service-action-label">Download</span>
+                            </button>
+                            <button class="service-action-btn" type="button" aria-label="Edit">
+                                <span class="material-symbols-outlined icon-edit" aria-hidden="true">Edit</span>
+                                <span class="service-action-label">Edit</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="manage-service"></div>
+
+                    <table class="govuk-table govuk-!-margin-bottom-5">
+                        <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th class="govuk-table__header">Reference</th>
+                                <th class="govuk-table__header">Phase</th>
+                                <th class="govuk-table__header">Service owner</th>
+                                <th class="govuk-table__header">Part of service line</th>
+                                <th class="govuk-table__header">Start page</th>
+                            </tr>
+                        </thead>
+                        <tbody class="govuk-table__body">
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">{{ service.id or 'N/A' }}</td>
+                                <td class="govuk-table__cell">
+                                    {% set phase_id = '' %}
+                                    {% for category in service.categories %}
+                                        {% if category.type === 'phases' and category.values and category.values.length > 0 %}
+                                            {% set phase_id = category.values[0] %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <span class="service-meta-value" data-phase-id="{{ phase_id }}">
+                                        {% set has_phase = false %}
+                                        {% for category in service.categories %}
+                                            {% if category.type === 'phases' and category.values and category.values.length > 0 %}
+                                                {% for item in taxonomy.phases.items %}
+                                                    {% if item.id === category.values[0] %}
+                                                        <span class="govuk-tag govuk-tag--blue">{{ item.name }}</span>
+                                                        {% set has_phase = true %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if not has_phase %}
+                                            Not defined
+                                        {% endif %}
+                                    </span>
+                                </td>
+                                <td class="govuk-table__cell">{{ service.service_owner or 'N/A' }}</td>
+                                <td class="govuk-table__cell">
+                                    <a href="/services/service-lines/{{ service.service_line_id }}" class="govuk-link govuk-link--no-visited-state">{{ service.service_line or 'N/A' }}</a>
+                                </td>
+                                <td class="govuk-table__cell">
+                                    <a href="{{ service.public_url }}" class="govuk-link govuk-link--no-visited-state">View service</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <nav class="app-sub-navigation" aria-label="Application menu">
+                <ul class="app-sub-navigation__list">
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}">Overview</a>
+                    </li>
+
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/taxonomy">Taxonomy</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link"   href="/services/service/{{ service.id }}/user-need">Users and needs</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link"  href="/services/service/{{ service.id }}/compliance">Compliance</a>
+                    </li>
+
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/assurance">Assurance</a>
+                            </li>
+                 
+                            <li class="app-sub-navigation__item">
+                                <a class="app-sub-navigation__link" aria-current="page" href="/services/service/{{ service.id }}/resources">Resources</a>
+                            </li>
+                            <li class="app-sub-navigation__item">
+                                <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/data">Data</a>
+                            </li>
+                            <li class="app-sub-navigation__item">
+                                <a class="app-sub-navigation__link" href="/services/service/{{ service.id }}/people">People</a>
+                            </li>
+                </ul>
+            </nav>
+        </div>
+
+    </section>
+
+
+
+
+{% endblock %}

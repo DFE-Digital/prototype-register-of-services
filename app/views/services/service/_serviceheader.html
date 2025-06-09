@@ -1,0 +1,312 @@
+ <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="service-header-flex govuk-!-margin-bottom-4 govuk-!-margin-top-5">
+                        <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">{{ service.name }}</h1>
+                        <div class="service-actions">
+                            <div class="service-actions-dropdown">
+                                <button 
+                                    class="govuk-button govuk-button--secondary service-action-btn--dropdown" 
+                                    type="button" 
+                                    aria-expanded="false" 
+                                    aria-controls="service-actions-menu"
+                                    aria-haspopup="true">
+                                    Actions
+                                    <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
+                                </button>
+                                <div 
+                                    id="service-actions-menu" 
+                                    class="service-actions-menu" 
+                                    role="menu"
+                                    aria-label="Service actions"
+                                    hidden>
+                                    <ul class="service-actions-list" role="none">
+                                        <li role="none" class="service-action-menu-item-wrapper">
+                                            <button 
+                                                class="service-action-menu-item" 
+                                                type="button" 
+                                                role="menuitem"
+                                                onclick="openModal('watch-info')">
+                                                <span class="material-symbols-outlined" aria-hidden="true">star</span>
+                                                <span>Favourite</span>
+                                            </button>
+                                        </li>
+                                        <li role="none" class="service-action-menu-item-wrapper">
+                                            <button 
+                                                class="service-action-menu-item" 
+                                                type="button" 
+                                                role="menuitem"
+                                                onclick="openModal('share-info')">
+                                                <span class="material-symbols-outlined" aria-hidden="true">share</span>
+                                                <span>Share</span>
+                                            </button>
+                                        </li>
+                                        <li role="none" class="service-action-menu-item-wrapper">
+                                            <button 
+                                                class="service-action-menu-item" 
+                                                type="button" 
+                                                role="menuitem"
+                                                onclick="openModal('export-info')">
+                                                <span class="material-symbols-outlined" aria-hidden="true">download</span>
+                                                <span>Download</span>
+                                            </button>
+                                        </li>
+                                        <li role="none" class="service-action-menu-item-wrapper">
+                                            <button 
+                                                class="service-action-menu-item" 
+                                                type="button" 
+                                                role="menuitem"
+                                                onclick="window.location.href='/services/service/{{ service.id }}/edit'">
+                                                <span class="material-symbols-outlined" aria-hidden="true">edit</span>
+                                                <span>Edit</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="manage-service"></div>
+
+                    <table class="govuk-table govuk-!-margin-bottom-5">
+                        <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th class="govuk-table__header">Product ID</th>
+                                <th class="govuk-table__header">Phase</th>
+                                <th class="govuk-table__header">Service owner</th>
+                                <th class="govuk-table__header">Portfolio</th>
+                                <th class="govuk-table__header">Start page</th>
+                            </tr>
+                        </thead>
+                        <tbody class="govuk-table__body">
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">PR-DFE-{{ service.id or 'N/A' }}</td>
+                                <td class="govuk-table__cell">
+                                    {% set phase_id = '' %}
+                                    {% for category in service.categories %}
+                                        {% if category.type === 'phases' and category.values and category.values.length > 0 %}
+                                            {% set phase_id = category.values[0] %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <span class="service-meta-value" data-phase-id="{{ phase_id }}">
+                                        {% set has_phase = false %}
+                                        {% for category in service.categories %}
+                                            {% if category.type === 'phases' and category.values and category.values.length > 0 %}
+                                                {% for item in taxonomy.phases.items %}
+                                                    {% if item.id === category.values[0] %}
+                                                        <span class="govuk-tag govuk-tag--blue">{{ item.name }}</span>
+                                                        {% set has_phase = true %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if not has_phase %}
+                                            Not defined
+                                        {% endif %}
+                                    </span>
+                                </td>
+                                <td class="govuk-table__cell">{{ service.service_owner or 'N/A' }}</td>
+                                <td class="govuk-table__cell">
+                                      {% for portfolio in taxonomy.portfolios.items %}
+                                            {% if portfolio.id == service.portfolio %}<a href="/services?q=&PF={{ service.portfolio }}" class="govuk-link govuk-link--no-visited-state">{{ portfolio.name }}</a>
+                                            {% else%}
+                                          
+                                            {% endif %}
+                                        {% endfor %}
+                                   
+                                </td>
+                                <td class="govuk-table__cell">
+                                    <a href="{{ service.public_url }}" class="govuk-link govuk-link--no-visited-state">View service</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+<style>
+.service-actions-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.service-action-btn--dropdown {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    padding: 0.5rem 1rem !important;
+    margin-bottom: 0 !important;
+    font-weight: 500 !important;
+    font-size: 0.95rem !important;
+    border: 1px solid #b1b4b6 !important;
+    background: #ffffff !important;
+    color: #0b0c0c !important;
+    transition: all 0.15s ease !important;
+    border-radius: 4px !important;
+}
+
+.service-action-btn--dropdown:hover {
+    background: #f8f8f8 !important;
+    border-color: #0b0c0c !important;
+}
+
+.service-action-btn--dropdown:focus {
+    outline: 2px solid #1d70b8 !important;
+    outline-offset: 2px !important;
+}
+
+.service-action-btn--dropdown .chevron {
+    font-size: 1.1rem !important;
+    color: #505a5f !important;
+    font-variation-settings: 'FILL' 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+.service-actions-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    min-width: 220px;
+    background: #fff;
+    border: 1px solid #b1b4b6;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    z-index: 100;
+    overflow: hidden;
+}
+
+.service-actions-list {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0;
+}
+
+.service-action-menu-item-wrapper {
+    margin: 0;
+    padding: 0;
+}
+
+.service-action-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border: none;
+    background: none;
+    text-align: left;
+    font-size: 0.95rem;
+    color: #0b0c0c;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    margin: 0;
+    font-weight: 400;
+}
+
+.service-action-menu-item:hover {
+    background: #f8f8f8;
+    text-decoration: none;
+}
+
+.service-action-menu-item:focus {
+    outline: 2px solid #1d70b8;
+    outline-offset: -2px;
+    background: #f8f8f8;
+}
+
+.service-action-menu-item .material-symbols-outlined {
+    font-size: 1.1rem;
+    color: #505a5f;
+    font-variation-settings: 'FILL' 0;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownBtn = document.querySelector('.service-action-btn--dropdown');
+    const menu = document.getElementById('service-actions-menu');
+    const menuItems = menu?.querySelectorAll('[role="menuitem"]');
+    const chevron = dropdownBtn?.querySelector('.chevron');
+    
+    if (dropdownBtn && menu && menuItems) {
+        let focusedIndex = -1;
+
+        // Toggle menu
+        dropdownBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isExpanded = dropdownBtn.getAttribute('aria-expanded') === 'true';
+            dropdownBtn.setAttribute('aria-expanded', !isExpanded);
+            menu.hidden = isExpanded;
+            if (chevron) {
+                chevron.textContent = isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_up';
+            }
+        });
+
+        // Handle keyboard navigation for the button
+        dropdownBtn.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (menu.hidden) {
+                    dropdownBtn.click();
+                    // Focus first menu item when opening
+                    setTimeout(() => {
+                        focusedIndex = 0;
+                        menuItems[0]?.focus();
+                    }, 0);
+                }
+            }
+        });
+
+        // Handle keyboard navigation in the menu
+        menu.addEventListener('keydown', function(e) {
+            switch(e.key) {
+                case 'ArrowDown':
+                    e.preventDefault();
+                    focusedIndex = Math.min(focusedIndex + 1, menuItems.length - 1);
+                    menuItems[focusedIndex]?.focus();
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    focusedIndex = Math.max(focusedIndex - 1, 0);
+                    menuItems[focusedIndex]?.focus();
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    focusedIndex = 0;
+                    menuItems[0]?.focus();
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    focusedIndex = menuItems.length - 1;
+                    menuItems[menuItems.length - 1]?.focus();
+                    break;
+                case 'Escape':
+                    e.preventDefault();
+                    dropdownBtn.click();
+                    dropdownBtn.focus();
+                    break;
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!menu.contains(e.target) && !dropdownBtn.contains(e.target)) {
+                dropdownBtn.setAttribute('aria-expanded', 'false');
+                menu.hidden = true;
+                focusedIndex = -1;
+            }
+        });
+
+        // Handle menu item clicks
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                dropdownBtn.setAttribute('aria-expanded', 'false');
+                menu.hidden = true;
+                focusedIndex = -1;
+            });
+        });
+    }
+});
+</script>

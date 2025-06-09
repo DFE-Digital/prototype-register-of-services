@@ -86,4 +86,168 @@
   </div>
 </div>
 
+<!-- Resources Modal -->
+<div class="modal-container" id="resources-info-modal" role="dialog" aria-modal="true" aria-labelledby="resources-info-title" tabindex="-1">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="resources-info-title">About service resources</h2>
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="govuk-body">Service resources are important links, documents, and tools that help users understand and interact with the service. These may include user guides, technical documentation, or related services.</p>
+    </div>
+  </div>
+</div>
+
+<!-- User Groups Modal -->
+<div class="modal-container" id="user-groups-info-modal" role="dialog" aria-modal="true" aria-labelledby="user-groups-info-title" tabindex="-1">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="user-groups-info-title">About user groups</h2>
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="govuk-body">User groups represent the different types of users who interact with this service. Understanding user groups helps ensure the service meets the needs of all its users.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Service Patterns Modal -->
+<div class="modal-container" id="patterns-info-modal" role="dialog" aria-modal="true" aria-labelledby="patterns-info-title" tabindex="-1">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="patterns-info-title">About service patterns</h2>
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="govuk-body">Service patterns describe common ways that services are delivered and structured. They help ensure consistency and best practices across different services.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Technology Modal -->
+<div class="modal-container" id="technology-info-modal" role="dialog" aria-modal="true" aria-labelledby="technology-info-title" tabindex="-1">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="technology-info-title">About technology</h2>
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="govuk-body">This section shows the key technologies used to build and run the service. This helps with understanding technical dependencies and requirements.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Policy Areas Modal -->
+<div class="modal-container" id="policy-info-modal" role="dialog" aria-modal="true" aria-labelledby="policy-info-title" tabindex="-1">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="policy-info-title">About policy areas</h2>
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="govuk-body">Policy areas show which government policies or initiatives this service supports or implements. This helps understand the service's role in broader government objectives.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Taxonomy Modal -->
+<div class="modal-container" id="taxonomy-info-modal" role="dialog" aria-modal="true" aria-labelledby="taxonomy-info-title" tabindex="-1">
+    <div class="modal-content" style="min-width:320px;max-width:680px;">
+        <div class="modal-header">
+            <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="taxonomy-info-title">About taxonomy categories</h2>
+            <button class="modal-close" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p class="govuk-body">This table shows all the categories that have been assigned to this service. Each category represents a different aspect of the service's classification, such as user groups, service patterns, or technology used.</p>
+            <p class="govuk-body">The number of values shows how many items have been selected for each category. Categories with zero values have not yet been classified.</p>
+            <p class="govuk-body">You can view more detailed information about each category by visiting the taxonomy page.</p>
+        </div>
+    </div>
+</div>
+
+<style>
+.modal-container {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-container.show {
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  padding: 0;
+  border-radius: 4px;
+  position: relative;
+  width: 90%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: translateY(-20px);
+  opacity: 0;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.modal-content.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.modal-header {
+  padding: 1rem;
+  border-bottom: 1px solid #b1b4b6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #0b0c0c;
+}
+
+.modal-close:hover {
+  color: #1d70b8;
+}
+
+@media (max-width: 48.0525em) {
+  .modal-content {
+    width: 95%;
+    margin: 1rem;
+  }
+}
+</style>
+
+<script>
+function copyShareLink() {
+  const input = document.getElementById('share-link');
+  input.select();
+  document.execCommand('copy');
+  const button = input.nextElementSibling;
+  const originalText = button.textContent;
+  button.textContent = 'Copied!';
+  setTimeout(() => {
+    button.textContent = originalText;
+  }, 1500);
+}
+</script>
+
 <!-- Add more modals as needed for other info buttons --> 

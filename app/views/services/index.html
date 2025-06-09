@@ -8,11 +8,8 @@
         <div class="service-header-flex">
             <span>
                 <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Services</h1>
-                <p class="govuk-body-l">Browse all DfE services. Use filters to quickly find what you need.</p>
             </span>
-            <div class="service-actions">
-                <a href="/services/new" class="svc-btn-reset">Add service</a>
-            </div>
+
         </div>
 
     </div>
@@ -26,7 +23,7 @@
                 </div>
 
                 {# Active filters summary #}
-                {% set has_active_filters = query or(selected_patterns and selected_patterns.length)or(selected_user_groups and selected_user_groups.length)or(selected_phases and selected_phases.length)or(selected_technologies and selected_technologies.length)or(selected_policies and selected_policies.length)or(selected_archetypes and selected_archetypes.length)or(selected_channels and selected_channels.length)or(selected_service_lines and selected_service_lines.length)or(selected_owners and selected_owners.length) %}
+                {% set has_active_filters = query or(selected_patterns and selected_patterns.length)or(selected_user_groups and selected_user_groups.length)or(selected_phases and selected_phases.length)or(selected_technologies and selected_technologies.length)or(selected_policies and selected_policies.length)or(selected_archetypes and selected_archetypes.length)or(selected_channels and selected_channels.length)or(selected_service_lines and selected_service_lines.length)or(selected_owners and selected_owners.length)or(selected_education_phases and selected_education_phases.length)or(selected_portfolios and selected_portfolios.length) %}
                 {% if has_active_filters %}
                     <div class="svc-active-filters">
                         <h3 class="svc-active-filters-heading">Active filters</h3>
@@ -40,6 +37,21 @@
                                     </a>
                                 </li>
                             {% endif %}
+                            {# Portfolios #}
+                            {% set portfolio_id_key = taxonomy.portfolios.id %}
+                            {% for pf_id in selected_portfolios %}
+                                {% for pf in taxonomy.portfolios.items %}
+                                    {% if pf.id == pf_id %}
+                                        <li class="svc-active-filter">
+                                            <span class="svc-active-filter-label">Portfolio:</span>
+                                            <span class="svc-active-filter-value">{{ pf.name }}</span>
+                                            <a href="?{{ baseQueryString | replace(portfolio_id_key ~ '=' ~ pf_id, '') | replace('&&', '&') | replace('?&', '?') }}" class="svc-active-filter-remove" title="Remove portfolio filter">
+                                                <span class="material-symbols-outlined">close</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
                             {# Service Patterns #}
                             {% set pattern_id_key = taxonomy.service_patterns.id %}
                             {% for pattern_id in selected_patterns %}
@@ -91,7 +103,7 @@
                                 {% for tech in taxonomy.technology.items %}
                                     {% if tech.id == tech_id %}
                                         <li class="svc-active-filter">
-                                            <span class="svc-active-filter-label">Technology:</span>
+                                            <span class="svc-active-filter-label">Tech:</span>
                                             <span class="svc-active-filter-value">{{ tech.name }}</span>
                                             <a href="?{{ baseQueryString | replace(tech_id_key ~ '=' ~ tech_id, '') | replace('&&', '&') | replace('?&', '?') }}" class="svc-active-filter-remove" title="Remove technology filter">
                                                 <span class="material-symbols-outlined">close</span>
@@ -106,7 +118,7 @@
                                 {% for archetype in taxonomy.service_archetypes.items %}
                                     {% if archetype.id == archetype_id %}
                                         <li class="svc-active-filter">
-                                            <span class="svc-active-filter-label">Archetype:</span>
+                                            <span class="svc-active-filter-label">Type:</span>
                                             <span class="svc-active-filter-value">{{ archetype.name }}</span>
                                             <a href="?{{ baseQueryString | replace(archetype_id_key ~ '=' ~ archetype_id, '') | replace('&&', '&') | replace('?&', '?') }}" class="svc-active-filter-remove" title="Remove archetype filter">
                                                 <span class="material-symbols-outlined">close</span>
@@ -175,7 +187,8 @@
                 {% endif %}
 
                 <h2>Filter by</h2>
-                {# Channels #}
+               
+                {# Channels
                 <div class="svc-filter-group" data-collapsible role="region" aria-labelledby="filter-group-channels">
                     <button class="svc-filter-toggle" type="button" aria-expanded="false" id="filter-group-channels">
                     Channels ({{taxonomy.channels.items | length}})
@@ -188,8 +201,8 @@
                                 {{ channel.name }}</label>
                         {% endfor %}
                     </div>
-                </div>
-                {# Education Phases #}
+                </div> #}
+                {# Education Phases
                 <div class="svc-filter-group" data-collapsible role="region" aria-labelledby="filter-group-education-phases">
                     <button class="svc-filter-toggle" type="button" aria-expanded="false" id="filter-group-education-phases">
                     Education phases ({{taxonomy.education_phases.items | length}})
@@ -202,7 +215,7 @@
                                 {{ ep.name }}</label>
                         {% endfor %}
                     </div>
-                </div>
+                </div> #}
                 {# Phase #}
                 <div class="svc-filter-group" data-collapsible role="region" aria-labelledby="filter-group-phase">
                     <button class="svc-filter-toggle" type="button" aria-expanded="false" id="filter-group-phase">
@@ -217,10 +230,24 @@
                         {% endfor %}
                     </div>
                 </div>
+                 {# Portfolio filter #}
+                <div class="svc-filter-group" data-collapsible role="region" aria-labelledby="filter-group-portfolio">
+                    <button class="svc-filter-toggle" type="button" aria-expanded="false" id="filter-group-portfolio">
+                        Portfolio ({{taxonomy.portfolios.items | length}})
+                        <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
+                    </button>
+                    <div class="svc-filter-options" style="border-top: none; box-shadow: none; border: none;">
+                        {% set portfolio_id_key = taxonomy.portfolios.id %}
+                        {% for portfolio in taxonomy.portfolios.items | sort(attribute='name') %}
+                            <label><input type="checkbox" name="{{ portfolio_id_key }}" value="{{ portfolio.id }}" {% if selected_portfolios and portfolio.id in selected_portfolios %}checked{% endif %}>
+                                {{ portfolio.name }}</label>
+                        {% endfor %}
+                    </div>
+                </div>
                 {# Service Archetypes #}
                 <div class="svc-filter-group" data-collapsible role="region" aria-labelledby="filter-group-service-archetypes">
                     <button class="svc-filter-toggle" type="button" aria-expanded="false" id="filter-group-service-archetypes">
-                    Service archetypes ({{taxonomy.service_archetypes.items | length}})
+                    Service type ({{taxonomy.service_archetypes.items | length}})
                     <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
                     </button>
                     <div class="svc-filter-options" style="border-top: none; box-shadow: none; border: none;">
@@ -231,7 +258,7 @@
                         {% endfor %}
                     </div>
                 </div>
-                {# Service line #}
+                {# Service line
                 <div class="svc-filter-group" data-collapsible role="region" aria-labelledby="filter-group-service-line">
                     <button class="svc-filter-toggle" type="button" aria-expanded="false" id="filter-group-service-line">
                     Service line ({{servicelines.service_lines | length}})
@@ -243,7 +270,7 @@
                                 {{ line.name }}</label>
                         {% endfor %}
                     </div>
-                </div>
+                </div> #}
                 {# Service owner #}
                 <div class="svc-filter-group" data-collapsible role="region" aria-labelledby="filter-group-service-owner">
                     <button class="svc-filter-toggle" type="button" aria-expanded="false" id="filter-group-service-owner">
@@ -260,7 +287,7 @@
                 {# Service Patterns #}
                 <div class="svc-filter-group" data-collapsible role="region" aria-labelledby="filter-group-service-patterns">
                     <button class="svc-filter-toggle" type="button" aria-expanded="false" id="filter-group-service-patterns">
-                    Service patterns ({{taxonomy.service_patterns.items | length}})
+                    Service pattern ({{taxonomy.service_patterns.items | length}})
                     <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
                     </button>
                     <div class="svc-filter-options" style="border-top: none; box-shadow: none; border: none;">
@@ -318,211 +345,202 @@
                 {% endif %}
                 </p>
             </div>
-            <div class="svc-list">
-                <div class="svc-list-item">
-                    <div class="svc-list-main">
-                        <div class="svc-list-info">
-                            <div class="svc-list-title">
-                                <h2 class="govuk-heading-m">
-                                    {% if has_active_filters %}Summary of services with selected filters{% else %}Summary of all services{% endif %}
-                                </h2>
-                            </div>
-                            <div class="svc-list-meta">
-                                <p class="govuk-body">
-                                    {% if has_active_filters %}
+            {% if totalServices !== 0 %}
+                <div class="svc-list">
+                    <div class="svc-list-item">
+                        <div class="svc-list-main">
+                            <div class="svc-list-info">
+                                <div class="svc-list-title">
+                                    <h2 class="govuk-heading-m">
+                                        {% if has_active_filters %}Summary of services with selected filters{% else %}Summary of all services{% endif %}
+                                    </h2>
+                                </div>
+                                <div class="svc-list-meta">
+                                    <p class="govuk-body">
+                                        {% if has_active_filters %}
                                         Expand this section to view a summary of the results for the filter criteria.
                                     {% else %}
                                         Expand this section to view a summary of all services.
                                     {% endif %}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="svc-list-actions svc-list-actions-row">
-                            <button class="svc-btn svc-btn-secondary svc-details-toggle" type="button" aria-expanded="false" data-target="details-summary-results" title="Show summary of results">
-                                <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="svc-summary-details" id="details-summary-results">
-                        <hr class="govuk-section-break govuk-section-break--visible">
-                        <h2 class="govuk-heading-m govuk-!-margin-top-5">Summary of Results</h2>
-                        <p class="govuk-body exec-summary">{{ execSummary }}</p>
-                        {% if services.length > 0 %}
-                            <div class="svc-summary-groups">
-                                <div class="svc-summary-group">
-                                    <h3>User Groups</h3>
-                                    <p>These are the main types of users these services are designed for.</p>
-                                    <ul class="govuk-list">
-                                        {% for id, count in summary.userGroups | dictsort(false, 'value') | reverse %}
-                                            {% set name = id %}
-                                            {% set found = false %}
-                                            {% for item in taxonomy.user_groups.items %}
-                                                {% if not found and item.id == id %}
-                                                    {% set name = item.name %}
-                                                    {% set found = true %}
-                                                {% endif %}
-                                            {% endfor %}
-                                            <li>{{ name }} ({{ count }})</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                <div class="svc-summary-group">
-                                    <h3>Technologies Used</h3>
-                                    <p>Technologies powering these services.</p>
-                                    <ul class="govuk-list">
-                                        {% for id, count in summary.technologies | dictsort(false, 'value') | reverse %}
-                                            {% set name = id %}
-                                            {% set found = false %}
-                                            {% for item in taxonomy.technology.items %}
-                                                {% if not found and item.id == id %}
-                                                    {% set name = item.name %}
-                                                    {% set found = true %}
-                                                {% endif %}
-                                            {% endfor %}
-                                            <li>{{ name }} ({{ count }})</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                <div class="svc-summary-group">
-                                    <h3>Life Stages</h3>
-                                    <p>Relevant life stages for users of these services.</p>
-                                    <ul class="govuk-list">
-                                        {% for id, count in summary.lifeStages | dictsort(false, 'value') | reverse %}
-                                            {% set name = id %}
-                                            {% set found = false %}
-                                            {% for item in taxonomy.life_stages.items %}
-                                                {% if not found and item.id == id %}
-                                                    {% set name = item.name %}
-                                                    {% set found = true %}
-                                                {% endif %}
-                                            {% endfor %}
-                                            <li>{{ name }} ({{ count }})</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                <div class="svc-summary-group">
-                                    <h3>Education Phases</h3>
-                                    <p>Education system phases these services support.</p>
-                                    <ul class="govuk-list">
-                                        {% for id, count in summary.educationPhases | dictsort(false, 'value') | reverse %}
-                                            {% set name = id %}
-                                            {% set found = false %}
-                                            {% for item in taxonomy.education_phases.items %}
-                                                {% if not found and item.id == id %}
-                                                    {% set name = item.name %}
-                                                    {% set found = true %}
-                                                {% endif %}
-                                            {% endfor %}
-                                            <li>{{ name }} ({{ count }})</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                <div class="svc-summary-group">
-                                    <h3>Service Patterns</h3>
-                                    <p>Common user actions and patterns in these services.</p>
-                                    <ul class="govuk-list">
-                                        {% for id, count in summary.servicePatterns | dictsort(false, 'value') | reverse %}
-                                            {% set name = id %}
-                                            {% set found = false %}
-                                            {% for item in taxonomy.service_patterns.items %}
-                                                {% if not found and item.id == id %}
-                                                    {% set name = item.name %}
-                                                    {% set found = true %}
-                                                {% endif %}
-                                            {% endfor %}
-                                            <li>{{ name }} ({{ count }})</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                <div class="svc-summary-group">
-                                    <h3>Service Lines</h3>
-                                    <p>Service lines responsible for these services.</p>
-                                    <ul class="govuk-list">
-                                        {% for id, count in summary.serviceLines | dictsort(false, 'value') | reverse %}
-                                            {% set name = id %}
-                                            {% set found = false %}
-                                            {% for line in servicelines.service_lines %}
-                                                {% if not found and line.id == id %}
-                                                    {% set name = line.name %}
-                                                    {% set found = true %}
-                                                {% endif %}
-                                            {% endfor %}
-                                            <li>{{ name }} ({{ count }})</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                <div class="svc-summary-group">
-                                    <h3>Business Areas</h3>
-                                    <p>Business areas these services fall under.</p>
-                                    <ul class="govuk-list">
-                                        {% for name, count in summary.businessAreas | dictsort(false, 'value') | reverse %}
-                                            <li>{{ name }} ({{ count }})</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                <div class="svc-summary-group">
-                                    <h3>Missions</h3>
-                                    <p>Government missions these services contribute to.</p>
-                                    <ul class="govuk-list">
-                                        {% for id, count in summary.missions | dictsort(false, 'value') | reverse %}
-                                            <li>{{ id }} ({{ count }})</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                <div class="svc-summary-group">
-                                    <h3>Mission Pillars</h3>
-                                    <p>Strategic pillars these services support.</p>
-                                    <ul class="govuk-list">
-                                        {% for id, count in summary.pillars | dictsort(false, 'value') | reverse %}
-                                            <li>{{ id }} ({{ count }})</li>
-                                        {% endfor %}
-                                    </ul>
+                                    </p>
                                 </div>
                             </div>
-                        {% else %}
-                            <p class="govuk-body-l" style="margin-top:2rem;">No services for the selected filters.</p>
-                        {% endif %}
-                        <button id="export-word" class="svc-btn svc-btn-primary svc-btn-view" style="margin-top:1rem;">Export to Word</button>
+                            <div class="svc-list-actions svc-list-actions-row">
+                                <button class="svc-btn svc-btn-secondary svc-details-toggle" type="button" aria-expanded="false" data-target="details-summary-results" title="Show summary of results">
+                                    <span class="material-symbols-outlined chevron">keyboard_arrow_down</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="svc-summary-details" id="details-summary-results">
+                            <hr class="govuk-section-break govuk-section-break--visible">
+                            <h2 class="govuk-heading-m govuk-!-margin-top-5">Summary of Results</h2>
+                            <p class="govuk-body exec-summary">{{ execSummary }}</p>
+                            {% if services.length > 0 %}
+                                <div class="svc-summary-groups">
+                                    <div class="svc-summary-group">
+                                        <h3>User Groups</h3>
+                                        <p>These are the main types of users these services are designed for.</p>
+                                        <ul class="govuk-list">
+                                            {% for id, count in summary.userGroups | dictsort(false, 'value') | reverse %}
+                                                {% set name = id %}
+                                                {% set found = false %}
+                                                {% for item in taxonomy.user_groups.items %}
+                                                    {% if not found and item.id == id %}
+                                                        {% set name = item.name %}
+                                                        {% set found = true %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <li>{{ name }} ({{ count }})</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="svc-summary-group">
+                                        <h3>Technologies Used</h3>
+                                        <p>Technologies powering these services.</p>
+                                        <ul class="govuk-list">
+                                            {% for id, count in summary.technologies | dictsort(false, 'value') | reverse %}
+                                                {% set name = id %}
+                                                {% set found = false %}
+                                                {% for item in taxonomy.technology.items %}
+                                                    {% if not found and item.id == id %}
+                                                        {% set name = item.name %}
+                                                        {% set found = true %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <li>{{ name }} ({{ count }})</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="svc-summary-group">
+                                        <h3>Life Stages</h3>
+                                        <p>Relevant life stages for users of these services.</p>
+                                        <ul class="govuk-list">
+                                            {% for id, count in summary.lifeStages | dictsort(false, 'value') | reverse %}
+                                                {% set name = id %}
+                                                {% set found = false %}
+                                                {% for item in taxonomy.life_stages.items %}
+                                                    {% if not found and item.id == id %}
+                                                        {% set name = item.name %}
+                                                        {% set found = true %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <li>{{ name }} ({{ count }})</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="svc-summary-group">
+                                        <h3>Education Phases</h3>
+                                        <p>Education system phases these services support.</p>
+                                        <ul class="govuk-list">
+                                            {% for id, count in summary.educationPhases | dictsort(false, 'value') | reverse %}
+                                                {% set name = id %}
+                                                {% set found = false %}
+                                                {% for item in taxonomy.education_phases.items %}
+                                                    {% if not found and item.id == id %}
+                                                        {% set name = item.name %}
+                                                        {% set found = true %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <li>{{ name }} ({{ count }})</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="svc-summary-group">
+                                        <h3>Service Patterns</h3>
+                                        <p>Common user actions and patterns in these services.</p>
+                                        <ul class="govuk-list">
+                                            {% for id, count in summary.servicePatterns | dictsort(false, 'value') | reverse %}
+                                                {% set name = id %}
+                                                {% set found = false %}
+                                                {% for item in taxonomy.service_patterns.items %}
+                                                    {% if not found and item.id == id %}
+                                                        {% set name = item.name %}
+                                                        {% set found = true %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <li>{{ name }} ({{ count }})</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="svc-summary-group">
+                                        <h3>Service Lines</h3>
+                                        <p>Service lines responsible for these services.</p>
+                                        <ul class="govuk-list">
+                                            {% for id, count in summary.serviceLines | dictsort(false, 'value') | reverse %}
+                                                {% set name = id %}
+                                                {% set found = false %}
+                                                {% for line in servicelines.service_lines %}
+                                                    {% if not found and line.id == id %}
+                                                        {% set name = line.name %}
+                                                        {% set found = true %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <li>{{ name }} ({{ count }})</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="svc-summary-group">
+                                        <h3>Business Areas</h3>
+                                        <p>Business areas these services fall under.</p>
+                                        <ul class="govuk-list">
+                                            {% for name, count in summary.businessAreas | dictsort(false, 'value') | reverse %}
+                                                <li>{{ name }} ({{ count }})</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="svc-summary-group">
+                                        <h3>Missions</h3>
+                                        <p>Government missions these services contribute to.</p>
+                                        <ul class="govuk-list">
+                                            {% for id, count in summary.missions | dictsort(false, 'value') | reverse %}
+                                                <li>{{ id }} ({{ count }})</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="svc-summary-group">
+                                        <h3>Mission Pillars</h3>
+                                        <p>Strategic pillars these services support.</p>
+                                        <ul class="govuk-list">
+                                            {% for id, count in summary.pillars | dictsort(false, 'value') | reverse %}
+                                                <li>{{ id }} ({{ count }})</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <p class="govuk-body-l" style="margin-top:2rem;">No services for the selected filters.</p>
+                            {% endif %}
+                            <button id="export-word" class="svc-btn svc-btn-primary svc-btn-view" style="margin-top:1rem;">Export to Word</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            {% endif %}
             <ul class="svc-list">
                 {% for service in services %}
-                    {% set line = false %}
-                    {% for l in servicelines.service_lines %}
-                        {% if l.id == service.service_line_id and not line %}
-                            {% set line = l %}
-                        {% endif %}
-                    {% endfor %}
+
                     <li class="svc-list-item">
                         <div class="svc-list-main">
                             <div class="svc-list-info">
                                 <div class="svc-list-title">{{ service.name }}</div>
                                 <div class="svc-list-meta">
                                     <span>
-                                        <span class="svc-meta-label">Business area</span>{{ line.business_area if line else '' }}</span>
-                                    <span>
-                                        <span class="svc-meta-label">Service line</span>{{ line.name if line else '' }}</span>
-                                    {% set phase_id = service.phase %}
-                                    {% if not phase_id %}
-                                        {% for cat in service.categories %}
-                                            {% if cat.type == 'phases' and cat
-                                                .values and cat
-                                                .values[0] %}
-                                                {% set phase_id = cat.values[0] %}
+                                        <span class="svc-meta-label">Portfolio</span>
+                                        
+                                          {% for portfolio in taxonomy.portfolios.items %}
+                                            {% if portfolio.id == service.portfolio %}{{ portfolio.name }}
                                             {% endif %}
                                         {% endfor %}
-                                    {% endif %}
+                                      </span>
                                     <span>
+
                                         <span class="svc-meta-label">Phase</span>
                                         {% for phase in taxonomy.phases.items %}
-                                            {% if phase.id == phase_id %}{{ phase.name }}
+                                            {% if phase.id == service.phase %}{{ phase.name }}
                                             {% endif %}
                                         {% endfor %}
                                     </span>
                                     <span>
-                                        <span class="svc-meta-label">Owner</span>{{ line.sro.name if line else service.service_owner }}</span>
+                                        <span class="svc-meta-label">Owner</span>{{ service.service_owner if service.service_owner else 'No owner' }}</span>
                                 </div>
                             </div>
                             <div class="svc-list-actions svc-list-actions-row">
@@ -576,61 +594,30 @@
         </main>
     </div>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Collapsible filters with chevron
-        Array
-            .from(document.querySelectorAll('[data-collapsible]'))
-            .forEach(group => {
-                const btn = group.querySelector('.svc-filter-toggle');
-                const options = group.querySelector('.svc-filter-options');
-                const chevron = btn.querySelector('.chevron');
-                // Helper to set tabindex on checkboxes
-                const setCheckboxTabbable = (tabbable) => {
-                    Array
-                        .from(options.querySelectorAll('input[type="checkbox"]'))
-                        .forEach(cb => {
-                            if (tabbable) {
-                                cb.removeAttribute('tabindex');
-                            } else {
-                                cb.setAttribute('tabindex', '-1');
-                            }
-                        });
-                };
-                // Initially collapsed: set tabindex -1
-                setCheckboxTabbable(false);
-                btn.addEventListener('click', () => {
-                    const isOpen = options
-                        .classList
-                        .toggle('open');
-                    btn.setAttribute(
-                        'aria-expanded', isOpen
-                        ? 'true'
-                        : 'false');
-                    if (chevron) 
-                        chevron.textContent = isOpen
-                            ? 'keyboard_arrow_up'
-                            : 'keyboard_arrow_down';
-                    if (isOpen) {
-                        options.style.border = '1px solid #bbb';
-                        options.style.boxShadow = '0 4px 16px rgba(0,0,0,0.07)';
-                        setCheckboxTabbable(true);
-                    } else {
-                        options.style.border = 'none';
-                        options.style.boxShadow = 'none';
-                        setCheckboxTabbable(false);
-                    }
-                });
-            });
-        // Expand/collapse details with icon
-        Array
-            .from(document.querySelectorAll('.svc-details-toggle'))
-            .forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const target = document.getElementById(btn.getAttribute('data-target'));
+        document.addEventListener('DOMContentLoaded', function () {
+            // Collapsible filters with chevron
+            Array
+                .from(document.querySelectorAll('[data-collapsible]'))
+                .forEach(group => {
+                    const btn = group.querySelector('.svc-filter-toggle');
+                    const options = group.querySelector('.svc-filter-options');
                     const chevron = btn.querySelector('.chevron');
-                    // Toggle .open on .svc-summary-details for summary, .svc-list-details for service items
-                    if (target.classList.contains('svc-summary-details')) {
-                        const isOpen = target
+                    // Helper to set tabindex on checkboxes
+                    const setCheckboxTabbable = (tabbable) => {
+                        Array
+                            .from(options.querySelectorAll('input[type="checkbox"]'))
+                            .forEach(cb => {
+                                if (tabbable) {
+                                    cb.removeAttribute('tabindex');
+                                } else {
+                                    cb.setAttribute('tabindex', '-1');
+                                }
+                            });
+                    };
+                    // Initially collapsed: set tabindex -1
+                    setCheckboxTabbable(false);
+                    btn.addEventListener('click', () => {
+                        const isOpen = options
                             .classList
                             .toggle('open');
                         btn.setAttribute(
@@ -641,97 +628,140 @@
                             chevron.textContent = isOpen
                                 ? 'keyboard_arrow_up'
                                 : 'keyboard_arrow_down';
-                        }
-                    else {
-                        const isOpen = target
-                            .classList
-                            .toggle('open');
-                        btn.setAttribute(
-                            'aria-expanded', isOpen
-                            ? 'true'
-                            : 'false');
-                        if (chevron) 
-                            chevron.textContent = isOpen
-                                ? 'keyboard_arrow_up'
-                                : 'keyboard_arrow_down';
+                        if (isOpen) {
+                            options.style.border = '1px solid #bbb';
+                            options.style.boxShadow = '0 4px 16px rgba(0,0,0,0.07)';
+                            setCheckboxTabbable(true);
+                        } else {
+                            options.style.border = 'none';
+                            options.style.boxShadow = 'none';
+                            setCheckboxTabbable(false);
                         }
                     });
-            });
-        // Hide all details panels on page load
-        Array
-            .from(document.querySelectorAll('.svc-list-details'))
-            .forEach(panel => {
-                panel
-                    .classList
-                    .remove('open');
-            });
-        // Export summary to Word
-        var exportBtn = document.getElementById('export-word');
-        if (exportBtn) {
-            exportBtn.addEventListener('click', function () {
-                // 1. Get active filters HTML (if present)
-                var filtersBlock = document.querySelector('.svc-active-filters');
-                var filtersHtml = '';
-                if (filtersBlock) {
-                    var filtersClone = filtersBlock.cloneNode(true);
-                    // Remove the clear filters link
-                    var clearLink = filtersClone.querySelector('.svc-clear-filters');
-                    if (clearLink) 
-                        clearLink.remove();
-                    var clearLink2 = filtersClone.querySelector('.svc-active-filter-remove');
-                    if (clearLink2) 
-                        clearLink2.remove();
-                    filtersHtml = '<div>' + filtersClone.innerHTML + '</div>';
-                }
+                });
+            // Expand/collapse details with icon
+            Array
+                .from(document.querySelectorAll('.svc-details-toggle'))
+                .forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const target = document.getElementById(btn.getAttribute('data-target'));
+                        const chevron = btn.querySelector('.chevron');
+                        // Toggle .open on .svc-summary-details for summary, .svc-list-details for service items
+                        if (target.classList.contains('svc-summary-details')) {
+                            const isOpen = target
+                                .classList
+                                .toggle('open');
+                            btn.setAttribute(
+                                'aria-expanded', isOpen
+                                ? 'true'
+                                : 'false');
+                            if (chevron) 
+                                chevron.textContent = isOpen
+                                    ? 'keyboard_arrow_up'
+                                    : 'keyboard_arrow_down';
+                            }
+                        else {
+                            const isOpen = target
+                                .classList
+                                .toggle('open');
+                            btn.setAttribute(
+                                'aria-expanded', isOpen
+                                ? 'true'
+                                : 'false');
+                            if (chevron) 
+                                chevron.textContent = isOpen
+                                    ? 'keyboard_arrow_up'
+                                    : 'keyboard_arrow_down';
+                            }
+                        });
+                });
+            // Hide all details panels on page load
+            Array
+                .from(document.querySelectorAll('.svc-list-details'))
+                .forEach(panel => {
+                    panel
+                        .classList
+                        .remove('open');
+                });
+            // Export summary to Word
+            var exportBtn = document.getElementById('export-word');
+            if (exportBtn) {
+                exportBtn.addEventListener('click', function () {
+                    // 1. Get active filters HTML (if present)
+                    var filtersBlock = document.querySelector('.svc-active-filters');
+                    var filtersHtml = '';
+                    if (filtersBlock) {
+                        var filtersClone = filtersBlock.cloneNode(true);
+                        // Remove the clear filters link
+                        var clearLink = filtersClone.querySelector('.svc-clear-filters');
+                        if (clearLink) 
+                            clearLink.remove();
+                        var clearLink2 = filtersClone.querySelector('.svc-active-filter-remove');
+                        if (clearLink2) 
+                            clearLink2.remove();
+                        filtersHtml = '<div>' + filtersClone.innerHTML + '</div>';
+                    }
 
-                // 2. Clone the summary panel and remove the export button
-                var summaryPanel = document
-                    .getElementById('details-summary-results')
-                    .cloneNode(true);
-                var exportBtn2 = summaryPanel.querySelector('#export-word');
-                if (exportBtn2) 
-                    exportBtn2.remove();
-                
-                // 3. Build the services table with absolute links
-                var serviceRows = [];
-                var origin = window.location.origin;
-                document
-                    .querySelectorAll('.svc-list > .svc-list-item')
-                    .forEach(function (item, idx) {
-                        if (idx === 0 && item.querySelector('#details-summary-results')) 
-                            return;
-                        var name = item.querySelector('.svc-list-title')
-                            ?.innerText || '';
-                        var viewBtn = item.querySelector('.svc-btn-view');
-                        var link = viewBtn
-                            ? viewBtn.getAttribute('href')
-                            : '#';
-                        // Make link absolute if it starts with /
-                        if (link.startsWith('/')) 
-                            link = origin + link;
-                        var metaSpans = item.querySelectorAll('.svc-list-meta > span');
-                        var businessArea = metaSpans[0]
-                            ? metaSpans[0].innerText.replace('Business area', '').trim() || ''
-                            : '';
-                        var serviceLine = metaSpans[1]
-                            ? metaSpans[1].innerText.replace('Service line', '').trim() || ''
-                            : '';
-                        var phase = metaSpans[2]
-                            ? metaSpans[2].innerText.replace('Phase', '').trim() || ''
-                            : '';
-                        var owner = metaSpans[3]
-                            ? metaSpans[3].innerText.replace('Owner', '').trim() || ''
-                            : '';
-                        serviceRows.push(`<tr>
+                    // 2. Clone the summary panel and remove the export button
+                    var summaryPanel = document
+                        .getElementById('details-summary-results')
+                        .cloneNode(true);
+                    var exportBtn2 = summaryPanel.querySelector('#export-word');
+                    if (exportBtn2) 
+                        exportBtn2.remove();
+                    
+                    // 3. Build the services table with absolute links
+                    var serviceRows = [];
+                    var origin = window.location.origin;
+                    document
+                        .querySelectorAll('.svc-list > .svc-list-item')
+                        .forEach(function (item, idx) {
+                            if (idx === 0 && item.querySelector('#details-summary-results')) 
+                                return;
+                            var name = item.querySelector('.svc-list-title')
+                                ?.innerText || '';
+                            var viewBtn = item.querySelector('.svc-btn-view');
+                            var link = viewBtn
+                                ? viewBtn.getAttribute('href')
+                                : '#';
+                            // Make link absolute if it starts with /
+                            if (link.startsWith('/')) 
+                                link = origin + link;
+                            var metaSpans = item.querySelectorAll('.svc-list-meta > span');
+                            var businessArea = metaSpans[0]
+                                ? metaSpans[0]
+                                    .innerText
+                                    .replace('Business area', '')
+                                    .trim() || ''
+                                : '';
+                            var serviceLine = metaSpans[1]
+                                ? metaSpans[1]
+                                    .innerText
+                                    .replace('Service line', '')
+                                    .trim() || ''
+                                : '';
+                            var phase = metaSpans[2]
+                                ? metaSpans[2]
+                                    .innerText
+                                    .replace('Phase', '')
+                                    .trim() || ''
+                                : '';
+                            var owner = metaSpans[3]
+                                ? metaSpans[3]
+                                    .innerText
+                                    .replace('Owner', '')
+                                    .trim() || ''
+                                : '';
+                            serviceRows.push(`<tr>
                     <td><a href="${link}">${name}</a></td>
                     <td>${businessArea}</td>
                     <td>${serviceLine}</td>
                     <td>${phase}</td>
                     <td>${owner}</td>
                 </tr>`);
-                    });
+                        });
 
-                var tableHtml = `
+                    var tableHtml = `
                 <h2>Services</h2>
                 <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;">
                     <thead>
@@ -749,30 +779,30 @@
                 </table>
             `;
 
-                var tempDiv = document.createElement('div');
-                tempDiv.innerHTML = filtersHtml + summaryPanel.innerHTML + tableHtml;
+                    var tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = filtersHtml + summaryPanel.innerHTML + tableHtml;
 
-                var preHtml = `
+                    var preHtml = `
               <html xmlns:o='urn:schemas-microsoft-com:office:office' 
                     xmlns:w='urn:schemas-microsoft-com:office:word' 
                     xmlns='http://www.w3.org/TR/REC-html40'>
               <head><meta charset='utf-8'><title>Summary Export</title></head><body>`;
-                var postHtml = "</body></html>";
-                var html = preHtml + tempDiv.innerHTML + postHtml;
-                var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
-                var downloadLink = document.createElement("a");
-                document
-                    .body
-                    .appendChild(downloadLink);
-                downloadLink.href = url;
-                downloadLink.download = 'summary.doc';
-                downloadLink.click();
-                document
-                    .body
-                    .removeChild(downloadLink);
-            });
-        }
-    });
+                    var postHtml = "</body></html>";
+                    var html = preHtml + tempDiv.innerHTML + postHtml;
+                    var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+                    var downloadLink = document.createElement("a");
+                    document
+                        .body
+                        .appendChild(downloadLink);
+                    downloadLink.href = url;
+                    downloadLink.download = 'summary.doc';
+                    downloadLink.click();
+                    document
+                        .body
+                        .removeChild(downloadLink);
+                });
+            }
+        });
     </script>
     <style>
         .svc-btn-primary,

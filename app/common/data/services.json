@@ -5,6 +5,7 @@
       "cmdb": "IM100003613",
       "jira": ""
     },
+    "portfolio": "PF_4",
     "name": "Access your teaching qualifications",
     "service_line": "Get into teaching",
     "service_line_id": "slid1",
@@ -229,7 +230,49 @@
           "on_track": false
         }
       ]
-    }
+    },
+    "serviceResources": [
+      {
+        "label": "Product roadmap",
+        "link": "https://example.com/product-roadmap",
+        "description": "A timeline outlining planned features, release milestones, and upcoming improvements for the service.",
+        "dateAdded": "2025-06-09T00:00:00Z"
+      },
+      {
+        "label": "Service blueprint",
+        "link": "https://example.com/service-blueprint",
+        "description": "A detailed diagram showing user journeys, touchpoints, and backend processes that deliver the service.",
+        "dateAdded": "2025-06-09T00:00:00Z"
+      },
+      {
+        "label": "Research library",
+        "link": "https://example.com/research-library",
+        "description": "A curated collection of user research findings, survey results, and usability study reports.",
+        "dateAdded": "2025-06-09T00:00:00Z"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Naomi Yamamoto",
+        "role": "Product manager",
+        "email": "naomi.yamamoto@example.com"
+      },
+      {
+        "name": "Priya Patel",
+        "role": "Delivery manager",
+        "email": "priya.patel@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "User researcher",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "Zara Bukhari",
+        "role": "Service designer",
+        "email": "zara.bukhari@example.com"
+      }
+    ]
   },
   {
     "id": "2",
@@ -237,6 +280,7 @@
       "cmdb": "",
       "jira": ""
     },
+    "portfolio": "PF_4",
     "name": "Analyse school performance",
     "service_line": "Schools data",
     "service_line_id": "slid2",
@@ -449,7 +493,40 @@
         "partner_performance": "92%",
         "roadmap_progress": "65%"
       }
-    }
+    },
+    "serviceResources": [],
+    "contacts": [
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "Product manager",
+        "email": "oluwaseun.adeyemi@example.com"
+      },
+      {
+        "name": "Priya Patel",
+        "role": "Delivery manager",
+        "email": "priya.patel@example.com"
+      },
+      {
+        "name": "Luis Fernandez",
+        "role": "User researcher",
+        "email": "luis.fernandez@example.com"
+      },
+      {
+        "name": "Sara Novak",
+        "role": "Service designer",
+        "email": "sara.novak@example.com"
+      },
+      {
+        "name": "Fatima Khan",
+        "role": "Developer",
+        "email": "fatima.khan@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "Interaction designer",
+        "email": "kai.chen@example.com"
+      }
+    ]
   },
   {
     "id": "3",
@@ -457,6 +534,7 @@
       "cmdb": "",
       "jira": ""
     },
+    "portfolio": "PF_3",
     "name": "Apply to become an Academy",
     "description": "Application processes for mainstream and special schools applying to convert to academy status.",
     "public_url": "https://apply-convert-academy.service.gov.uk",
@@ -647,7 +725,40 @@
         "partner_performance": "94%",
         "roadmap_progress": "80%"
       }
-    }
+    },
+    "serviceResources": [],
+    "contacts": [
+      {
+        "name": "Aisha Ahmed",
+        "role": "Product manager",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "Zara Bukhari",
+        "role": "Delivery manager",
+        "email": "zara.bukhari@example.com"
+      },
+      {
+        "name": "Priya Patel",
+        "role": "User researcher",
+        "email": "priya.patel@example.com"
+      },
+      {
+        "name": "John Smith",
+        "role": "Service designer",
+        "email": "john.smith@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "Developer",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "Miguel Sanchez",
+        "role": "Architect",
+        "email": "miguel.sanchez@example.com"
+      }
+    ]
   },
   {
     "id": "4",
@@ -655,6 +766,7 @@
       "cmdb": "",
       "jira": ""
     },
+    "portfolio": "PF_4",
     "name": "Apply for qualified teacher status (QTS) in England",
     "service_line": "Get into teaching",
     "service_line_id": "slid1",
@@ -868,7 +980,30 @@
         "partner_performance": "95%",
         "roadmap_progress": "92%"
       }
-    }
+    },
+    "serviceResources": [],
+    "contacts": [
+      {
+        "name": "Fatima Khan",
+        "role": "Product manager",
+        "email": "fatima.khan@example.com"
+      },
+      {
+        "name": "Priya Patel",
+        "role": "Delivery manager",
+        "email": "priya.patel@example.com"
+      },
+      {
+        "name": "Carlos Ramirez",
+        "role": "User researcher",
+        "email": "carlos.ramirez@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "Service designer",
+        "email": "kai.chen@example.com"
+      }
+    ]
   },
   {
     "id": "5",
@@ -876,6 +1011,7 @@
       "cmdb": "",
       "jira": ""
     },
+    "portfolio": "PF_4",
     "name": "Apply for teacher training",
     "service_line": "Get into teaching",
     "service_line_id": "slid1",
@@ -1078,7 +1214,45 @@
         "partner_performance": "99%",
         "roadmap_progress": "89%"
       }
-    }
+    },
+    "serviceResources": [],
+    "contacts": [
+      {
+        "name": "Kai Chen",
+        "role": "Product manager",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "Aisha Ahmed",
+        "role": "Delivery manager",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "User researcher",
+        "email": "oluwaseun.adeyemi@example.com"
+      },
+      {
+        "name": "Luis Fernandez",
+        "role": "Service designer",
+        "email": "luis.fernandez@example.com"
+      },
+      {
+        "name": "John Smith",
+        "role": "Interaction designer",
+        "email": "john.smith@example.com"
+      },
+      {
+        "name": "Wei Liu",
+        "role": "Performance analyst",
+        "email": "wei.liu@example.com"
+      },
+      {
+        "name": "Miguel Sanchez",
+        "role": "Business analyst",
+        "email": "miguel.sanchez@example.com"
+      }
+    ]
   },
   {
     "id": "6",
@@ -1086,6 +1260,7 @@
       "cmdb": "",
       "jira": ""
     },
+    "portfolio": "PF_5",
     "name": "Manage apprenticeships",
     "description": "This service is for organisations that want to take on apprentices. Use this service to set up and manage apprenticeship training and pay for apprenticeship training.",
     "public_url": "https://accounts.manage-apprenticeships.service.gov.uk/service",
@@ -1290,7 +1465,30 @@
         "partner_performance": "94%",
         "roadmap_progress": "78%"
       }
-    }
+    },
+    "serviceResources": [],
+    "contacts": [
+      {
+        "name": "Fatima Khan",
+        "role": "Product manager",
+        "email": "fatima.khan@example.com"
+      },
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "Delivery manager",
+        "email": "oluwaseun.adeyemi@example.com"
+      },
+      {
+        "name": "Amara Nnaji",
+        "role": "User researcher",
+        "email": "amara.nnaji@example.com"
+      },
+      {
+        "name": "Luis Fernandez",
+        "role": "Service designer",
+        "email": "luis.fernandez@example.com"
+      }
+    ]
   },
   {
     "id": "7",
@@ -1298,6 +1496,7 @@
       "cmdb": "",
       "jira": ""
     },
+    "portfolio": "PF_4",
     "name": "Calculate teacher pay",
     "service_owner": "Bruce Banner",
     "service_line": "Get into teaching",
@@ -1493,7 +1692,30 @@
         "partner_performance": "94%",
         "roadmap_progress": "76%"
       }
-    }
+    },
+    "serviceResources": [],
+    "contacts": [
+      {
+        "name": "Wei Liu",
+        "role": "Product manager",
+        "email": "wei.liu@example.com"
+      },
+      {
+        "name": "Omar Hassan",
+        "role": "Delivery manager",
+        "email": "omar.hassan@example.com"
+      },
+      {
+        "name": "Luis Fernandez",
+        "role": "User researcher",
+        "email": "luis.fernandez@example.com"
+      },
+      {
+        "name": "Miguel Sanchez",
+        "role": "Service designer",
+        "email": "miguel.sanchez@example.com"
+      }
+    ]
   },
   {
     "id": "8",
@@ -1501,6 +1723,7 @@
       "cmdb": "",
       "jira": ""
     },
+    "portfolio": "PF_4",
     "name": "Student Bursary Support Service",
     "description": "The Care to Learn scheme can help with childcare costs while you study.",
     "public_url": "https://studentbursary.education.gov.uk/w/webpage/student-bursary",
@@ -1705,7 +1928,30 @@
         "partner_performance": "91%",
         "roadmap_progress": "54%"
       }
-    }
+    },
+    "serviceResources": [],
+    "contacts": [
+      {
+        "name": "Omar Hassan",
+        "role": "Product manager",
+        "email": "omar.hassan@example.com"
+      },
+      {
+        "name": "Miguel Sanchez",
+        "role": "Delivery manager",
+        "email": "miguel.sanchez@example.com"
+      },
+      {
+        "name": "Isabella Rossi",
+        "role": "User researcher",
+        "email": "isabella.rossi@example.com"
+      },
+      {
+        "name": "Natalia Rodriguez",
+        "role": "Service designer",
+        "email": "natalia.rodriguez@example.com"
+      }
+    ]
   },
   {
     "id": "9",
@@ -1713,6 +1959,7 @@
       "cmdb": "",
       "jira": ""
     },
+    "portfolio": "PF_1",
     "name": "Early years child development training",
     "description": "A free, online training course providing an overview of child development and giving practical advice for supporting the development of children in your early years setting.",
     "public_url": "https://child-development-training.education.gov.uk/",
@@ -1911,7 +2158,40 @@
         "partner_performance": "93%",
         "roadmap_progress": "93%"
       }
-    }
+    },
+    "serviceResources": [],
+    "contacts": [
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "Product manager",
+        "email": "oluwaseun.adeyemi@example.com"
+      },
+      {
+        "name": "Natalia Rodriguez",
+        "role": "Delivery manager",
+        "email": "natalia.rodriguez@example.com"
+      },
+      {
+        "name": "Wei Liu",
+        "role": "User researcher",
+        "email": "wei.liu@example.com"
+      },
+      {
+        "name": "David Cohen",
+        "role": "Service designer",
+        "email": "david.cohen@example.com"
+      },
+      {
+        "name": "Naomi Yamamoto",
+        "role": "Business analyst",
+        "email": "naomi.yamamoto@example.com"
+      },
+      {
+        "name": "Miguel Sanchez",
+        "role": "Architect",
+        "email": "miguel.sanchez@example.com"
+      }
+    ]
   },
   {
     "id": "10",
@@ -1919,6 +2199,7 @@
       "cmdb": "",
       "jira": ""
     },
+    "portfolio": "PF_1",
     "name": "Notify the death or serious harm of a child",
     "description": "Notify the Child Safeguarding Practice Review Panel if it's known or suspected that a child has been abused or neglected.",
     "public_url": "https://childsafeguarding.education.gov.uk",
@@ -2126,7 +2407,35 @@
         "partner_performance": "99%",
         "roadmap_progress": "74%"
       }
-    }
+    },
+    "serviceResources": [],
+    "contacts": [
+      {
+        "name": "Isabella Rossi",
+        "role": "Product manager",
+        "email": "isabella.rossi@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "Delivery manager",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "User researcher",
+        "email": "oluwaseun.adeyemi@example.com"
+      },
+      {
+        "name": "Miguel Sanchez",
+        "role": "Service designer",
+        "email": "miguel.sanchez@example.com"
+      },
+      {
+        "name": "John Smith",
+        "role": "Performance analyst",
+        "email": "john.smith@example.com"
+      }
+    ]
   },
   {
     "id": "11",
@@ -2134,6 +2443,7 @@
       "cmdb": "",
       "jira": ""
     },
+    "portfolio": "PF_4",
     "name": "Find school and college performance data in England",
     "service_line": "Schools data",
     "service_line_id": "slid2",
@@ -2330,7 +2640,30 @@
         "partner_performance": "90%",
         "roadmap_progress": "99%"
       }
-    }
+    },
+    "serviceResources": [],
+    "contacts": [
+      {
+        "name": "Naomi Yamamoto",
+        "role": "Product manager",
+        "email": "naomi.yamamoto@example.com"
+      },
+      {
+        "name": "Elena Petrova",
+        "role": "Delivery manager",
+        "email": "elena.petrova@example.com"
+      },
+      {
+        "name": "John Smith",
+        "role": "User researcher",
+        "email": "john.smith@example.com"
+      },
+      {
+        "name": "Aisha Ahmed",
+        "role": "Service designer",
+        "email": "aisha.ahmed@example.com"
+      }
+    ]
   },
   {
     "id": "13",
@@ -2338,6 +2671,7 @@
       "cmdb": "",
       "jira": ""
     },
+    "portfolio": "PF_1",
     "name": "Connect families to support",
     "service_line": "Schools data",
     "service_line_id": "slid2",
@@ -2530,7 +2864,30 @@
         "partner_performance": "99%",
         "roadmap_progress": "77%"
       }
-    }
+    },
+    "serviceResources": [],
+    "contacts": [
+      {
+        "name": "Carlos Ramirez",
+        "role": "Product manager",
+        "email": "carlos.ramirez@example.com"
+      },
+      {
+        "name": "Aisha Ahmed",
+        "role": "Delivery manager",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "User researcher",
+        "email": "oluwaseun.adeyemi@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "Service designer",
+        "email": "kai.chen@example.com"
+      }
+    ]
   },
   {
     "id": "14",
@@ -2739,7 +3096,46 @@
         "partner_performance": "90%",
         "roadmap_progress": "55%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Sara Novak",
+        "role": "Product manager",
+        "email": "sara.novak@example.com"
+      },
+      {
+        "name": "Carlos Ramirez",
+        "role": "Delivery manager",
+        "email": "carlos.ramirez@example.com"
+      },
+      {
+        "name": "Isabella Rossi",
+        "role": "User researcher",
+        "email": "isabella.rossi@example.com"
+      },
+      {
+        "name": "David Cohen",
+        "role": "Service designer",
+        "email": "david.cohen@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "Business analyst",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "Interaction designer",
+        "email": "oluwaseun.adeyemi@example.com"
+      },
+      {
+        "name": "Yuki Tanaka",
+        "role": "Developer",
+        "email": "yuki.tanaka@example.com"
+      }
+    ]
   },
   {
     "id": "15",
@@ -2927,7 +3323,36 @@
         "partner_performance": "95%",
         "roadmap_progress": "78%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "Product manager",
+        "email": "oluwaseun.adeyemi@example.com"
+      },
+      {
+        "name": "David Cohen",
+        "role": "Delivery manager",
+        "email": "david.cohen@example.com"
+      },
+      {
+        "name": "Elena Petrova",
+        "role": "User researcher",
+        "email": "elena.petrova@example.com"
+      },
+      {
+        "name": "John Smith",
+        "role": "Service designer",
+        "email": "john.smith@example.com"
+      },
+      {
+        "name": "Aisha Ahmed",
+        "role": "Performance analyst",
+        "email": "aisha.ahmed@example.com"
+      }
+    ]
   },
   {
     "id": "16",
@@ -3118,7 +3543,36 @@
         "partner_performance": "95%",
         "roadmap_progress": "66%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Naomi Yamamoto",
+        "role": "Product manager",
+        "email": "naomi.yamamoto@example.com"
+      },
+      {
+        "name": "Miguel Sanchez",
+        "role": "Delivery manager",
+        "email": "miguel.sanchez@example.com"
+      },
+      {
+        "name": "Sara Novak",
+        "role": "User researcher",
+        "email": "sara.novak@example.com"
+      },
+      {
+        "name": "John Smith",
+        "role": "Service designer",
+        "email": "john.smith@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "Business analyst",
+        "email": "kai.chen@example.com"
+      }
+    ]
   },
   {
     "id": "17",
@@ -3309,7 +3763,46 @@
         "partner_performance": "91%",
         "roadmap_progress": "95%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Amara Nnaji",
+        "role": "Product manager",
+        "email": "amara.nnaji@example.com"
+      },
+      {
+        "name": "Sara Novak",
+        "role": "Delivery manager",
+        "email": "sara.novak@example.com"
+      },
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "User researcher",
+        "email": "oluwaseun.adeyemi@example.com"
+      },
+      {
+        "name": "Carlos Ramirez",
+        "role": "Service designer",
+        "email": "carlos.ramirez@example.com"
+      },
+      {
+        "name": "Aisha Ahmed",
+        "role": "Content designer",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "Natalia Rodriguez",
+        "role": "Developer",
+        "email": "natalia.rodriguez@example.com"
+      },
+      {
+        "name": "Naomi Yamamoto",
+        "role": "Interaction designer",
+        "email": "naomi.yamamoto@example.com"
+      }
+    ]
   },
   {
     "id": "18",
@@ -3491,7 +3984,36 @@
         "partner_performance": "94%",
         "roadmap_progress": "50%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Omar Hassan",
+        "role": "Product manager",
+        "email": "omar.hassan@example.com"
+      },
+      {
+        "name": "John Smith",
+        "role": "Delivery manager",
+        "email": "john.smith@example.com"
+      },
+      {
+        "name": "Aisha Ahmed",
+        "role": "User researcher",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "Natalia Rodriguez",
+        "role": "Service designer",
+        "email": "natalia.rodriguez@example.com"
+      },
+      {
+        "name": "Fatima Khan",
+        "role": "Architect",
+        "email": "fatima.khan@example.com"
+      }
+    ]
   },
   {
     "id": "19",
@@ -3677,7 +4199,31 @@
         "partner_performance": "90%",
         "roadmap_progress": "56%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Carlos Ramirez",
+        "role": "Product manager",
+        "email": "carlos.ramirez@example.com"
+      },
+      {
+        "name": "Priya Patel",
+        "role": "Delivery manager",
+        "email": "priya.patel@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "User researcher",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "David Cohen",
+        "role": "Service designer",
+        "email": "david.cohen@example.com"
+      }
+    ]
   },
   {
     "id": "20",
@@ -3850,7 +4396,31 @@
         "partner_performance": "93%",
         "roadmap_progress": "66%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Yuki Tanaka",
+        "role": "Product manager",
+        "email": "yuki.tanaka@example.com"
+      },
+      {
+        "name": "Priya Patel",
+        "role": "Delivery manager",
+        "email": "priya.patel@example.com"
+      },
+      {
+        "name": "Wei Liu",
+        "role": "User researcher",
+        "email": "wei.liu@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "Service designer",
+        "email": "kai.chen@example.com"
+      }
+    ]
   },
   {
     "id": "21",
@@ -4033,7 +4603,46 @@
         "partner_performance": "90%",
         "roadmap_progress": "59%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Carlos Ramirez",
+        "role": "Product manager",
+        "email": "carlos.ramirez@example.com"
+      },
+      {
+        "name": "Sara Novak",
+        "role": "Delivery manager",
+        "email": "sara.novak@example.com"
+      },
+      {
+        "name": "John Smith",
+        "role": "User researcher",
+        "email": "john.smith@example.com"
+      },
+      {
+        "name": "Amara Nnaji",
+        "role": "Service designer",
+        "email": "amara.nnaji@example.com"
+      },
+      {
+        "name": "Omar Hassan",
+        "role": "Developer",
+        "email": "omar.hassan@example.com"
+      },
+      {
+        "name": "Luis Fernandez",
+        "role": "Interaction designer",
+        "email": "luis.fernandez@example.com"
+      },
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "Architect",
+        "email": "oluwaseun.adeyemi@example.com"
+      }
+    ]
   },
   {
     "id": "22",
@@ -4237,7 +4846,36 @@
         "partner_performance": "95%",
         "roadmap_progress": "89%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "Product manager",
+        "email": "oluwaseun.adeyemi@example.com"
+      },
+      {
+        "name": "Natalia Rodriguez",
+        "role": "Delivery manager",
+        "email": "natalia.rodriguez@example.com"
+      },
+      {
+        "name": "Priya Patel",
+        "role": "User researcher",
+        "email": "priya.patel@example.com"
+      },
+      {
+        "name": "John Smith",
+        "role": "Service designer",
+        "email": "john.smith@example.com"
+      },
+      {
+        "name": "Sara Novak",
+        "role": "Content designer",
+        "email": "sara.novak@example.com"
+      }
+    ]
   },
   {
     "id": "23",
@@ -4427,7 +5065,41 @@
         "partner_performance": "95%",
         "roadmap_progress": "86%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Omar Hassan",
+        "role": "Product manager",
+        "email": "omar.hassan@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "Delivery manager",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "Isabella Rossi",
+        "role": "User researcher",
+        "email": "isabella.rossi@example.com"
+      },
+      {
+        "name": "Yuki Tanaka",
+        "role": "Service designer",
+        "email": "yuki.tanaka@example.com"
+      },
+      {
+        "name": "Sara Novak",
+        "role": "Performance analyst",
+        "email": "sara.novak@example.com"
+      },
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "Content designer",
+        "email": "oluwaseun.adeyemi@example.com"
+      }
+    ]
   },
   {
     "id": "24",
@@ -4615,7 +5287,31 @@
         "partner_performance": "94%",
         "roadmap_progress": "54%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Elena Petrova",
+        "role": "Product manager",
+        "email": "elena.petrova@example.com"
+      },
+      {
+        "name": "Omar Hassan",
+        "role": "Delivery manager",
+        "email": "omar.hassan@example.com"
+      },
+      {
+        "name": "Naomi Yamamoto",
+        "role": "User researcher",
+        "email": "naomi.yamamoto@example.com"
+      },
+      {
+        "name": "Natalia Rodriguez",
+        "role": "Service designer",
+        "email": "natalia.rodriguez@example.com"
+      }
+    ]
   },
   {
     "id": "25",
@@ -4801,7 +5497,31 @@
         "partner_performance": "95%",
         "roadmap_progress": "76%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Yuki Tanaka",
+        "role": "Product manager",
+        "email": "yuki.tanaka@example.com"
+      },
+      {
+        "name": "Omar Hassan",
+        "role": "Delivery manager",
+        "email": "omar.hassan@example.com"
+      },
+      {
+        "name": "Elena Petrova",
+        "role": "User researcher",
+        "email": "elena.petrova@example.com"
+      },
+      {
+        "name": "Fatima Khan",
+        "role": "Service designer",
+        "email": "fatima.khan@example.com"
+      }
+    ]
   },
   {
     "id": "26",
@@ -5005,7 +5725,36 @@
         "partner_performance": "98%",
         "roadmap_progress": "57%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Kai Chen",
+        "role": "Product manager",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "Isabella Rossi",
+        "role": "Delivery manager",
+        "email": "isabella.rossi@example.com"
+      },
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "User researcher",
+        "email": "oluwaseun.adeyemi@example.com"
+      },
+      {
+        "name": "Yuki Tanaka",
+        "role": "Service designer",
+        "email": "yuki.tanaka@example.com"
+      },
+      {
+        "name": "John Smith",
+        "role": "Architect",
+        "email": "john.smith@example.com"
+      }
+    ]
   },
   {
     "id": "27",
@@ -5182,7 +5931,31 @@
         "partner_performance": "99%",
         "roadmap_progress": "71%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Carlos Ramirez",
+        "role": "Product manager",
+        "email": "carlos.ramirez@example.com"
+      },
+      {
+        "name": "Wei Liu",
+        "role": "Delivery manager",
+        "email": "wei.liu@example.com"
+      },
+      {
+        "name": "Isabella Rossi",
+        "role": "User researcher",
+        "email": "isabella.rossi@example.com"
+      },
+      {
+        "name": "Priya Patel",
+        "role": "Service designer",
+        "email": "priya.patel@example.com"
+      }
+    ]
   },
   {
     "id": "28",
@@ -5380,7 +6153,41 @@
         "partner_performance": "100%",
         "roadmap_progress": "78%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Amara Nnaji",
+        "role": "Product manager",
+        "email": "amara.nnaji@example.com"
+      },
+      {
+        "name": "Yuki Tanaka",
+        "role": "Delivery manager",
+        "email": "yuki.tanaka@example.com"
+      },
+      {
+        "name": "Aisha Ahmed",
+        "role": "User researcher",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "Wei Liu",
+        "role": "Service designer",
+        "email": "wei.liu@example.com"
+      },
+      {
+        "name": "Sara Novak",
+        "role": "Performance analyst",
+        "email": "sara.novak@example.com"
+      },
+      {
+        "name": "Elena Petrova",
+        "role": "Developer",
+        "email": "elena.petrova@example.com"
+      }
+    ]
   },
   {
     "id": "29",
@@ -5562,7 +6369,41 @@
         "partner_performance": "94%",
         "roadmap_progress": "67%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Yuki Tanaka",
+        "role": "Product manager",
+        "email": "yuki.tanaka@example.com"
+      },
+      {
+        "name": "Priya Patel",
+        "role": "Delivery manager",
+        "email": "priya.patel@example.com"
+      },
+      {
+        "name": "Luis Fernandez",
+        "role": "User researcher",
+        "email": "luis.fernandez@example.com"
+      },
+      {
+        "name": "Zara Bukhari",
+        "role": "Service designer",
+        "email": "zara.bukhari@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "Performance analyst",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "Carlos Ramirez",
+        "role": "Content designer",
+        "email": "carlos.ramirez@example.com"
+      }
+    ]
   },
   {
     "id": "30",
@@ -5757,7 +6598,31 @@
         "partner_performance": "91%",
         "roadmap_progress": "93%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Kai Chen",
+        "role": "Product manager",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "Naomi Yamamoto",
+        "role": "Delivery manager",
+        "email": "naomi.yamamoto@example.com"
+      },
+      {
+        "name": "Isabella Rossi",
+        "role": "User researcher",
+        "email": "isabella.rossi@example.com"
+      },
+      {
+        "name": "Elena Petrova",
+        "role": "Service designer",
+        "email": "elena.petrova@example.com"
+      }
+    ]
   },
   {
     "id": "31",
@@ -5951,7 +6816,46 @@
         "partner_performance": "96%",
         "roadmap_progress": "87%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Aisha Ahmed",
+        "role": "Product manager",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "Carlos Ramirez",
+        "role": "Delivery manager",
+        "email": "carlos.ramirez@example.com"
+      },
+      {
+        "name": "Natalia Rodriguez",
+        "role": "User researcher",
+        "email": "natalia.rodriguez@example.com"
+      },
+      {
+        "name": "Elena Petrova",
+        "role": "Service designer",
+        "email": "elena.petrova@example.com"
+      },
+      {
+        "name": "Wei Liu",
+        "role": "Architect",
+        "email": "wei.liu@example.com"
+      },
+      {
+        "name": "Sara Novak",
+        "role": "Business analyst",
+        "email": "sara.novak@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "Interaction designer",
+        "email": "kai.chen@example.com"
+      }
+    ]
   },
   {
     "id": "32",
@@ -6151,7 +7055,36 @@
         "partner_performance": "95%",
         "roadmap_progress": "57%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Yuki Tanaka",
+        "role": "Product manager",
+        "email": "yuki.tanaka@example.com"
+      },
+      {
+        "name": "Zara Bukhari",
+        "role": "Delivery manager",
+        "email": "zara.bukhari@example.com"
+      },
+      {
+        "name": "Amara Nnaji",
+        "role": "User researcher",
+        "email": "amara.nnaji@example.com"
+      },
+      {
+        "name": "Elena Petrova",
+        "role": "Service designer",
+        "email": "elena.petrova@example.com"
+      },
+      {
+        "name": "Sara Novak",
+        "role": "Performance analyst",
+        "email": "sara.novak@example.com"
+      }
+    ]
   },
   {
     "id": "33",
@@ -6334,7 +7267,41 @@
         "partner_performance": "91%",
         "roadmap_progress": "53%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Yuki Tanaka",
+        "role": "Product manager",
+        "email": "yuki.tanaka@example.com"
+      },
+      {
+        "name": "Sara Novak",
+        "role": "Delivery manager",
+        "email": "sara.novak@example.com"
+      },
+      {
+        "name": "Aisha Ahmed",
+        "role": "User researcher",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "Elena Petrova",
+        "role": "Service designer",
+        "email": "elena.petrova@example.com"
+      },
+      {
+        "name": "John Smith",
+        "role": "Performance analyst",
+        "email": "john.smith@example.com"
+      },
+      {
+        "name": "Naomi Yamamoto",
+        "role": "Business analyst",
+        "email": "naomi.yamamoto@example.com"
+      }
+    ]
   },
   {
     "id": "34",
@@ -6523,7 +7490,46 @@
         "partner_performance": "95%",
         "roadmap_progress": "63%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Carlos Ramirez",
+        "role": "Product manager",
+        "email": "carlos.ramirez@example.com"
+      },
+      {
+        "name": "Yuki Tanaka",
+        "role": "Delivery manager",
+        "email": "yuki.tanaka@example.com"
+      },
+      {
+        "name": "Zara Bukhari",
+        "role": "User researcher",
+        "email": "zara.bukhari@example.com"
+      },
+      {
+        "name": "Aisha Ahmed",
+        "role": "Service designer",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "Luis Fernandez",
+        "role": "Content designer",
+        "email": "luis.fernandez@example.com"
+      },
+      {
+        "name": "Isabella Rossi",
+        "role": "Interaction designer",
+        "email": "isabella.rossi@example.com"
+      },
+      {
+        "name": "Priya Patel",
+        "role": "Business analyst",
+        "email": "priya.patel@example.com"
+      }
+    ]
   },
   {
     "id": "35",
@@ -6701,7 +7707,31 @@
         "partner_performance": "91%",
         "roadmap_progress": "60%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Naomi Yamamoto",
+        "role": "Product manager",
+        "email": "naomi.yamamoto@example.com"
+      },
+      {
+        "name": "Isabella Rossi",
+        "role": "Delivery manager",
+        "email": "isabella.rossi@example.com"
+      },
+      {
+        "name": "Fatima Khan",
+        "role": "User researcher",
+        "email": "fatima.khan@example.com"
+      },
+      {
+        "name": "Yuki Tanaka",
+        "role": "Service designer",
+        "email": "yuki.tanaka@example.com"
+      }
+    ]
   },
   {
     "id": "36",
@@ -6884,7 +7914,41 @@
         "partner_performance": "98%",
         "roadmap_progress": "60%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Zara Bukhari",
+        "role": "Product manager",
+        "email": "zara.bukhari@example.com"
+      },
+      {
+        "name": "Sara Novak",
+        "role": "Delivery manager",
+        "email": "sara.novak@example.com"
+      },
+      {
+        "name": "Priya Patel",
+        "role": "User researcher",
+        "email": "priya.patel@example.com"
+      },
+      {
+        "name": "Omar Hassan",
+        "role": "Service designer",
+        "email": "omar.hassan@example.com"
+      },
+      {
+        "name": "Miguel Sanchez",
+        "role": "Architect",
+        "email": "miguel.sanchez@example.com"
+      },
+      {
+        "name": "Yuki Tanaka",
+        "role": "Business analyst",
+        "email": "yuki.tanaka@example.com"
+      }
+    ]
   },
   {
     "id": "37",
@@ -7088,7 +8152,31 @@
         "partner_performance": "90%",
         "roadmap_progress": "83%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Luis Fernandez",
+        "role": "Product manager",
+        "email": "luis.fernandez@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "Delivery manager",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "Aisha Ahmed",
+        "role": "User researcher",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "Carlos Ramirez",
+        "role": "Service designer",
+        "email": "carlos.ramirez@example.com"
+      }
+    ]
   },
   {
     "id": "38",
@@ -7277,7 +8365,46 @@
         "partner_performance": "97%",
         "roadmap_progress": "56%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Aisha Ahmed",
+        "role": "Product manager",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "John Smith",
+        "role": "Delivery manager",
+        "email": "john.smith@example.com"
+      },
+      {
+        "name": "Fatima Khan",
+        "role": "User researcher",
+        "email": "fatima.khan@example.com"
+      },
+      {
+        "name": "David Cohen",
+        "role": "Service designer",
+        "email": "david.cohen@example.com"
+      },
+      {
+        "name": "Carlos Ramirez",
+        "role": "Interaction designer",
+        "email": "carlos.ramirez@example.com"
+      },
+      {
+        "name": "Luis Fernandez",
+        "role": "Performance analyst",
+        "email": "luis.fernandez@example.com"
+      },
+      {
+        "name": "Yuki Tanaka",
+        "role": "Developer",
+        "email": "yuki.tanaka@example.com"
+      }
+    ]
   },
   {
     "id": "39",
@@ -7460,7 +8587,36 @@
         "partner_performance": "93%",
         "roadmap_progress": "89%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Kai Chen",
+        "role": "Product manager",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "Elena Petrova",
+        "role": "Delivery manager",
+        "email": "elena.petrova@example.com"
+      },
+      {
+        "name": "David Cohen",
+        "role": "User researcher",
+        "email": "david.cohen@example.com"
+      },
+      {
+        "name": "Wei Liu",
+        "role": "Service designer",
+        "email": "wei.liu@example.com"
+      },
+      {
+        "name": "Priya Patel",
+        "role": "Architect",
+        "email": "priya.patel@example.com"
+      }
+    ]
   },
   {
     "id": "40",
@@ -7633,7 +8789,41 @@
         "partner_performance": "91%",
         "roadmap_progress": "76%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Naomi Yamamoto",
+        "role": "Product manager",
+        "email": "naomi.yamamoto@example.com"
+      },
+      {
+        "name": "Zara Bukhari",
+        "role": "Delivery manager",
+        "email": "zara.bukhari@example.com"
+      },
+      {
+        "name": "Priya Patel",
+        "role": "User researcher",
+        "email": "priya.patel@example.com"
+      },
+      {
+        "name": "Yuki Tanaka",
+        "role": "Service designer",
+        "email": "yuki.tanaka@example.com"
+      },
+      {
+        "name": "Fatima Khan",
+        "role": "Interaction designer",
+        "email": "fatima.khan@example.com"
+      },
+      {
+        "name": "David Cohen",
+        "role": "Performance analyst",
+        "email": "david.cohen@example.com"
+      }
+    ]
   },
   {
     "id": "41",
@@ -7815,7 +9005,31 @@
         "partner_performance": "95%",
         "roadmap_progress": "96%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Luis Fernandez",
+        "role": "Product manager",
+        "email": "luis.fernandez@example.com"
+      },
+      {
+        "name": "David Cohen",
+        "role": "Delivery manager",
+        "email": "david.cohen@example.com"
+      },
+      {
+        "name": "Miguel Sanchez",
+        "role": "User researcher",
+        "email": "miguel.sanchez@example.com"
+      },
+      {
+        "name": "Naomi Yamamoto",
+        "role": "Service designer",
+        "email": "naomi.yamamoto@example.com"
+      }
+    ]
   },
   {
     "id": "42",
@@ -8001,7 +9215,46 @@
         "partner_performance": "91%",
         "roadmap_progress": "74%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Aisha Ahmed",
+        "role": "Product manager",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "Delivery manager",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "Isabella Rossi",
+        "role": "User researcher",
+        "email": "isabella.rossi@example.com"
+      },
+      {
+        "name": "Zara Bukhari",
+        "role": "Service designer",
+        "email": "zara.bukhari@example.com"
+      },
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "Interaction designer",
+        "email": "oluwaseun.adeyemi@example.com"
+      },
+      {
+        "name": "David Cohen",
+        "role": "Developer",
+        "email": "david.cohen@example.com"
+      },
+      {
+        "name": "Fatima Khan",
+        "role": "Performance analyst",
+        "email": "fatima.khan@example.com"
+      }
+    ]
   },
   {
     "id": "43",
@@ -8205,7 +9458,36 @@
         "partner_performance": "94%",
         "roadmap_progress": "86%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Priya Patel",
+        "role": "Product manager",
+        "email": "priya.patel@example.com"
+      },
+      {
+        "name": "Aisha Ahmed",
+        "role": "Delivery manager",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "Luis Fernandez",
+        "role": "User researcher",
+        "email": "luis.fernandez@example.com"
+      },
+      {
+        "name": "Natalia Rodriguez",
+        "role": "Service designer",
+        "email": "natalia.rodriguez@example.com"
+      },
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "Performance analyst",
+        "email": "oluwaseun.adeyemi@example.com"
+      }
+    ]
   },
   {
     "id": "44",
@@ -8214,7 +9496,7 @@
       "jira": ""
     },
     "name": "Plan technology for your school",
-    "description": "This is a self-assessment service to determine how your school is using technology and what your school can do to use technology better in future.",
+    "description": "This is a self-assessment service to determine how your school is using technology\u202fand what your school can do to use technology better in future.",
     "public_url": "https://www.plan-technology-for-your-school.education.gov.uk",
     "created_at": "2025-05-09T00:00:00Z",
     "updated_at": "2025-05-09T00:00:00Z",
@@ -8387,7 +9669,46 @@
         "partner_performance": "94%",
         "roadmap_progress": "52%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Aisha Ahmed",
+        "role": "Product manager",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "Isabella Rossi",
+        "role": "Delivery manager",
+        "email": "isabella.rossi@example.com"
+      },
+      {
+        "name": "Luis Fernandez",
+        "role": "User researcher",
+        "email": "luis.fernandez@example.com"
+      },
+      {
+        "name": "Yuki Tanaka",
+        "role": "Service designer",
+        "email": "yuki.tanaka@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "Performance analyst",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "Zara Bukhari",
+        "role": "Interaction designer",
+        "email": "zara.bukhari@example.com"
+      },
+      {
+        "name": "Priya Patel",
+        "role": "Developer",
+        "email": "priya.patel@example.com"
+      }
+    ]
   },
   {
     "id": "45",
@@ -8569,7 +9890,46 @@
         "partner_performance": "94%",
         "roadmap_progress": "72%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Naomi Yamamoto",
+        "role": "Product manager",
+        "email": "naomi.yamamoto@example.com"
+      },
+      {
+        "name": "Isabella Rossi",
+        "role": "Delivery manager",
+        "email": "isabella.rossi@example.com"
+      },
+      {
+        "name": "Luis Fernandez",
+        "role": "User researcher",
+        "email": "luis.fernandez@example.com"
+      },
+      {
+        "name": "John Smith",
+        "role": "Service designer",
+        "email": "john.smith@example.com"
+      },
+      {
+        "name": "Yuki Tanaka",
+        "role": "Business analyst",
+        "email": "yuki.tanaka@example.com"
+      },
+      {
+        "name": "David Cohen",
+        "role": "Architect",
+        "email": "david.cohen@example.com"
+      },
+      {
+        "name": "Wei Liu",
+        "role": "Performance analyst",
+        "email": "wei.liu@example.com"
+      }
+    ]
   },
   {
     "id": "46",
@@ -8757,7 +10117,31 @@
         "partner_performance": "99%",
         "roadmap_progress": "57%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Carlos Ramirez",
+        "role": "Product manager",
+        "email": "carlos.ramirez@example.com"
+      },
+      {
+        "name": "Wei Liu",
+        "role": "Delivery manager",
+        "email": "wei.liu@example.com"
+      },
+      {
+        "name": "Natalia Rodriguez",
+        "role": "User researcher",
+        "email": "natalia.rodriguez@example.com"
+      },
+      {
+        "name": "Omar Hassan",
+        "role": "Service designer",
+        "email": "omar.hassan@example.com"
+      }
+    ]
   },
   {
     "id": "47",
@@ -8951,7 +10335,46 @@
         "partner_performance": "95%",
         "roadmap_progress": "88%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Zara Bukhari",
+        "role": "Product manager",
+        "email": "zara.bukhari@example.com"
+      },
+      {
+        "name": "John Smith",
+        "role": "Delivery manager",
+        "email": "john.smith@example.com"
+      },
+      {
+        "name": "Isabella Rossi",
+        "role": "User researcher",
+        "email": "isabella.rossi@example.com"
+      },
+      {
+        "name": "Elena Petrova",
+        "role": "Service designer",
+        "email": "elena.petrova@example.com"
+      },
+      {
+        "name": "Carlos Ramirez",
+        "role": "Interaction designer",
+        "email": "carlos.ramirez@example.com"
+      },
+      {
+        "name": "Natalia Rodriguez",
+        "role": "Performance analyst",
+        "email": "natalia.rodriguez@example.com"
+      },
+      {
+        "name": "Sara Novak",
+        "role": "Developer",
+        "email": "sara.novak@example.com"
+      }
+    ]
   },
   {
     "id": "48",
@@ -9134,7 +10557,36 @@
         "partner_performance": "94%",
         "roadmap_progress": "71%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Priya Patel",
+        "role": "Product manager",
+        "email": "priya.patel@example.com"
+      },
+      {
+        "name": "John Smith",
+        "role": "Delivery manager",
+        "email": "john.smith@example.com"
+      },
+      {
+        "name": "Naomi Yamamoto",
+        "role": "User researcher",
+        "email": "naomi.yamamoto@example.com"
+      },
+      {
+        "name": "Amara Nnaji",
+        "role": "Service designer",
+        "email": "amara.nnaji@example.com"
+      },
+      {
+        "name": "Luis Fernandez",
+        "role": "Architect",
+        "email": "luis.fernandez@example.com"
+      }
+    ]
   },
   {
     "id": "49",
@@ -9329,7 +10781,46 @@
         "partner_performance": "98%",
         "roadmap_progress": "89%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Kai Chen",
+        "role": "Product manager",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "Elena Petrova",
+        "role": "Delivery manager",
+        "email": "elena.petrova@example.com"
+      },
+      {
+        "name": "Luis Fernandez",
+        "role": "User researcher",
+        "email": "luis.fernandez@example.com"
+      },
+      {
+        "name": "Isabella Rossi",
+        "role": "Service designer",
+        "email": "isabella.rossi@example.com"
+      },
+      {
+        "name": "Aisha Ahmed",
+        "role": "Interaction designer",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "Zara Bukhari",
+        "role": "Business analyst",
+        "email": "zara.bukhari@example.com"
+      },
+      {
+        "name": "Yuki Tanaka",
+        "role": "Developer",
+        "email": "yuki.tanaka@example.com"
+      }
+    ]
   },
   {
     "id": "50",
@@ -9529,6 +11020,45 @@
         "partner_performance": "100%",
         "roadmap_progress": "77%"
       }
-    }
+    },
+    "serviceResources": [],
+    "portfolio": "",
+    "contacts": [
+      {
+        "name": "Luis Fernandez",
+        "role": "Product manager",
+        "email": "luis.fernandez@example.com"
+      },
+      {
+        "name": "Aisha Ahmed",
+        "role": "Delivery manager",
+        "email": "aisha.ahmed@example.com"
+      },
+      {
+        "name": "Kai Chen",
+        "role": "User researcher",
+        "email": "kai.chen@example.com"
+      },
+      {
+        "name": "Oluwaseun Adeyemi",
+        "role": "Service designer",
+        "email": "oluwaseun.adeyemi@example.com"
+      },
+      {
+        "name": "Amara Nnaji",
+        "role": "Business analyst",
+        "email": "amara.nnaji@example.com"
+      },
+      {
+        "name": "Priya Patel",
+        "role": "Developer",
+        "email": "priya.patel@example.com"
+      },
+      {
+        "name": "Wei Liu",
+        "role": "Content designer",
+        "email": "wei.liu@example.com"
+      }
+    ]
   }
 ]

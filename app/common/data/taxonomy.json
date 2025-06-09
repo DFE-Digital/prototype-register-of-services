@@ -1,438 +1,512 @@
 {
     "service_patterns": {
-        "id": "SP",
-        "name": "Service pattern",
-        "description": "Common actions or user interactions used in the service to complete a task.",
-        "items": [
-            {
-                "id": "SP_1",
-                "name": "Start something",
-                "description": "Allows the user to start something, for example, become a teacher."
-            },
-            {
-                "id": "SP_2",
-                "name": "Check eligibility",
-                "description": "Allows the user to check their eligibility for something, for example, check their eligibility for a teacher training course."
-            },
-            {
-                "id": "SP_3",
-                "name": "Apply for something",
-                "description": "Allows the user to apply for something, for example, apply for funds for their school."
-            },
-            {
-                "id": "SP_4",
-                "name": "Register",
-                "description": "Allows the user to register for something, for example, register to use a product or service."
-            },
-            {
-                "id": "SP_5",
-                "name": "Sign in",
-                "description": "Allows the user to sign in to something, for example, sign in using DfE Sign-in or GOV.UK One Login"
-            },
-            {
-                "id": "SP_6",
-                "name": "Check your answers",
-                "description": "Allows the user to check their answers, for example, check their answers before submitting a form."
-            },
-            {
-                "id": "SP_7",
-                "name": "Book something",
-                "description": "Allows the user to book something, for example, book a place on a course or book a place on a training course."
-            },
-            {
-                "id": "SP_8",
-                "name": "Pay for something",
-                "description": "Allows the user to pay for something, for example, pay for a course or pay for a training course."
-            },
-            {
-                "id": "SP_9",
-                "name": "Receive payment",
-                "description": "Allows the user to receive payment, for example, receive a grant or funding."
-            },
-            {
-                "id": "SP_10",
-                "name": "Verify Identity",
-                "description": "Allows the user to verify their identity, for example, verify their identity using GOV.UK One Login or provide a document to verify their identity."
-            },
-            {
-                "id": "SP_11",
-                "name": "Find something",
-                "description": "Allows the user to find something, for example, find a training provider, school, or college."
-            },
-            {
-                "id": "SP_12",
-                "name": "Learn something",
-                "description": "Allows the user to learn something, for example, Early years child development training."
-            },
-            {
-                "id": "SP_13",
-                "name": "Report something",
-                "description": "Allows the user to report something, for example, report a problem with a service, misconduct, or child welfare concerns."
-            },
-            {
-                "id": "SP_14",
-                "name": "Manage something",
-                "description": "Allows the user to manage something, for example, manage a record the user has access to."
-            },
-            {
-                "id": "SP_15",
-                "name": "Check something",
-                "description": "Allows the user to check the status of something, check the details of something, or check the availability of something."
-            },
-            {
-                "id": "SP_16",
-                "name": "Upload something",
-                "description": "Allows the user to upload a file, upload a document, or upload a photo."
-            },
-            {
-                "id": "SP_17",
-                "name": "Download something",
-                "description": "Allows the user to download a file, download a document, or download a photo."
-            },
-            {
-                "id": "SP_18",
-                "name": "Appeal something",
-                "description": "Allows the user to appeal a decision, appeal a penalty, or appeal a fine."
-            },
-            {
-                "id": "SP_19",
-                "name": "Give feedback",
-                "description": "Allows the user to give feedback on something, give feedback on a service, or give feedback on a product."
-            },
-            {
-                "id": "SP_20",
-                "name": "Request something",
-                "description": "Allows the user to request something, for example a document or a form."
-            },
-            {
-                "id": "SP_21",
-                "name": "End something",
-                "description": "Services and products which end something, for example, end being a a teacher."
-            }
-        ]
+      "id": "SP",
+      "name": "Service pattern",
+      "description": "Common actions or user interactions used in the service to complete a task.",
+      "items": [
+        {
+          "id": "SP_1",
+          "name": "Start something",
+          "description": "Allows the user to start something, for example, become a teacher."
+        },
+        {
+          "id": "SP_2",
+          "name": "Check eligibility",
+          "description": "Allows the user to check their eligibility for something, for example, check their eligibility for a teacher training course."
+        },
+        {
+          "id": "SP_3",
+          "name": "Apply for something",
+          "description": "Allows the user to apply for something, for example, apply for funds for their school."
+        },
+        {
+          "id": "SP_4",
+          "name": "Register",
+          "description": "Allows the user to register for something, for example, register to use a product or service."
+        },
+        {
+          "id": "SP_5",
+          "name": "Sign in",
+          "description": "Allows the user to sign in to something, for example, sign in using DfE Sign-in or GOV.UK One Login"
+        },
+        {
+          "id": "SP_6",
+          "name": "Check your answers",
+          "description": "Allows the user to check their answers, for example, check their answers before submitting a form."
+        },
+        {
+          "id": "SP_7",
+          "name": "Book something",
+          "description": "Allows the user to book something, for example, book a place on a course or book a place on a training course."
+        },
+        {
+          "id": "SP_8",
+          "name": "Pay for something",
+          "description": "Allows the user to pay for something, for example, pay for a course or pay for a training course."
+        },
+        {
+          "id": "SP_9",
+          "name": "Receive payment",
+          "description": "Allows the user to receive payment, for example, receive a grant or funding."
+        },
+        {
+          "id": "SP_10",
+          "name": "Verify Identity",
+          "description": "Allows the user to verify their identity, for example, verify their identity using GOV.UK One Login or provide a document to verify their identity."
+        },
+        {
+          "id": "SP_11",
+          "name": "Find something",
+          "description": "Allows the user to find something, for example, find a training provider, school, or college."
+        },
+        {
+          "id": "SP_12",
+          "name": "Learn something",
+          "description": "Allows the user to learn something, for example, Early years child development training."
+        },
+        {
+          "id": "SP_13",
+          "name": "Report something",
+          "description": "Allows the user to report something, for example, report a problem with a service, misconduct, or child welfare concerns."
+        },
+        {
+          "id": "SP_14",
+          "name": "Manage something",
+          "description": "Allows the user to manage something, for example, manage a record the user has access to."
+        },
+        {
+          "id": "SP_15",
+          "name": "Check something",
+          "description": "Allows the user to check the status of something, check the details of something, or check the availability of something."
+        },
+        {
+          "id": "SP_16",
+          "name": "Upload something",
+          "description": "Allows the user to upload a file, upload a document, or upload a photo."
+        },
+        {
+          "id": "SP_17",
+          "name": "Download something",
+          "description": "Allows the user to download a file, download a document, or download a photo."
+        },
+        {
+          "id": "SP_18",
+          "name": "Appeal something",
+          "description": "Allows the user to appeal a decision, appeal a penalty, or appeal a fine."
+        },
+        {
+          "id": "SP_19",
+          "name": "Give feedback",
+          "description": "Allows the user to give feedback on something, give feedback on a service, or give feedback on a product."
+        },
+        {
+          "id": "SP_20",
+          "name": "Request something",
+          "description": "Allows the user to request something, for example a document or a form."
+        },
+        {
+          "id": "SP_21",
+          "name": "End something",
+          "description": "Services and products which end something, for example, end being a a teacher."
+        }
+      ]
     },
     "user_groups": {
-        "id": "UG",
-        "name": "User group",
-        "description": "Different types of users who interact with the service, defined by their roles or demographics.",
-        "items": [
-            {
-                "id": "UG_1",
-                "name": "Child or young person"
-            },
-            {
-                "id": "UG_2",
-                "name": "Adult learner or adult career seeker (aged 19 or older)"
-            },
-            {
-                "id": "UG_3",
-                "name": "Parent or carer"
-            },
-            {
-                "id": "UG_4",
-                "name": "Careers adviser or work coach"
-            },
-            {
-                "id": "UG_5",
-                "name": "Local authority workforce"
-            },
-            {
-                "id": "UG_6",
-                "name": "DfE workforce"
-            },
-            {
-                "id": "UG_7",
-                "name": "Education provider and early years workforce"
-            },
-            {
-                "id": "UG_8",
-                "name": "Employer workforce"
-            },
-            {
-                "id": "UG_9",
-                "name": "Training or qualifications provider workforce"
-            },
-            {
-                "id": "UG_10",
-                "name": "External user of DfE data"
-            },
-            {
-                "id": "UG_11",
-                "name": "Voluntary and third sector workforce"
-            }
-        ]
+      "id": "UG",
+      "name": "User group",
+      "description": "Different types of users who interact with the service, defined by their roles or demographics.",
+      "items": [
+        {
+          "id": "UG_1",
+          "name": "Child or young person",
+          "description": "Children or young people under the age of 18 engaging with services."
+        },
+        {
+          "id": "UG_2",
+          "name": "Adult learner or adult career seeker (aged 19 or older)",
+          "description": "Adults aged 19 or older who are pursuing learning or career opportunities."
+        },
+        {
+          "id": "UG_3",
+          "name": "Parent or carer",
+          "description": "Parents or carers responsible for children, using services on their behalf."
+        },
+        {
+          "id": "UG_4",
+          "name": "Careers adviser or work coach",
+          "description": "Careers advisers or work coaches offering guidance and support to users."
+        },
+        {
+          "id": "UG_5",
+          "name": "Local authority workforce",
+          "description": "Local authority staff involved in planning and delivering education services."
+        },
+        {
+          "id": "UG_6",
+          "name": "DfE workforce",
+          "description": "Department for Education employees accessing internal and external services."
+        },
+        {
+          "id": "UG_7",
+          "name": "Education provider and early years workforce",
+          "description": "Education providers and early years workforce delivering teaching services."
+        },
+        {
+          "id": "UG_8",
+          "name": "Employer workforce",
+          "description": "Employer staff engaging with training, recruitment, and workforce services."
+        },
+        {
+          "id": "UG_9",
+          "name": "Training or qualifications provider workforce",
+          "description": "Training or qualifications provider staff managing courses and certifications."
+        },
+        {
+          "id": "UG_10",
+          "name": "External user of DfE data",
+          "description": "External users accessing Department for Education data for research and analysis."
+        },
+        {
+          "id": "UG_11",
+          "name": "Voluntary and third sector workforce",
+          "description": "Voluntary and third-sector staff supporting educational and welfare programmes."
+        }
+      ]
     },
     "service_archetypes": {
-        "id": "SA",
-        "name": "Service archetype",
-        "description": "Classifications of services based on their purpose and functionality.",
-        "items": [
-            {
-                "id": "SA_1",
-                "name": "Transactional",
-                "description": "Services where a government record is created, updated, or deleted."
-            },
-            {
-                "id": "SA_2",
-                "name": "Information",
-                "description": "Services that provide information only, such as policy documents, guidance, or statistics."
-            },
-            {
-                "id": "SA_3",
-                "name": "Support or advisory",
-                "description": "Services that provide support or advice, such as a helpline or forum."
-            },
-            {
-                "id": "SA_4",
-                "name": "Regulatory and compliance",
-                "description": "Services that are required by law, such as a license or permit."
-            },
-            {
-                "id": "SA_5",
-                "name": "Data collection and reporting",
-                "description": "Services that collect data or report on data, such as a survey or pupil census."
-            },
-            {
-                "id": "SA_6",
-                "name": "Internal service",
-                "description": "Services that are used by staff within the organisation or across government and not available to the public."
-            },
-            {
-                "id": "SA_7",
-                "name": "API",
-                "description": "Services that are accessed via an API and generally have no user interface."
-            },
-            {
-                "id": "SA_8",
-                "name": "Campaign website",
-                "description": "Services that are used to run a campaign, are time limited, and designed to drive user engagement on a specific policy."
-            }
-        ]
+      "id": "SA",
+      "name": "Service archetype",
+      "description": "Classifications of services based on their purpose and functionality.",
+      "items": [
+        {
+          "id": "SA_1",
+          "name": "Transactional",
+          "description": "Services where a government record is created, updated, or deleted."
+        },
+        {
+          "id": "SA_2",
+          "name": "Information",
+          "description": "Services that provide information only, such as policy documents, guidance, or statistics."
+        },
+        {
+          "id": "SA_3",
+          "name": "Support or advisory",
+          "description": "Services that provide support or advice, such as a helpline or forum."
+        },
+        {
+          "id": "SA_4",
+          "name": "Regulatory and compliance",
+          "description": "Services that are required by law, such as a license or permit."
+        },
+        {
+          "id": "SA_5",
+          "name": "Data collection and reporting",
+          "description": "Services that collect data or report on data, such as a survey or pupil census."
+        },
+        {
+          "id": "SA_6",
+          "name": "Internal service",
+          "description": "Services that are used by staff within the organisation or across government and not available to the public."
+        },
+        {
+          "id": "SA_7",
+          "name": "API",
+          "description": "Services that are accessed via an API and generally have no user interface."
+        },
+        {
+          "id": "SA_8",
+          "name": "Campaign website",
+          "description": "Services that are used to run a campaign, are time limited, and designed to drive user engagement on a specific policy."
+        }
+      ]
     },
     "phases": {
-        "id": "PH",
-        "name": "Phase",
-        "description": "Stages of service development from initial exploration through to decommissioning.",
-        "items": [
-            {
-                "id": "PH_1",
-                "name": "Explore",
-                "description": "Initial idea and building a business case.",
-                "order": 10 
-            },
-            {
-                "id": "PH_2",
-                "name": "Discovery",
-                "description": "Understand the problem and the needs of the users.",
-                "order": 20
-            },
-            {
-                "id": "PH_3",
-                "name": "Alpha",
-                "description": "Service is in alpha, and being prototyped and tested with selected users.",
-                "order": 30
-            },
-            {
-                "id": "PH_4",
-                "name": "Private Beta",
-                "description": "Service is in private beta, only accessible to a limited group of users.",
-                "order": 40
-            },
-            {
-                "id": "PH_5",
-                "name": "Public Beta",
-                "description": "Service is in public beta, accessible to all users.",
-                "order": 50
-            },
-            {
-                "id": "PH_6",
-                "name": "Live",
-                "description": "Service is live, accessible to all users.",
-                "order": 60
-            },
-            {
-                "id": "PH_7",
-                "name": "Decomissioning",
-                "description": "Service is being decommissioned.",
-                "order": 70
-            },
-            {
-                "id": "PH_8",
-                "name": "Decomissioned",
-                "description": "Service is decommissioned, no longer accessible to users.",
-                "order": 80
-            }
-        ]
+      "id": "PH",
+      "name": "Phase",
+      "description": "Stages of service development from initial exploration through to decommissioning.",
+      "items": [
+        {
+          "id": "PH_1",
+          "name": "Explore",
+          "description": "Initial idea and building a business case.",
+          "order": 10
+        },
+        {
+          "id": "PH_2",
+          "name": "Discovery",
+          "description": "Understand the problem and the needs of the users.",
+          "order": 20
+        },
+        {
+          "id": "PH_3",
+          "name": "Alpha",
+          "description": "Service is in alpha, and being prototyped and tested with selected users.",
+          "order": 30
+        },
+        {
+          "id": "PH_4",
+          "name": "Private Beta",
+          "description": "Service is in private beta, only accessible to a limited group of users.",
+          "order": 40
+        },
+        {
+          "id": "PH_5",
+          "name": "Public Beta",
+          "description": "Service is in public beta, accessible to all users.",
+          "order": 50
+        },
+        {
+          "id": "PH_6",
+          "name": "Live",
+          "description": "Service is live, accessible to all users.",
+          "order": 60
+        },
+        {
+          "id": "PH_7",
+          "name": "Decomissioning",
+          "description": "Service is being decommissioned.",
+          "order": 70
+        },
+        {
+          "id": "PH_8",
+          "name": "Decomissioned",
+          "description": "Service is decommissioned, no longer accessible to users.",
+          "order": 80
+        }
+      ]
     },
     "channels": {
-        "id": "CH",
-        "name": "Channel",
-        "description": "Different channels through which users can access the service.",
-        "items": [
-            {
-                "id": "CH_1",
-                "name": "Web"
-            },
-            {
-                "id": "CH_2",
-                "name": "Native App"
-            },
-            {
-                "id": "CH_3",
-                "name": "API"
-            },
-            {
-                "id": "CH_4",
-                "name": "Face-to-Face"
-            },
-            {
-                "id": "CH_5",
-                "name": "Phone"
-            },
-            {
-                "id": "CH_6",
-                "name": "Email"
-            },
-            {
-                "id": "CH_7",
-                "name": "Chat"
-            },
-            {
-                "id": "CH_8",
-                "name": "Print Media"
-            },
-            {
-                "id": "CH_9",
-                "name": "Other Digital Media"
-            }
-        ]
+      "id": "CH",
+      "name": "Channel",
+      "description": "Different channels through which users can access the service.",
+      "items": [
+        {
+          "id": "CH_1",
+          "name": "Web",
+          "description": "Online access via web browsers over the internet."
+        },
+        {
+          "id": "CH_2",
+          "name": "Native App",
+          "description": "Services provided through native mobile or desktop applications."
+        },
+        {
+          "id": "CH_3",
+          "name": "API",
+          "description": "Programmatic access to functionality via APIs."
+        },
+        {
+          "id": "CH_4",
+          "name": "Face-to-Face",
+          "description": "In-person service delivery through face-to-face interaction."
+        },
+        {
+          "id": "CH_5",
+          "name": "Phone",
+          "description": "Telephone-based access via phone calls."
+        },
+        {
+          "id": "CH_6",
+          "name": "Email",
+          "description": "Service communication and access via email."
+        },
+        {
+          "id": "CH_7",
+          "name": "Chat",
+          "description": "Interactive chat interfaces for real-time support."
+        },
+        {
+          "id": "CH_8",
+          "name": "Print Media",
+          "description": "Printed materials and documents distributed physically."
+        },
+        {
+          "id": "CH_9",
+          "name": "Other Digital Media",
+          "description": "Other digital media formats beyond web and app."
+        }
+      ]
     },
     "life_stages": {
-        "id": "LS",
-        "name": "Life stage",
-        "description": "Key life stages outlining relevant age ranges and contexts for users.",
-        "items": [
-            {
-                "id": "LS_1",
-                "name": "Early childhood",
-                "summary": "0 to 4",
-                "detail": "Involves early years support, childcare, and pre-school education."
-            },
-            {
-                "id": "LS_2",
-                "name": "School age",
-                "summary": "5 to 16",
-                "detail": "Compulsory education phase where children attend primary and secondary schools."
-            },
-            {
-                "id": "LS_3",
-                "name": "Post-compulsory / adolescent",
-                "summary": "16 to 18 or 19",
-                "detail": "Transition phase where young people either continue into further education or training; key decisions about career paths are made."
-            },
-            {
-                "id": "LS_4",
-                "name": "Young adult",
-                "summary": "18 to 25",
-                "detail": "Transition into independence, higher education or workforce entry, and, for care leavers, ongoing support."
-            },
-            {
-                "id": "LS_5",
-                "name": "Adult",
-                "summary": "25 and over",
-                "detail": "Continuous upskilling and professional development, often via adult education, apprenticeships, and vocational training."
-            },
-            {
-                "id": "LS_6",
-                "name": "Death",
-                "summary": "All ages",
-                "detail": "Event of death."
-            }
-        ]
+      "id": "LS",
+      "name": "Life stage",
+      "description": "Key life stages outlining relevant age ranges and contexts for users.",
+      "items": [
+        {
+          "id": "LS_1",
+          "name": "Early childhood",
+          "summary": "0 to 4",
+          "detail": "Involves early years support, childcare, and pre-school education.",
+          "description": "Involves early years support, childcare, and pre-school education."
+        },
+        {
+          "id": "LS_2",
+          "name": "School age",
+          "summary": "5 to 16",
+          "detail": "Compulsory education phase where children attend primary and secondary schools.",
+          "description": "Compulsory education phase where children attend primary and secondary schools."
+        },
+        {
+          "id": "LS_3",
+          "name": "Post-compulsory / adolescent",
+          "summary": "16 to 18 or 19",
+          "detail": "Transition phase where young people either continue into further education or training; key decisions about career paths are made.",
+          "description": "Transition phase where young people either continue into further education or training; key decisions about career paths are made."
+        },
+        {
+          "id": "LS_4",
+          "name": "Young adult",
+          "summary": "18 to 25",
+          "detail": "Transition into independence, higher education or workforce entry, and, for care leavers, ongoing support.",
+          "description": "Transition into independence, higher education or workforce entry, and, for care leavers, ongoing support."
+        },
+        {
+          "id": "LS_5",
+          "name": "Adult",
+          "summary": "25 and over",
+          "detail": "Continuous upskilling and professional development, often via adult education, apprenticeships, and vocational training.",
+          "description": "Continuous upskilling and professional development, often via adult education, apprenticeships, and vocational training."
+        },
+        {
+          "id": "LS_6",
+          "name": "Death",
+          "summary": "All ages",
+          "detail": "Event of death.",
+          "description": "Event of death."
+        }
+      ]
     },
     "education_phases": {
-        "id": "EP",
-        "name": "Education phase",
-        "description": "Phases of the education system, covering key stages and learning pathways.",
-        "items": [
-            {
-                "id": "EP_1",
-                "name": "Early Years"
-            },
-            {
-                "id": "EP_2",
-                "name": "Primary (KS1 to KS2)"
-            },
-            {
-                "id": "EP_3",
-                "name": "Secondary (KS3 to KS4)"
-            },
-            {
-                "id": "EP_4",
-                "name": "Further Education (FE)"
-            },
-            {
-                "id": "EP_5",
-                "name": "Higher Education (HE)"
-            },
-            {
-                "id": "EP_6",
-                "name": "Apprenticeships"
-            },
-            {
-                "id": "EP_7",
-                "name": "Lifelong learning"
-            }
-        ]
+      "id": "EP",
+      "name": "Education phase",
+      "description": "Phases of the education system, covering key stages and learning pathways.",
+      "items": [
+        {
+          "id": "EP_1",
+          "name": "Early Years",
+          "description": "Early years education including nurseries and pre-school settings."
+        },
+        {
+          "id": "EP_2",
+          "name": "Primary (KS1 to KS2)",
+          "description": "Primary education covering Key Stage 1 and Key Stage 2."
+        },
+        {
+          "id": "EP_3",
+          "name": "Secondary (KS3 to KS4)",
+          "description": "Secondary education covering Key Stage 3 and Key Stage 4."
+        },
+        {
+          "id": "EP_4",
+          "name": "Further Education (FE)",
+          "description": "Further education for vocational training and qualifications post-16."
+        },
+        {
+          "id": "EP_5",
+          "name": "Higher Education (HE)",
+          "description": "Higher education provided by universities and colleges."
+        },
+        {
+          "id": "EP_6",
+          "name": "Apprenticeships",
+          "description": "Apprenticeship programmes combining work and study placements."
+        },
+        {
+          "id": "EP_7",
+          "name": "Lifelong learning",
+          "description": "Lifelong learning opportunities for ongoing skills development."
+        }
+      ]
     },
     "technology": {
-        "id": "TE",
-        "name": "Technology",
-        "description": "Technologies used in the course of providing the service.",
-        "items": [
-            {
-                "id": "TE_1",
-                "name": "Azure",
-                "description": "Microsoft's cloud computing service for hosting and security."
-            },
-            {
-                "id": "TE_2",
-                "name": "GOV.UK Notify",
-                "description": "Government's email and SMS service for sending notifications to users."
-            },
-            {
-                "id": "TE_3",
-                "name": "GOV.UK Pay",
-                "description": "Government's payment service for accepting payments from users."
-            },
-            {
-                "id": "TE_4",
-                "name": "GOV.UK One Login",
-                "description": "Government's identity verification service for verifying user identities and signing in to services."
-            },
-            {
-                "id": "TE_5",
-                "name": "DfE Sign-in",
-                "description": "The DfE's authentication service for signing into sector-facing services."
-            },
-            {
-                "id": "TE_6",
-                "name": "DfE Identity",
-                "description": "Authentication service for DfE services by teachers and other staff."
-            }
-        ]
+      "id": "TE",
+      "name": "Technology",
+      "description": "Technologies used in the course of providing the service.",
+      "items": [
+        {
+          "id": "TE_1",
+          "name": "Azure",
+          "description": "Microsoft's cloud computing service for hosting and security."
+        },
+        {
+          "id": "TE_2",
+          "name": "GOV.UK Notify",
+          "description": "Government's email and SMS service for sending notifications to users."
+        },
+        {
+          "id": "TE_3",
+          "name": "GOV.UK Pay",
+          "description": "Government's payment service for accepting payments from users."
+        },
+        {
+          "id": "TE_4",
+          "name": "GOV.UK One Login",
+          "description": "Government's identity verification service for verifying user identities and signing in to services."
+        },
+        {
+          "id": "TE_5",
+          "name": "DfE Sign-in",
+          "description": "The DfE's authentication service for signing into sector-facing services."
+        },
+        {
+          "id": "TE_6",
+          "name": "DfE Identity",
+          "description": "Authentication service for DfE services by teachers and other staff."
+        }
+      ]
     },
     "policy": {
-        "id": "PO",
-        "name": "Policy",
-        "description": "Policies and regulations that affect the service.",
-        "items": [
-            {
-                "id": "PO_1",
-                "name": "Teacher training and professional development",
-                "description": "Funding and grants for training. Initial Teacher Training (ITT), Qualified Teacher Status (QTS), teacher subject specialism courses."
-            }
-            
-        ]
+      "id": "PO",
+      "name": "Policy",
+      "description": "Policies and regulations that affect the service.",
+      "items": [
+        {
+          "id": "PO_1",
+          "name": "Teacher training and professional development",
+          "description": "Funding and grants for training. Initial Teacher Training (ITT), Qualified Teacher Status (QTS), teacher subject specialism courses."
+        }
+      ]
+    },
+    "portfolios": {
+      "id": "PF",
+      "name": "Portfolio",
+      "description": "Portfolios are the business areas of the organisation.",
+      "items": [
+        {
+          "id": "PF_1",
+          "name": "Children and families",
+          "description": "Services and programmes for children and family support."
+        },
+        {
+          "id": "PF_2",
+          "name": "Funding",
+          "description": "Management of grants, loans, and financial assistance schemes."
+        },
+        {
+          "id": "PF_3",
+          "name": "Regions",
+          "description": "Regional divisions and academies."
+        },
+        {
+          "id": "PF_4",
+          "name": "Schools Digital",
+          "description": "Digital services for schools and teachers."
+        },
+        {
+          "id": "PF_5",
+          "name": "Skills",
+          "description": "Vocational and professional skills development, and apprenticeships."
+        },
+        {
+          "id": "PF_6",
+          "name": "CXD",
+          "description": "Customer experience design and service improvement efforts."
+        },
+        {
+          "id": "PF_7",
+          "name": "OIG",
+          "description": "Information governance and oversight within the department."
+        }
+      ]
     }
-}
+  }

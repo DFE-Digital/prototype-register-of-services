@@ -1,0 +1,43 @@
+<nav class="dfe-vertical-nav">
+
+    <a href="/services/service/{{ service.id }}" class="govuk-back-link govuk-!-margin-top-0 govuk-!-margin-bottom-9">Back to service</a>
+
+    <h2 class="dfe-vertical-nav--section-header govuk-heading-s">Service details</h2>
+    <ul class="dfe-vertical-nav__section">
+        <li class="dfe-vertical-nav__section-item {% if nav == 'service' %}dfe-vertical-nav__section-item--current{% endif %}">
+            <a class="dfe-vertical-nav__link" href="/services/service/{{ service.id }}/edit">Service information</a>
+        </li>
+
+        <li class="dfe-vertical-nav__section-item {% if nav == 'taxonomy' %}dfe-vertical-nav__section-item--current{% endif %}">
+            <a class="dfe-vertical-nav__link" href="/services/service/{{ service.id }}/edit/taxonomy">Manage assigned taxonomy</a>
+        </li>
+    </ul>
+
+    <h2 class="dfe-vertical-nav--section-header govuk-heading-s">Assurance and Compliance</h2>
+    <ul class="dfe-vertical-nav__section">
+        <li class="dfe-vertical-nav__section-item {% if nav == 'assurance' %}dfe-vertical-nav__section-item--current{% endif %}">
+            <a class="dfe-vertical-nav__link" href="/services/service/{{ service.id }}/edit/assurance">Assurance & Compliance</a>
+        </li>
+        <li class="dfe-vertical-nav__section-item {% if nav == 'assessment' %}dfe-vertical-nav__section-item--current{% endif %}">
+            <a class="dfe-vertical-nav__link" href="/services/service/{{ service.id }}/edit/assessment">Service assessment data</a>
+        </li>
+        <li class="dfe-vertical-nav__section-item {% if nav == 'metrics' %}dfe-vertical-nav__section-item--current{% endif %}">
+            <a class="dfe-vertical-nav__link" href="/services/service/{{ service.id }}/edit/metrics">Service metrics</a>
+        </li>
+    </ul>
+
+    <h2 class="dfe-vertical-nav--section-header govuk-heading-s">Points of Contact</h2>
+    <ul class="dfe-vertical-nav__section">
+        <li class="dfe-vertical-nav__section-item {% if nav == 'contacts' %}dfe-vertical-nav__section-item--current{% endif %}">
+            <a class="dfe-vertical-nav__link" href="/services/service/{{ service.id }}/edit/contacts">Points of contact</a>
+        </li>
+    </ul>
+
+        <h2 class="dfe-vertical-nav--section-header govuk-heading-s">Operations</h2>
+    <ul class="dfe-vertical-nav__section">
+        <li class="dfe-vertical-nav__section-item {% if nav == 'technical' %}dfe-vertical-nav__section-item--current{% endif %}">
+            <a class="dfe-vertical-nav__link" href="/services/service/{{ service.id }}/edit/technical">Technical configuration</a>
+        </li>
+    </ul>
+
+</nav>

@@ -1,0 +1,268 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Find a service" %}
+
+{% block content %}
+{% macro build_query_string(query, new_page) %}
+  {%- set pairs = [] -%}
+  {%- if query and query.items %}
+    {%- for key, value in query.items() %}
+      {%- if key != 'page' %}
+        {%- set _ = pairs.append(key ~ '=' ~ value) -%}
+      {%- endif %}
+    {%- endfor %}
+  {%- endif %}
+  {%- set _ = pairs.append('page=' ~ new_page) -%}
+  {{ pairs | join('&') }}
+{% endmacro %}
+
+<div class="govuk-width-container">
+  <h1 class="govuk-heading-xl">Find a service</h1>
+  <p class="govuk-body-l">Browse all DfE services. Use filters to quickly find what you need.</p>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter">
+      <form id="service-filters-form" method="get" action="/services">
+        <div class="moj-filter" data-module="moj-filter">
+          <div class="moj-filter__header">
+            <div class="moj-filter__header-title">
+              <h2 class="govuk-heading-m">Filter</h2>
+            </div>
+          </div>
+          <div class="moj-filter__content">
+            <div class="moj-filter__selected">
+              <div class="moj-filter__selected-heading">
+                <div class="moj-filter__heading-title">
+                  <h2 class="govuk-heading-m">Selected filters</h2>
+                </div>
+                <div class="moj-filter__heading-action">
+                  <p><a class="govuk-link govuk-link--no-visited-state" href="/services">Clear filters</a></p>
+                </div>
+              </div>
+              <ul class="moj-filter-tags">
+                {% if query %}
+                  <li><a class="moj-filter__tag" href="?{{ baseQueryString | replace('q=' ~ query, '') }}"><span class="govuk-visually-hidden">Remove this filter</span> {{ query }}</a></li>
+                {% endif %}
+                {% if selected_pattern %}
+                  {% set pattern_name = '' %}
+                  {% for pattern in taxonomy.service_patterns.items %}
+                    {% if pattern.id == selected_pattern %}{% set pattern_name = pattern.name %}{% endif %}
+                  {% endfor %}
+                  <li><a class="moj-filter__tag" href="?{{ baseQueryString | replace('pattern=' ~ selected_pattern, '') }}"><span class="govuk-visually-hidden">Remove this filter</span> {{ pattern_name }}</a></li>
+                {% endif %}
+                {% if selected_user_group %}
+                  {% set user_group_name = '' %}
+                  {% for group in taxonomy.user_groups.items %}
+                    {% if group.id == selected_user_group %}{% set user_group_name = group.name %}{% endif %}
+                  {% endfor %}
+                  <li><a class="moj-filter__tag" href="?{{ baseQueryString | replace('user_group=' ~ selected_user_group, '') }}"><span class="govuk-visually-hidden">Remove this filter</span> {{ user_group_name }}</a></li>
+                {% endif %}
+                {% if selected_phase %}
+                  {% set phase_name = '' %}
+                  {% for phase in taxonomy.phases.items %}
+                    {% if phase.id == selected_phase %}{% set phase_name = phase.name %}{% endif %}
+                  {% endfor %}
+                  <li><a class="moj-filter__tag" href="?{{ baseQueryString | replace('phase=' ~ selected_phase, '') }}"><span class="govuk-visually-hidden">Remove this filter</span> {{ phase_name }}</a></li>
+                {% endif %}
+                {% if selected_technology %}
+                  {% set technology_name = '' %}
+                  {% for tech in taxonomy.technology.items %}
+                    {% if tech.id == selected_technology %}{% set technology_name = tech.name %}{% endif %}
+                  {% endfor %}
+                  <li><a class="moj-filter__tag" href="?{{ baseQueryString | replace('technology=' ~ selected_technology, '') }}"><span class="govuk-visually-hidden">Remove this filter</span> {{ technology_name }}</a></li>
+                {% endif %}
+                {% if selected_policy %}
+                  {% set policy_name = '' %}
+                  {% for policy in taxonomy.policy_areas.items %}
+                    {% if policy.id == selected_policy %}{% set policy_name = policy.name %}{% endif %}
+                  {% endfor %}
+                  <li><a class="moj-filter__tag" href="?{{ baseQueryString | replace('policy=' ~ selected_policy, '') }}"><span class="govuk-visually-hidden">Remove this filter</span> {{ policy_name }}</a></li>
+                {% endif %}
+              </ul>
+            </div>
+            <div class="moj-filter__options">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-label--m" for="q">Search</label>
+                <input class="govuk-input" type="search" id="q" name="q" placeholder="Search by name or description" value="{{ query or '' }}">
+              </div>
+              <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Service pattern</legend>
+                  <input class="govuk-input govuk-input--filter" type="text" placeholder="Filter options..." onkeyup="filterCheckboxOptions(this)" aria-label="Filter service patterns">
+                  <div class="govuk-checkboxes govuk-checkboxes--small">
+                    {% for pattern in taxonomy.service_patterns.items %}
+                      <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="pattern-{{ pattern.id }}" name="pattern" type="radio" value="{{ pattern.id }}" {% if pattern.id == selected_pattern %}checked{% endif %}>
+                        <label class="govuk-label govuk-checkboxes__label" for="pattern-{{ pattern.id }}">{{ pattern.name }}</label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </fieldset>
+              </div>
+              <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">User group</legend>
+                  <input class="govuk-input govuk-input--filter" type="text" placeholder="Filter options..." onkeyup="filterCheckboxOptions(this)" aria-label="Filter user groups">
+                  <div class="govuk-checkboxes govuk-checkboxes--small">
+                    {% for group in taxonomy.user_groups.items %}
+                      <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="user_group-{{ group.id }}" name="user_group" type="radio" value="{{ group.id }}" {% if group.id == selected_user_group %}checked{% endif %}>
+                        <label class="govuk-label govuk-checkboxes__label" for="user_group-{{ group.id }}">{{ group.name }}</label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </fieldset>
+              </div>
+              <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Phase</legend>
+                  <input class="govuk-input govuk-input--filter" type="text" placeholder="Filter options..." onkeyup="filterCheckboxOptions(this)" aria-label="Filter phases">
+                  <div class="govuk-checkboxes govuk-checkboxes--small">
+                    {% for phase in taxonomy.phases.items %}
+                      <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="phase-{{ phase.id }}" name="phase" type="radio" value="{{ phase.id }}" {% if phase.id == selected_phase %}checked{% endif %}>
+                        <label class="govuk-label govuk-checkboxes__label" for="phase-{{ phase.id }}">{{ phase.name }}</label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </fieldset>
+              </div>
+              <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Technology</legend>
+                  <input class="govuk-input govuk-input--filter" type="text" placeholder="Filter options..." onkeyup="filterCheckboxOptions(this)" aria-label="Filter technologies">
+                  <div class="govuk-checkboxes govuk-checkboxes--small">
+                    {% for tech in taxonomy.technology.items %}
+                      <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="technology-{{ tech.id }}" name="technology" type="radio" value="{{ tech.id }}" {% if tech.id == selected_technology %}checked{% endif %}>
+                        <label class="govuk-label govuk-checkboxes__label" for="technology-{{ tech.id }}">{{ tech.name }}</label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </fieldset>
+              </div>
+              <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Policy area</legend>
+                  <input class="govuk-input govuk-input--filter" type="text" placeholder="Filter options..." onkeyup="filterCheckboxOptions(this)" aria-label="Filter policy areas">
+                  <div class="govuk-checkboxes govuk-checkboxes--small">
+                    {% for policy in taxonomy.policy_areas.items %}
+                      <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="policy-{{ policy.id }}" name="policy" type="radio" value="{{ policy.id }}" {% if policy.id == selected_policy %}checked{% endif %}>
+                        <label class="govuk-label govuk-checkboxes__label" for="policy-{{ policy.id }}">{{ policy.name }}</label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </fieldset>
+              </div>
+              <script>
+              function filterCheckboxOptions(input) {
+                var filter = input.value.toLowerCase();
+                var checkboxes = input.parentElement.querySelectorAll('.govuk-checkboxes__item');
+                checkboxes.forEach(function(item) {
+                  var label = item.textContent || item.innerText;
+                  item.style.display = label.toLowerCase().indexOf(filter) > -1 ? '' : 'none';
+                });
+              }
+              </script>
+              <button class="govuk-button" type="submit">Apply filters</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="govuk-grid-column-three-quarters">
+      <div class="govuk-body" id="results-count">{{ services.length }} service{% if services.length != 1 %}s{% endif %} found</div>
+      <form method="get" action="/services" id="results-controls" class="govuk-!-margin-bottom-3">
+        <div class="govuk-grid-row">
+         
+          <div class="govuk-grid-column-full">
+             <label class="govuk-label" for="sort">Sort by</label>
+            <select class="govuk-select" id="sort" name="sort" onchange="updateSortDirAndSubmit(this)">
+              <option value="name-asc" {% if sort == 'name' and sort_dir == 'asc' %}selected{% endif %}>Name (A-Z)</option>
+              <option value="name-desc" {% if sort == 'name' and sort_dir == 'desc' %}selected{% endif %}>Name (Z-A)</option>
+            </select>
+            <input type="hidden" id="sort_dir" name="sort_dir" value="{{ sort_dir }}">
+            <script>
+            function updateSortDirAndSubmit(select) {
+              var parts = select.value.split('-');
+              document.getElementById('sort').value = parts[0];
+              document.getElementById('sort_dir').value = parts[1];
+              select.form.submit();
+            }
+            </script>
+            <label class="govuk-label" for="show">Show</label>
+            <select class="govuk-select" id="show" name="show" onchange="this.form.submit()">
+              <option value="10" {% if show == 10 or show == '10' %}selected{% endif %}>10</option>
+              <option value="20" {% if show == 20 or show == '20' %}selected{% endif %}>20</option>
+              <option value="50" {% if show == 50 or show == '50' %}selected{% endif %}>50</option>
+            </select>
+          </div>
+        </div>
+        {% if request and request.query %}
+          {% for key, value in request.query.items() %}
+            {% if key not in ['sort', 'sort_dir', 'show', 'page'] %}
+              <input type="hidden" name="{{ key }}" value="{{ value }}">
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </form>
+      <table class="govuk-table govuk-table--striped govuk-!-margin-bottom-6">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th class="govuk-table__header">Name</th>
+            <th class="govuk-table__header">Business area</th>
+            <th class="govuk-table__header">Phase</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          {% for service in services %}
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell"><a class="govuk-link govuk-!-font-weight-bold" href="/services/service/{{ service.id }}">{{ service.name }}</a></td>
+              <td class="govuk-table__cell">{{ service.business_area or 'N/A' }}</td>
+              <td class="govuk-table__cell">
+                {% set phase_id = '' %}
+                {% for category in service.categories %}
+                  {% if category.type === 'phases' and category.values and category.values.length > 0 %}
+                    {% set phase_id = category.values[0] %}
+                  {% endif %}
+                {% endfor %}
+                {% set has_phase = false %}
+                {% for item in taxonomy.phases.items %}
+                  {% if item.id === phase_id %}
+                    <span class="govuk-tag govuk-tag--blue">{{ item.name }}</span>
+                    {% set has_phase = true %}
+                  {% endif %}
+                {% endfor %}
+                {% if not has_phase %}
+                  Not defined
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if totalPages > 1 %}
+      <nav class="govuk-pagination" role="navigation" aria-label="Pagination">
+        <ul class="govuk-pagination__list">
+          {% if page > 1 %}
+            <li class="govuk-pagination__item govuk-pagination__item--prev">
+              <a class="govuk-link govuk-pagination__link" href="?{{ baseQueryString }}{% if baseQueryString %}&{% endif %}page={{ page-1 }}" rel="prev">Previous</a>
+            </li>
+          {% endif %}
+          {% for p in range(1, totalPages+1) %}
+            <li class="govuk-pagination__item {% if p == page %}govuk-pagination__item--current{% endif %}">
+              <a class="govuk-link govuk-pagination__link" href="?{{ baseQueryString }}{% if baseQueryString %}&{% endif %}page={{ p }}">{{ p }}</a>
+            </li>
+          {% endfor %}
+          {% if page < totalPages %}
+            <li class="govuk-pagination__item govuk-pagination__item--next">
+              <a class="govuk-link govuk-pagination__link" href="?{{ baseQueryString }}{% if baseQueryString %}&{% endif %}page={{ page+1 }}" rel="next">Next</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %} 

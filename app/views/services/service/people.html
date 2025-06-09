@@ -1,0 +1,256 @@
+{% extends "layouts/layout.html" %}
+{% set title = service.name + " - Service Register" %}
+{% set mainClasses = "govuk-!-padding-top-0 govuk-!-padding-bottom-0" %}
+{% set serviceNav = "Services" %}
+{% set serviceItemNav = "Contacts" %}
+
+{% block content %}
+
+      <section class="dfe-ros-service-header" style="background-color: #f4f8fb; border-bottom: 1px solid #8eb8dc;">
+        <div class="govuk-width-container">
+           {% include "services/service/_serviceheader.html" %}
+
+           {% include "services/service/_servicenav.html" %}
+        </div>
+
+    </section>
+
+    <section class="dfe-service-content govuk-!-padding-top-9">
+        <div class="govuk-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="dashboard-section govuk-!-margin-bottom-6" id="service-contacts">
+                        <div class="standards-header">
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Service contacts</h2>
+                            <p class="govuk-body-s govuk-!-margin-bottom-0">Key contacts for this service</p>
+                        </div>
+                        <div class="service-panel-grid">
+                            {% if service.contacts and service.contacts.length > 0 %}
+                                <div class="service-panel-card service-panel-card__full">
+                                    <div class="card-header">
+                                        <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Contact list</h3>
+                                        <button class="info-button" onclick="openModal('contacts-info')" aria-label="About service contacts">
+                                            <span class="govuk-visually-hidden">About service contacts</span>
+                                            <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                                        </button>
+                                    </div>
+                                    <div class="card-content">
+                                        <table class="govuk-table govuk-!-margin-bottom-0">
+                                            <thead>
+                                                <tr>
+                                                    <th class="govuk-table__header govuk-!-width-one-third">Name</th>
+                                                    <th class="govuk-table__header govuk-!-width-two-thirds">Role</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% set sortedContacts = service.contacts | sort(attribute='name') %}
+                                                {% for contact in sortedContacts %}
+                                                <tr>
+                                                    <td class="govuk-table__cell">
+                                                        <a href="mailto:{{ contact.email }}" class="govuk-link govuk-link--no-visited-state">
+                                                            {{ contact.name }}
+                                                        </a>
+                                                    </td>
+                                                    <td class="govuk-table__cell">{{ contact.role }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="service-panel-card service-panel-card__full">
+                                    <div class="card-content">
+                                        <p class="govuk-body">No contacts have been added for this service yet.</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Contacts info modal -->
+                    <div id="contacts-info-modal" class="modal-container" role="dialog" aria-modal="true" aria-labelledby="contacts-info-title" tabindex="-1">
+                        <div class="modal-content" style="min-width:320px;max-width:680px;">
+                            <div class="modal-header">
+                                <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="contacts-info-title">About service contacts</h2>
+                                <button class="modal-close" aria-label="Close modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="govuk-body">Service contacts are the key people involved in delivering and maintaining the service. These may include:</p>
+                                <ul class="govuk-list govuk-list--bullet">
+                                    <li>Product and delivery managers</li>
+                                    <li>User researchers and service designers</li>
+                                    <li>Developers and technical specialists</li>
+                                    <li>Content and interaction designers</li>
+                                    <li>Performance analysts and business analysts</li>
+                                </ul>
+                                <p class="govuk-body">Click on a contact's name to send them an email. The contact list is maintained by the service team and should be kept up to date.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <style>
+                    .service-panel-grid {
+                        display: grid;
+                        grid-template-columns: repeat(12, 1fr);
+                        gap: 1.5rem;
+                        margin-top: 1rem;
+                    }
+
+                    .service-panel-card {
+                        background: #fff;
+                        border: 1px solid #b1b4b6;
+                        border-radius: 4px;
+                        overflow: hidden;
+                    }
+
+                    .service-panel-card__full {
+                        grid-column: span 12;
+                    }
+
+                    .card-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 1rem;
+                        border-bottom: 1px solid #b1b4b6;
+                        background: #f8f8f8;
+                    }
+
+                    .card-content {
+                        padding: 1rem;
+                    }
+
+                    .info-button {
+                        background: none;
+                        border: none;
+                        padding: 0.25rem;
+                        cursor: pointer;
+                        color: #505a5f;
+                    }
+
+                    .info-button:hover {
+                        color: #0b0c0c;
+                    }
+
+                    .info-button .material-symbols-outlined {
+                        font-size: 1.25rem;
+                    }
+
+                    .modal-container {
+                        display: none;
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0, 0, 0, 0.5);
+                        z-index: 1000;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+                    .modal-container.show {
+                        display: flex;
+                    }
+
+                    .modal-content {
+                        background: white;
+                        padding: 0;
+                        border-radius: 4px;
+                        position: relative;
+                        width: 90%;
+                        max-width: 680px;
+                        max-height: 90vh;
+                        overflow-y: auto;
+                        transform: translateY(-20px);
+                        opacity: 0;
+                        transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+                    }
+
+                    .modal-content.show {
+                        transform: translateY(0);
+                        opacity: 1;
+                    }
+
+                    .modal-header {
+                        padding: 1rem;
+                        border-bottom: 1px solid #b1b4b6;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+
+                    .modal-body {
+                        padding: 1.5rem;
+                    }
+
+                    .modal-close {
+                        background: none;
+                        border: none;
+                        font-size: 1.5rem;
+                        cursor: pointer;
+                        padding: 0.5rem;
+                        color: #0b0c0c;
+                    }
+
+                    .modal-close:hover {
+                        color: #1d70b8;
+                    }
+
+                    @media (max-width: 48.0525em) {
+                        .modal-content {
+                            width: 95%;
+                            margin: 1rem;
+                        }
+                    }
+                    </style>
+
+                    <script>
+                    function openModal(modalId) {
+                        const modal = document.getElementById(modalId + '-modal');
+                        if (modal) {
+                            modal.classList.add('show');
+                            document.body.style.overflow = 'hidden';
+                            modal.querySelector('.modal-content').classList.add('show');
+                            modal.querySelector('.modal-close').focus();
+                        }
+                    }
+
+                    function closeModal(modalId) {
+                        const modal = document.getElementById(modalId + '-modal');
+                        if (modal) {
+                            modal.classList.remove('show');
+                            document.body.style.overflow = '';
+                            modal.querySelector('.modal-content').classList.remove('show');
+                        }
+                    }
+
+                    // Initialize all modals
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const modals = document.querySelectorAll('.modal-container');
+                        modals.forEach(modal => {
+                            const closeBtn = modal.querySelector('.modal-close');
+                            if (closeBtn) {
+                                closeBtn.addEventListener('click', () => {
+                                    modal.classList.remove('show');
+                                    document.body.style.overflow = '';
+                                    modal.querySelector('.modal-content').classList.remove('show');
+                                });
+                            }
+                            modal.addEventListener('click', (e) => {
+                                if (e.target === modal) {
+                                    modal.classList.remove('show');
+                                    document.body.style.overflow = '';
+                                    modal.querySelector('.modal-content').classList.remove('show');
+                                }
+                            });
+                        });
+                    });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

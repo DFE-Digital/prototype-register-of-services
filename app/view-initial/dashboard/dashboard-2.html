@@ -1,0 +1,116 @@
+{% extends "layouts/layout.html" %}
+
+{% set title = "Search" %}
+{% set serviceNav = "" %}
+{% set nav = '' %}
+
+{% block content %}
+<div class="govuk-width-container dfe-ros-search-container">
+  <form class="dfe-ros-search-form" action="/services" method="get" role="search">
+    <h1 class="govuk-heading-xl govuk-!-font-size-80 govuk-!-margin-top-9 govuk-!-padding-top-9">Search</h1>
+    <div class="dfe-ros-search-item-wrapper">
+      <label class="dfe-ros-search-label govuk-!-margin-bottom-2" for="dashboard-search-main">
+        Search the register for products, services, patterns and more
+      </label>
+      <div class="dfe-ros-search-input-wrapper">
+        <input class="dfe-ros-search-input" id="dashboard-search-main" name="q" type="search" placeholder="Search services..." autocomplete="off">
+        <button class="dfe-ros-search-submit" type="submit">
+          <svg class="dfe-ros-search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <circle cx="12.0161" cy="11.0161" r="8.51613" stroke="currentColor" stroke-width="3"/>
+            <line x1="17.8668" y1="17.3587" x2="26.4475" y2="25.9393" stroke="currentColor" stroke-width="3"/>
+          </svg>
+          <span class="govuk-visually-hidden">Search</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<style>
+.dfe-ros-search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: flex-start;
+  min-height: 60vh;
+}
+.dfe-ros-search-form {
+  max-width: 75%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.dfe-ros-search-item-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+.dfe-ros-search-label {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0b0c0c;
+  margin-bottom: 0.5rem;
+}
+.dfe-ros-search-input-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+}
+.dfe-ros-search-input {
+  height: 52px;
+  padding: 0 18px;
+  font-size: 1.25rem;
+  border: 2px solid #1d70b8;
+  border-right: 0;
+  border-radius: 4px 0 0 4px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.dfe-ros-search-input:focus {
+  border-color: #003078;
+}
+.dfe-ros-search-submit {
+  width: 56px;
+  height: 52px;
+  background-color: #1d70b8;
+  border: 2px solid #1d70b8;
+  border-radius: 0 4px 4px 0;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  padding: 0;
+}
+.dfe-ros-search-submit:focus,
+.dfe-ros-search-submit:hover {
+  background: #003078;
+  color: #fff;
+}
+.dfe-ros-search-icon {
+  color: #fff;
+  width: 24px;
+  height: 24px;
+}
+@media (max-width: 600px) {
+  .dfe-ros-search-form {
+    max-width: 100%;
+  }
+  .govuk-heading-xl {
+    font-size: 2.2rem !important;
+  }
+  .dfe-ros-search-input {
+    font-size: 1rem;
+    height: 44px;
+  }
+  .dfe-ros-search-submit {
+    height: 44px;
+    width: 44px;
+  }
+}
+</style>
+{% endblock %}

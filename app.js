@@ -35,6 +35,7 @@ app.use(compression());
 app.use('/govuk', express.static(path.join(__dirname, 'node_modules/govuk-frontend/govuk/assets')));
 app.use('/dfe', express.static(path.join(__dirname, 'node_modules/dfe-frontend/dist')));
 app.use('/assets', express.static('app/public'));
+app.use('/public', express.static('app/public'));
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 app.use('/data', express.static('app/common/data'));
 app.use(express.json());
@@ -213,7 +214,7 @@ app.use((err, req, res, next) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 3519;
+const PORT = process.env.PORT || 3679;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

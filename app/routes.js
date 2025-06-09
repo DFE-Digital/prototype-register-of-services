@@ -6,6 +6,9 @@ const categoriesController = require('./controllers/categories_controller');
 const policyController = require('./controllers/policy_controller');
 const dataController = require('./controllers/dataController');
 const departmentController = require('./controllers/department_controller');
+const taxonomy = require('./common/data/taxonomy.json');
+const insightsController = require('./controllers/insights_controller');
+const cmdbController = require('./controllers/cmdb_controller');
 
 // Dashboard route
 router.get('/', dashboardController.index);
@@ -103,5 +106,15 @@ router.get('/reports/services', servicesController.getServicesReport);
 router.get('/reports/services/:serviceId', servicesController.getSingleServiceReport);
 router.get('/reports/services/:serviceId/uptime', servicesController.getEditUptime);
 router.post('/reports/services/:serviceId/uptime', servicesController.postEditUptime);
+
+router.get('/services/service/:serviceId/data', servicesController.getServiceData);
+router.get('/services/service/:serviceId/people', servicesController.getServicePeople);
+router.get('/services/service/:serviceId/resources', servicesController.getServiceResources);
+
+router.get('/insights', insightsController.index);
+router.get('/insights/young-people.html', insightsController.youngPeople);
+
+
+router.get('/service-offerings', cmdbController.getServiceOfferings);
 
 module.exports = router; 

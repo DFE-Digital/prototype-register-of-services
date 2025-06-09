@@ -11,25 +11,29 @@
                         aria-controls="navigation" hidden>
                     Menu
                 </button>
-                
+
                 <ul class="govuk-service-navigation__list" id="navigation">
-                    <li class="govuk-service-navigation__item {% if serviceNav == 'Dashboard' %}govuk-service-navigation__item--active{% endif %}">
-                        <a class="govuk-service-navigation__link" href="/dashboard">Dashboard</a>
-                    </li>
                     <li class="govuk-service-navigation__item {% if serviceNav == 'Services' %}govuk-service-navigation__item--active{% endif %}">
                         <a class="govuk-service-navigation__link" href="/services">Services</a>
                     </li>
                     <li class="govuk-service-navigation__item {% if serviceNav == 'Categories' %}govuk-service-navigation__item--active{% endif %}">
                         <a class="govuk-service-navigation__link" href="/categories">Taxonomy</a>
                     </li>
-                    <li class="govuk-service-navigation__item {% if serviceNav == 'Data' %}govuk-service-navigation__item--active{% endif %}">
-                        <a class="govuk-service-navigation__link" href="/data">Use the data</a>
-                    </li>
-                    <li class="govuk-service-navigation__item {% if serviceNav == 'Reports' %}govuk-service-navigation__item--active{% endif %}">
-                        <a class="govuk-service-navigation__link" href="/reports">Reports</a>
-                    </li>
                 </ul>
             </nav>
         </div>
     </div>
 </section>
+
+
+    <div class="govuk-phase-banner" style="background-color: #f4f8fb;"><div class="govuk-width-container">
+        <p class="govuk-phase-banner__content">
+            <strong class="govuk-tag govuk-phase-banner__content__tag">
+      Alpha
+    </strong>
+            <span class="govuk-phase-banner__text">
+      This is a prototype. Help us improve it and <a class="govuk-link" href="mailto:design.ops@education.gov.uk">give your feedback by email</a>.
+    </span>
+        </p>
+    </div>
+</div>

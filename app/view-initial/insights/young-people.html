@@ -1,0 +1,819 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Insights" %}
+{% set serviceNav = "Insights" %}
+
+{% block head %}
+  {{ super() }}
+  <!-- Load Chart.js before any other scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+  <style>
+    .chart-container { position: relative; height: 300px; margin-bottom: 2rem; }
+    .metric-change { font-size: 0.875rem; }
+    .metric-change--up { color: #00703c; }
+    .metric-change--down { color: #d4351c; }
+    .govuk-table__cell--numeric { text-align: right; }
+    .govuk-tag--trend { background: #f3f2f1; color: #0b0c0c; }
+
+    /* Insight Card Styles */
+    .insight-card {
+      background: #ffffff;
+      border: 1px solid #b1b4b6;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+    }
+    .insight-card__header {
+      background: #f8f8f8;
+      border-bottom: 1px solid #b1b4b6;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .insight-card__header h3 {
+      margin: 0;
+      color: #0b0c0c;
+    }
+    .insight-card__header .govuk-body-s {
+      margin: 0;
+      color: #505a5f;
+    }
+    .insight-card__content {
+      padding: 2rem;
+    }
+    .insight-card__content > *:first-child {
+      margin-top: 0;
+    }
+    .insight-card__content > *:last-child {
+      margin-bottom: 0;
+    }
+    .insight-card--stat {
+      text-align: center;
+      padding: 1.5rem;
+    }
+    .insight-card--stat .govuk-heading-l {
+      margin-bottom: 0.5rem;
+      color: #0b0c0c;
+    }
+    .insight-card--stat .govuk-body {
+      margin-bottom: 0.5rem;
+      color: #505a5f;
+    }
+    .insight-card--stat .metric-change {
+      display: block;
+      margin-top: 0.5rem;
+    }
+    .insight-card--chart {
+      padding: 0;
+    }
+    .insight-card--chart .insight-card__content {
+      padding: 1.5rem 2rem 2rem;
+    }
+    .insight-card--chart .chart-grid {
+      margin: 0 -0.5rem 1.5rem;
+    }
+    .insight-card--chart .chart-grid-item {
+      padding: 0 0.5rem;
+    }
+    .insight-card--table {
+      overflow-x: auto;
+      margin: 0 -0.5rem;
+    }
+    .insight-card--table .govuk-table__header {
+      background: #f8f8f8;
+      font-weight: 600;
+    }
+    .insight-card--table .govuk-table__cell {
+      padding: 1rem 1.5rem;
+      vertical-align: middle;
+    }
+    .insight-card--grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #f0f4f5;
+    }
+    .insight-card--grid-item {
+      padding: 1.25rem;
+      background: #f8f8f8;
+      border-radius: 4px;
+      border: 1px solid #e5e5e5;
+    }
+    .insight-card--grid-item h4 {
+      margin: 0 0 0.75rem 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0b0c0c;
+    }
+    .insight-card--grid-item p {
+      margin: 0 0 0.5rem 0;
+      font-size: 0.875rem;
+      color: #505a5f;
+    }
+    .insight-card--grid-item p:last-child {
+      margin-bottom: 0;
+    }
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .chart-grid-item {
+      min-height: 300px;
+    }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .metric-grid-item {
+      background: #f8f8f8;
+      padding: 1rem;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .metric-grid-item .govuk-heading-m {
+      margin: 0 0 0.5rem 0;
+    }
+    .metric-grid-item .govuk-body {
+      margin: 0;
+      color: #505a5f;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    <div class="govuk-main-wrapper">
+      <!-- Header with last updated -->
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <span class="govuk-caption-l">Insights</span>
+          <h1 class="govuk-heading-xl">Children and young person</h1>
+          <p class="govuk-body-l govuk-!-margin-bottom-2">Explore key metrics and trends in demographics, needs, and risk factors across education, skills, and care.</p>
+          <p class="govuk-body-s govuk-!-margin-bottom-8">Last updated: 20 May 2025</p>
+        </div>
+      </div>
+
+      <!-- Key Stats Cards -->
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Key statistics</h2>
+      <div class="govuk-grid-row govuk-!-margin-bottom-8">
+        {% set cards = [
+          {
+            'value': '825,000',
+            'label': 'Total children',
+            'icon': 'users',
+            'trend': '+2.3%',
+            'trend_direction': 'up',
+            'change_period': 'vs last year'
+          },
+          {
+            'value': '51% / 49%',
+            'label': 'Male / Female',
+            'icon': 'gender',
+            'trend': '0.2%',
+            'trend_direction': 'up',
+            'change_period': 'male ratio'
+          },
+          {
+            'value': '18.4%',
+            'label': 'FSM eligibility',
+            'icon': 'school',
+            'trend': '-0.5%',
+            'trend_direction': 'down',
+            'change_period': 'vs last year'
+          },
+          {
+            'value': '12.3%',
+            'label': 'SEN support',
+            'icon': 'support',
+            'trend': '+1.1%',
+            'trend_direction': 'up',
+            'change_period': 'vs last year'
+          }
+        ] %}
+        {% for card in cards %}
+        <div class="govuk-grid-column-one-quarter">
+          <div class="insight-card insight-card--stat">
+            <h3 class="govuk-heading-l">{{ card.value }}</h3>
+            <p class="govuk-body">{{ card.label }}</p>
+            <p class="metric-change metric-change--{{ card.trend_direction }}">
+              {{ card.trend }} <span class="govuk-body-s">{{ card.change_period }}</span>
+            </p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Services and Business Areas Card -->
+      <div class="insight-card govuk-!-margin-bottom-8">
+        <div class="insight-card__content" style="padding-bottom: 1.5rem;">
+          <p class="govuk-body" style="max-width: 600px;">This user group interacts with a wide range of services and business areas across the Department for Education.</p>
+          <div class="insight-services-flex" style="display: flex; flex-wrap: wrap; gap: 2.5rem; align-items: flex-start;">
+            <!-- Stats column -->
+            <div style="min-width: 220px; flex: 1 1 220px; max-width: 320px;">
+              <div class="insight-card--stat insight-card--stat-vertical" style="background: #f8f8f8; border: 1px solid #e5e5e5; border-radius: 6px; padding: 1.5rem 1.25rem; text-align: left; margin-bottom: 1.25rem;">
+                <span class="govuk-visually-hidden">Number of services used by this group: </span>
+                <span class="insight-stat-number" aria-label="14 services" style="font-size: 2.5rem; font-weight: 700; color: #1d70b8; line-height: 1;">14</span>
+                <div class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-1" style="margin-top: 0.5rem;">Services used</div>
+                <div class="govuk-body-s govuk-!-margin-bottom-0">Spanning education, care, and skills</div>
+              </div>
+              <div class="insight-card--stat insight-card--stat-vertical" style="background: #f8f8f8; border: 1px solid #e5e5e5; border-radius: 6px; padding: 1.5rem 1.25rem; text-align: left;">
+                <span class="govuk-visually-hidden">Number of business areas: </span>
+                <span class="insight-stat-number" aria-label="5 business areas" style="font-size: 2.5rem; font-weight: 700; color: #00703c; line-height: 1;">5</span>
+                <div class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-1" style="margin-top: 0.5rem;">Business areas</div>
+                <div class="govuk-body-s govuk-!-margin-bottom-0">Including SEND, safeguarding, and more</div>
+              </div>
+            </div>
+            <!-- Table column -->
+            <div style="flex: 2 1 350px; min-width: 300px;">
+              <h4 class="govuk-heading-s govuk-!-margin-bottom-2" style="text-align: left;">Example services for this group</h4>
+              <table class="govuk-table compact-table govuk-!-margin-bottom-2" style="font-size: 0.95em;">
+                <thead class="govuk-table__head">
+                  <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Service</th>
+                    <th scope="col" class="govuk-table__header">Business area</th>
+                    <th scope="col" class="govuk-table__header">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                  <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">School Admissions</td>
+                    <td class="govuk-table__cell">Education</td>
+                    <td class="govuk-table__cell">Apply for and manage school places</td>
+                  </tr>
+                  <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">SEND Support</td>
+                    <td class="govuk-table__cell">SEND</td>
+                    <td class="govuk-table__cell">Special educational needs and disabilities support</td>
+                  </tr>
+                  <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">Free School Meals</td>
+                    <td class="govuk-table__cell">Welfare</td>
+                    <td class="govuk-table__cell">Eligibility and application for FSM</td>
+                  </tr>
+                  <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">Child Protection</td>
+                    <td class="govuk-table__cell">Safeguarding</td>
+                    <td class="govuk-table__cell">Safeguarding and child protection plans</td>
+                  </tr>
+                  <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">Post-16 Pathways</td>
+                    <td class="govuk-table__cell">Careers</td>
+                    <td class="govuk-table__cell">Guidance on further education and training</td>
+                  </tr>
+                </tbody>
+              </table>
+              <a href="/services?q=&UG=UG_1" class="govuk-link govuk-!-font-weight-bold govuk-!-margin-top-5 govuk-!-display-block" style="font-size: 1.1em;">View 9 more services</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <style>
+        .compact-table .govuk-table__cell, .compact-table .govuk-table__header {
+          padding-top: 0.4em;
+          padding-bottom: 0.4em;
+        }
+        .insight-services-flex {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 2.5rem;
+          align-items: flex-start;
+        }
+        @media (max-width: 900px) {
+          .insight-services-flex {
+            flex-direction: column;
+            gap: 1.5rem !important;
+          }
+        }
+      </style>
+
+      <!-- Demographics & Identity Section -->
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Demographics & Identity</h2>
+      <div class="govuk-grid-row govuk-!-margin-bottom-8">
+        <!-- Ethnicity & Language -->
+        <div class="govuk-grid-column-two-thirds">
+          <div class="insight-card insight-card--chart">
+            <div class="insight-card__header">
+              <h3 class="govuk-heading-s">Ethnicity & Language</h3>
+              <p class="govuk-body-s">Based on DfE School Census 2023</p>
+            </div>
+            <div class="insight-card__content">
+              <div class="chart-grid">
+                <div class="chart-grid-item">
+                  <canvas id="ethnicityChart"></canvas>
+                </div>
+                <div class="chart-grid-item">
+                  <canvas id="languageChart"></canvas>
+                </div>
+              </div>
+              <div class="insight-card--grid">
+                <div class="insight-card--grid-item">
+                  <h4>English as Additional Language</h4>
+                  <p>19.5% of pupils</p>
+                  <p class="metric-change metric-change--up">+1.2% vs last year</p>
+                </div>
+                <div class="insight-card--grid-item">
+                  <h4>Top Languages</h4>
+                  <p>Polish (3.2%), Urdu (2.1%), Bengali (1.8%)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Family & Household Context -->
+        <div class="govuk-grid-column-one-third">
+          <div class="insight-card">
+            <div class="insight-card__header">
+              <h3 class="govuk-heading-s">Family & Household</h3>
+            </div>
+            <div class="insight-card__content">
+              <div class="metric-grid">
+                <div class="metric-grid-item">
+                  <h4 class="govuk-heading-m">24%</h4>
+                  <p class="govuk-body">Single-parent households</p>
+                  <p class="metric-change metric-change--up">+0.8% vs last year</p>
+                </div>
+                <div class="metric-grid-item">
+                  <h4 class="govuk-heading-m">2.3</h4>
+                  <p class="govuk-body">Average siblings</p>
+                </div>
+              </div>
+              <div class="insight-card--grid">
+                <div class="insight-card--grid-item">
+                  <h4>Parental Education</h4>
+                  <p>Degree or higher: 42%</p>
+                  <p>A-levels: 28%</p>
+                  <p>GCSEs: 22%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Geographic Distribution -->
+      <div class="govuk-grid-row govuk-!-margin-bottom-8">
+        <div class="govuk-grid-column-full">
+          <div class="insight-card insight-card--chart">
+            <div class="insight-card__header">
+              <h3 class="govuk-heading-s">Geographic Distribution</h3>
+              <p class="govuk-body-s">Regional distribution and urban/rural split</p>
+            </div>
+            <div class="insight-card__content">
+              <div class="chart-grid">
+                <div class="chart-grid-item">
+                  <canvas id="regionalChart"></canvas>
+                </div>
+                <div class="chart-grid-item">
+                  <canvas id="urbanRuralChart"></canvas>
+                </div>
+              </div>
+              <div class="insight-card--grid">
+                <div class="insight-card--grid-item">
+                  <h4>Top Local Authorities</h4>
+                  <p>Birmingham (8.2%), Leeds (6.1%), Manchester (5.8%)</p>
+                </div>
+                <div class="insight-card--grid-item">
+                  <h4>Urban/Rural Split</h4>
+                  <p>Urban: 78%, Rural: 22%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Educational Progress & Attainment -->
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Educational Progress & Attainment</h2>
+      <div class="govuk-grid-row govuk-!-margin-bottom-8">
+        <div class="govuk-grid-column-full">
+          <div class="insight-card">
+            <div class="insight-card__header">
+              <h3 class="govuk-heading-s">Key Stage Outcomes</h3>
+              <p class="govuk-body-s">Academic year 2022/23</p>
+            </div>
+            <div class="insight-card__content">
+              <div class="chart-grid">
+                <div class="chart-grid-item">
+                  <canvas id="ksOutcomesChart"></canvas>
+                </div>
+                <div class="chart-grid-item">
+                  <canvas id="progressChart"></canvas>
+                </div>
+              </div>
+              <div class="insight-card--grid">
+                <div class="insight-card--grid-item">
+                  <h4>Progress 8 Score</h4>
+                  <p>Average: +0.12</p>
+                  <p class="metric-change metric-change--up">+0.05 vs last year</p>
+                </div>
+                <div class="insight-card--grid-item">
+                  <h4>Attendance</h4>
+                  <p>Overall: 94.2%</p>
+                  <p>Persistent absence: 12.8%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Metrics -->
+        <div class="insight-card">
+              <div class="insight-card__content">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Detailed metrics</h2>
+      <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+        {% set sections = [
+          {
+            'title': 'Socio-economic factors',
+            'description': 'Key indicators of economic and social circumstances affecting children and young people.',
+            'items': [
+              {
+                'label': 'IMD quintile (most deprived)',
+                'value': '22%',
+                'trend': '+1.2%',
+                'trend_direction': 'up',
+                'description': 'Proportion in most deprived quintile'
+              },
+              {
+                'label': 'Temporary accommodation',
+                'value': '3.5%',
+                'trend': '-0.3%',
+                'trend_direction': 'down',
+                'description': 'Children in temporary housing'
+              },
+              {
+                'label': 'Overcrowded households',
+                'value': '5.2%',
+                'trend': '0.0%',
+                'trend_direction': 'neutral',
+                'description': 'Living in overcrowded conditions'
+              }
+            ]
+          },
+          {
+            'title': 'SEND data',
+            'description': 'Special Educational Needs and Disabilities statistics and trends.',
+            'items': [
+              {
+                'label': 'EHCP plans',
+                'value': '3.8% (31,350)',
+                'trend': '+0.4%',
+                'trend_direction': 'up',
+                'description': 'Children with Education, Health and Care Plans'
+              },
+              {
+                'label': 'Primary needs',
+                'value': 'Autism 28%, SLCN 24%, SEMH 19%',
+                'trend': 'N/A',
+                'trend_direction': 'neutral',
+                'description': 'Distribution of primary needs'
+              },
+              {
+                'label': 'Average wait',
+                'value': '14 weeks',
+                'trend': '-2 weeks',
+                'trend_direction': 'down',
+                'description': 'Average wait for assessment'
+              }
+            ]
+          },
+          {
+            'title': 'Risk & vulnerability',
+            'description': 'Key indicators of vulnerability and safeguarding concerns.',
+            'items': [
+              {
+                'label': 'Children in care',
+                'value': '67 per 10,000',
+                'trend': '+3',
+                'trend_direction': 'up',
+                'description': 'Rate per 10,000 children'
+              },
+              {
+                'label': 'Child protection plans',
+                'value': '43 per 10,000',
+                'trend': '-2',
+                'trend_direction': 'down',
+                'description': 'Rate per 10,000 children'
+              },
+              {
+                'label': 'Missing from education',
+                'value': '0.26%',
+                'trend': '-0.04%',
+                'trend_direction': 'down',
+                'description': 'Percentage of children'
+              }
+            ]
+          }
+        ] %}
+        {% for section in sections %}
+        <div class="govuk-accordion__section">
+          <div class="govuk-accordion__section-header">
+            <h3 class="govuk-accordion__section-heading">
+              <span class="govuk-accordion__section-button" id="accordion-default-heading-{{ loop.index }}">
+                {{ section.title }}
+              </span>
+            </h3>
+          </div>
+          <div id="accordion-default-content-{{ loop.index }}" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-{{ loop.index }}">
+            <p class="govuk-body govuk-!-margin-bottom-4">{{ section.description }}</p>
+            <div class="insight-card insight-card--table">
+              <div class="insight-card__content">
+                <table class="govuk-table compact-table" style="text-align: left;">
+                  <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                      <th scope="col" class="govuk-table__header">Metric</th>
+                      <th scope="col" class="govuk-table__header govuk-table__header--numeric">Value</th>
+                      <th scope="col" class="govuk-table__header govuk-table__header--numeric">Trend</th>
+                      <th scope="col" class="govuk-table__header">Description</th>
+                    </tr>
+                  </thead>
+                  <tbody class="govuk-table__body">
+                    {% for item in section.items %}
+                    <tr class="govuk-table__row">
+                      <td class="govuk-table__cell">{{ item.label }}</td>
+                      <td class="govuk-table__cell govuk-table__cell--numeric">
+                        <strong>{{ item.value }}</strong>
+                      </td>
+                      <td class="govuk-table__cell govuk-table__cell--numeric">
+                        <span class="metric-change metric-change--{{ item.trend_direction }}">
+                          {{ item.trend }}
+                        </span>
+                      </td>
+                      <td class="govuk-table__cell govuk-body-s">{{ item.description }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div></div></div>
+
+      <!-- Data Sources -->
+      <div class="govuk-grid-row govuk-!-margin-top-8">
+        <div class="govuk-grid-column-two-thirds">
+          <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Data sources</h2>
+          <div class="insight-card">
+            <div class="insight-card__content">
+              <ul class="govuk-list">
+                <li>
+                  <strong>DfE School Census 2023</strong>
+                  <br>
+                  <span class="govuk-body-s">Annual census of all schools in England</span>
+                </li>
+                <li class="govuk-!-margin-top-4">
+                  <strong>Children Looked After Stats 2023</strong>
+                  <br>
+                  <span class="govuk-body-s">Department for Education statistics on looked-after children</span>
+                </li>
+                <li class="govuk-!-margin-top-4">
+                  <strong>Indices of Deprivation 2019</strong>
+                  <br>
+                  <span class="govuk-body-s">Ministry of Housing, Communities and Local Government</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Move Chart.js initialization to end of content block -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Register Chart.js components
+      Chart.register(ChartDataLabels);
+
+      // Helper function to create charts
+      function createChart(canvasId, config) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) {
+          console.warn(`Canvas element #${canvasId} not found`);
+          return;
+        }
+        const ctx = canvas.getContext('2d');
+        return new Chart(ctx, config);
+      }
+
+      // Ethnicity Chart
+      createChart('ethnicityChart', {
+        type: 'doughnut',
+        data: {
+          labels: ['White British', 'Asian British', 'Black British', 'Mixed', 'Other'],
+          datasets: [{
+            data: [62, 12, 6, 5, 15],
+            backgroundColor: [
+              '#1d70b8',
+              '#00703c',
+              '#d4351c',
+              '#f47738',
+              '#85994b'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                boxWidth: 12,
+                padding: 15
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.label + ': ' + context.raw + '%';
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Language Chart
+      createChart('languageChart', {
+        type: 'bar',
+        data: {
+          labels: ['English Only', 'EAL'],
+          datasets: [{
+            data: [80.5, 19.5],
+            backgroundColor: ['#1d70b8', '#00703c'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.raw + '% of pupils';
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: {
+                callback: function(value) {
+                  return value + '%';
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Regional Distribution Chart
+      createChart('regionalChart', {
+        type: 'bar',
+        data: {
+          labels: ['London', 'South East', 'North West', 'West Midlands', 'Yorkshire', 'East Midlands', 'South West', 'North East', 'East'],
+          datasets: [{
+            label: 'Percentage of pupils',
+            data: [15, 14, 12, 11, 10, 9, 8, 7, 6],
+            backgroundColor: '#1d70b8',
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: 'y',
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              max: 20,
+              ticks: {
+                callback: function(value) {
+                  return value + '%';
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Urban/Rural Split Chart
+      createChart('urbanRuralChart', {
+        type: 'doughnut',
+        data: {
+          labels: ['Urban', 'Rural'],
+          datasets: [{
+            data: [78, 22],
+            backgroundColor: ['#1d70b8', '#00703c']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.label + ': ' + context.raw + '%';
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Key Stage Outcomes Chart
+      createChart('ksOutcomesChart', {
+        type: 'bar',
+        data: {
+          labels: ['KS1', 'KS2', 'KS4'],
+          datasets: [{
+            label: 'Expected Standard',
+            data: [75, 65, 58],
+            backgroundColor: '#1d70b8'
+          }, {
+            label: 'Higher Standard',
+            data: [25, 20, 15],
+            backgroundColor: '#00703c'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: {
+                callback: function(value) {
+                  return value + '%';
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Progress Chart
+      createChart('progressChart', {
+        type: 'line',
+        data: {
+          labels: ['2019', '2020', '2021', '2022', '2023'],
+          datasets: [{
+            label: 'Progress 8 Score',
+            data: [-0.05, 0.02, 0.08, 0.07, 0.12],
+            borderColor: '#1d70b8',
+            tension: 0.4,
+            fill: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 0.2,
+              min: -0.1
+            }
+          }
+        }
+      });
+    });
+  </script>
+{% endblock %}

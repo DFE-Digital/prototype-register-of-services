@@ -1,0 +1,89 @@
+<!-- Example modals for service info page -->
+<div class="modal-container" id="user-satisfaction-info-modal" role="dialog" aria-modal="true" aria-labelledby="user-satisfaction-info-title" tabindex="-1">
+    <div class="modal-content" style="min-width:320px;max-width:680px;">
+        <div class="modal-header">
+            <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="user-satisfaction-info-title">About user satisfaction</h2>
+            <button class="modal-close" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p class="govuk-body">User satisfaction is measured by user feedback and surveys. It reflects how satisfied users are with the service experience.</p>
+        </div>
+    </div>
+</div>
+
+<div class="modal-container" id="service-availability-info-modal" role="dialog" aria-modal="true" aria-labelledby="service-availability-info-title" tabindex="-1">
+    <div class="modal-content" style="min-width:320px;max-width:680px;">
+        <div class="modal-header">
+            <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="service-availability-info-title">About service availability</h2>
+            <button class="modal-close" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p class="govuk-body">Service availability is the percentage of time the service is up and running, based on monitoring and incident reports.</p>
+        </div>
+    </div>
+</div>
+
+<div class="modal-container" id="description-info-modal" role="dialog" aria-modal="true" aria-labelledby="description-info-title" tabindex="-1">
+    <div class="modal-content" style="min-width:320px;max-width:680px;">
+        <div class="modal-header">
+            <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="description-info-title">About service description</h2>
+            <button class="modal-close" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p class="govuk-body">This section provides a summary of what the service does, who it is for, and any key features or benefits. Use clear, concise language to help users and stakeholders quickly understand the purpose of the service.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Watch Modal -->
+<div class="modal-container" id="watch-info-modal" role="dialog" aria-modal="true" aria-labelledby="watch-info-title" tabindex="-1">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="watch-info-title">Watch this service</h2>
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="govuk-body">Subscribe to updates about this service. You'll be notified when there are changes or important news.</p>
+      <button class="govuk-button govuk-button--secondary" type="button">Subscribe</button>
+    </div>
+  </div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal-container" id="share-info-modal" role="dialog" aria-modal="true" aria-labelledby="share-info-title" tabindex="-1">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="share-info-title">Share this service</h2>
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <label class="govuk-label" for="share-link">Copy link to this service:</label>
+      <div style="display: flex; gap: 0.5em; align-items: center;">
+        <input id="share-link" class="govuk-input" type="text" value="{{ request.protocol }}://{{ request.headers.host }}/services/service/{{ service.id }}" readonly style="flex:1;">
+        <button class="govuk-button govuk-button--secondary" type="button" onclick="copyShareLink()">Copy</button>
+      </div>
+      <p class="govuk-body govuk-!-margin-top-2">Or share via:
+        <a href="mailto:?subject=Check%20out%20this%20service&body={{ request.protocol }}://{{ request.headers.host }}/services/service/{{ service.id }}" class="govuk-link">Email</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Export Modal -->
+<div class="modal-container" id="export-info-modal" role="dialog" aria-modal="true" aria-labelledby="export-info-title" tabindex="-1">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="export-info-title">Export service data</h2>
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="govuk-body">Choose a format to export service data:</p>
+      <div style="display: flex; gap: 1em;">
+        <button class="govuk-button govuk-button--secondary" type="button">Export as CSV</button>
+        <button class="govuk-button govuk-button--secondary" type="button">Export as PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add more modals as needed for other info buttons --> 

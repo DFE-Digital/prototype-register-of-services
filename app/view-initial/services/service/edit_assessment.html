@@ -1,0 +1,31 @@
+{% extends "layouts/layout.html" %}
+{% set title = service.name + " - Edit Assessment" %}
+{% set serviceNav = "Services" %}
+{% set nav = 'assessment' %}
+{% block content %}
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter">
+      {% include 'services/service/_nav.html' %}
+    </div>
+    <div class="govuk-grid-column-three-quarters">
+      <h1 class="govuk-heading-l">Edit Assessment</h1>
+      <form method="post">
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="assessment_stage">Stage</label>
+            <input class="govuk-input" id="assessment_stage" name="assessment_stage" type="text" value="{{ service.assessment_stage or '' }}">
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="assessment_date">Date</label>
+            <input class="govuk-input" id="assessment_date" name="assessment_date" type="date" value="{{ service.assessment_date or '' }}">
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="assessment_outcome">Outcome</label>
+            <input class="govuk-input" id="assessment_outcome" name="assessment_outcome" type="text" value="{{ service.assessment_outcome or '' }}">
+        </div>
+        <button class="govuk-button" type="submit">Save changes</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %} 

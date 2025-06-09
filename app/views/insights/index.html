@@ -1,0 +1,37 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Insights" %}
+{% set serviceNav = "Insights" %}
+
+{% block content %}
+
+    <div class="govuk-width-container">
+      <div class="service-header-flex">
+        <span>
+          <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Insights hub</h1>
+          <p class="govuk-body-l">Explore insights about different user groups in the Register of services. Select a group to view detailed demographics, needs, and outcomes.</p>
+        </span>
+      </div>
+   
+    <section class="govuk-section govuk-!-margin-top-6">
+      <div class="dfe-grid-container">
+        {% set user_groups = taxonomy.user_groups.items %}
+        {% for group in user_groups %}
+          <div class="dfe-card">
+            <div class="dfe-card-container">
+              <h2 class="govuk-heading-m">
+                {% if group.id == 'UG_1' %}
+                  <a href="/insights/young-people" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">{{ group.name }}</a>
+                {% else %}
+                  <a href="#" class="govuk-link govuk-link--no-visited-state dfe-card-link--header" aria-disabled="true">{{ group.name }}</a>
+                {% endif %}
+              </h2>
+              <p class="govuk-body">
+                {% if group.id == 'UG_1' %}Children and young people in education, including those with additional needs.{% else %}Insights and data for this user group.{% endif %}
+              </p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+ </div>
+{% endblock %}

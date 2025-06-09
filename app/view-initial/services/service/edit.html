@@ -1,0 +1,252 @@
+{% extends "layouts/layout.html" %}
+{% set title = service.name + " - Edit Service" %}
+{% set serviceNav = "Services" %}
+{% set nav = 'service' %}
+
+{% block content %}
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter">
+      {% include 'services/service/_nav.html' %}
+    </div>
+    <div class="govuk-grid-column-three-quarters">
+      <h1 class="govuk-heading-xl">Edit service</h1>
+
+      <!-- Service Details Card -->
+      <div class="govuk-summary-card">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">Service details</h2>
+        </div>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Service name</dt>
+              <dd class="govuk-summary-list__value">{{ service.name }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/name">Change<span class="govuk-visually-hidden"> service name</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Phase</dt>
+              <dd class="govuk-summary-list__value">
+                {% for phase in taxonomy.phases.items %}
+                  {% if service.phase == phase.id %}{{ phase.name }}{% endif %}
+                {% endfor %}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/phase">Change<span class="govuk-visually-hidden"> phase</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Phase dates</dt>
+              <dd class="govuk-summary-list__value">
+                {{ service.phase_start }} to {{ service.phase_end }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/phase-dates">Change<span class="govuk-visually-hidden"> phase dates</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Service owner</dt>
+              <dd class="govuk-summary-list__value">{{ service.service_owner }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/owner">Change<span class="govuk-visually-hidden"> service owner</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Service line</dt>
+              <dd class="govuk-summary-list__value">
+                {% for line in servicelines.service_lines %}
+                  {% if service.service_line_id == line.id %}{{ line.name }}{% endif %}
+                {% endfor %}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/service-line">Change<span class="govuk-visually-hidden"> service line</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Start page URL</dt>
+              <dd class="govuk-summary-list__value">{{ service.public_url }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/url">Change<span class="govuk-visually-hidden"> start page URL</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Description</dt>
+              <dd class="govuk-summary-list__value">{{ service.description }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/description">Change<span class="govuk-visually-hidden"> description</span></a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <!-- Taxonomies Card -->
+      <div class="govuk-summary-card govuk-!-margin-top-4">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">Taxonomies</h2>
+        </div>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">User groups</dt>
+              <dd class="govuk-summary-list__value">
+                {% set has_user_groups = false %}
+                <ul class="govuk-list">
+                  {% for group in taxonomy.user_groups.items %}
+                    {% if group.id in service.userGroup %}
+                      {% set has_user_groups = true %}
+                      <li>{{ group.name }}</li>
+                    {% endif %}
+                  {% endfor %}
+                  {% if not has_user_groups %}
+                    <li class="govuk-body-s govuk-!-colour-muted">None selected</li>
+                  {% endif %}
+                </ul>
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/user-groups">Change<span class="govuk-visually-hidden"> user groups</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Service patterns</dt>
+              <dd class="govuk-summary-list__value">
+                {% set has_patterns = false %}
+                <ul class="govuk-list">
+                  {% for pattern in taxonomy.service_patterns.items %}
+                    {% if pattern.id in service.servicePattern %}
+                      {% set has_patterns = true %}
+                      <li>{{ pattern.name }}</li>
+                    {% endif %}
+                  {% endfor %}
+                  {% if not has_patterns %}
+                    <li class="govuk-body-s govuk-!-colour-muted">None selected</li>
+                  {% endif %}
+                </ul>
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/service-patterns">Change<span class="govuk-visually-hidden"> service patterns</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Technology</dt>
+              <dd class="govuk-summary-list__value">
+                {% set has_tech = false %}
+                <ul class="govuk-list">
+                  {% for tech in taxonomy.technology.items %}
+                    {% if tech.id in service.technology %}
+                      {% set has_tech = true %}
+                      <li>{{ tech.name }}</li>
+                    {% endif %}
+                  {% endfor %}
+                  {% if not has_tech %}
+                    <li class="govuk-body-s govuk-!-colour-muted">None selected</li>
+                  {% endif %}
+                </ul>
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/technology">Change<span class="govuk-visually-hidden"> technology</span></a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <!-- Assurance & Compliance Card -->
+      <div class="govuk-summary-card govuk-!-margin-top-4">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">Assurance & Compliance</h2>
+        </div>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Authority to operate</dt>
+              <dd class="govuk-summary-list__value">Not provided</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/authority">Change<span class="govuk-visually-hidden"> authority to operate</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Business Impact Assessment</dt>
+              <dd class="govuk-summary-list__value">Not provided</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/bia">Change<span class="govuk-visually-hidden"> business impact assessment</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Data Protection Impact Assessment</dt>
+              <dd class="govuk-summary-list__value">Not provided</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/dpia">Change<span class="govuk-visually-hidden"> data protection impact assessment</span></a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <!-- Service Assessment Data Card -->
+      <div class="govuk-summary-card govuk-!-margin-top-4">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">Service Assessment Data</h2>
+        </div>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Assessment history</dt>
+              <dd class="govuk-summary-list__value">No assessment data available</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/assessments">Change<span class="govuk-visually-hidden"> assessment history</span></a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <!-- Points of Contact Card -->
+      <div class="govuk-summary-card govuk-!-margin-top-4">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">Points of Contact</h2>
+        </div>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Contact information</dt>
+              <dd class="govuk-summary-list__value">No contact information available</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/contacts">Change<span class="govuk-visually-hidden"> contact information</span></a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <!-- Service Metrics Card -->
+      <div class="govuk-summary-card govuk-!-margin-top-4">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">Service Metrics</h2>
+        </div>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">User satisfaction</dt>
+              <dd class="govuk-summary-list__value">Not provided</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/satisfaction">Change<span class="govuk-visually-hidden"> user satisfaction</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Service availability</dt>
+              <dd class="govuk-summary-list__value">Not provided</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/availability">Change<span class="govuk-visually-hidden"> service availability</span></a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

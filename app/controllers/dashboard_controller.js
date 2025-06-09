@@ -5,8 +5,27 @@ const XLSX = require('xlsx');
 
 const dashboardController = {
     index: async (req, res) => {
-       
-        res.render('index')
+        try {
+            // Load services data
+            const api = new API();
+            const services = await api.getServices();
+
+            // Load taxonomy data
+            const taxonomyPath = path.join(__dirname, '../common/data/taxonomy.json');
+            const taxonomy = JSON.parse(fs.readFileSync(taxonomyPath, 'utf8'));
+
+            // Pass both datasets to the template as plain JSON strings
+            res.render('dashboard/dashboard-2-autocomplete', {
+                services: JSON.stringify(services),
+                taxonomy: JSON.stringify(taxonomy)
+            });
+        } catch (error) {
+            console.error('Error in dashboard controller:', error);
+            res.status(500).render('error', {
+                message: 'Error loading dashboard',
+                error: process.env.NODE_ENV === 'development' ? error : null
+            });
+        }
     },
     getDashboard1: async (req, res) => {
         try {

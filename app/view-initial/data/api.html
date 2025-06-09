@@ -1,0 +1,354 @@
+{% extends "layouts/layout.html" %}
+{% set title = "API" %}
+{% set serviceNav = "Data" %}
+{% set nav = 'api' %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0;wght@400;GRAD@0;opsz@24" rel="stylesheet" />
+<style>
+.codeblock {
+  background: #18181b;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 2em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+}
+.codeblock-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #23272f;
+  padding: 0.5em 1em 0.5em 0.5em;
+}
+.codeblock-tabs {
+  display: flex;
+  gap: 1em;
+}
+.codeblock-tab {
+  background: none;
+  border: none;
+  color: #f4f4f5;
+  font-weight: 500;
+  font-size: 1em;
+  padding: 0.25em 0.5em;
+  cursor: pointer;
+  opacity: 0.7;
+  border-bottom: 2px solid transparent;
+  transition: border 0.2s, opacity 0.2s;
+}
+.codeblock-tab.active {
+  border-bottom: 2px solid #fff;
+  opacity: 1;
+}
+.codeblock-copy {
+  background: none;
+  border: none;
+  color: #e3e3e3;
+  cursor: pointer;
+  padding: 0.25em;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: background 0.2s;
+  font-family: 'Material Symbols Outlined', monospace;
+  font-size: 24px;
+}
+.codeblock-copy:hover, .codeblock-copy:focus {
+  background: #35363a;
+  outline: none;
+}
+.codeblock-pre {
+  background: #18181b;
+  color: #f4f4f5;
+  margin: 0;
+  padding: 1em;
+  font-size: 1em;
+  overflow-x: auto;
+  border-radius: 0 0 10px 10px;
+  display: none;
+}
+.codeblock-pre.active {
+  display: block;
+}
+.codeblock-pre code {
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+}
+.codeblock-copy.copied {
+  color: #00703c;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+    <section class="data-hero">
+        <div class="govuk-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-quarter">
+                   {% include "data/_nav.html" %}
+                </div>
+
+                <div class="govuk-grid-column-three-quarters">
+                    <span class="govuk-caption-l">Code integrations</span>
+                    <h1 class="govuk-heading-xl">Service Register API</h1>
+                    <p class="govuk-body">The Service Register API provides programmatic access to service, taxonomy, and register data. You can use the API to build integrations, automate reporting, or power your own applications.</p>
+
+                    <nav class="govuk-contents-list" aria-label="Contents">
+                        <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Contents</h2>
+                        <ol class="govuk-list">
+                            <li>–– <a href="#authentication" class="govuk-link govuk-link--no-underline govuk-link--no-visited-state">Authentication</a></li>
+                            <li>–– <a href="#endpoints" class="govuk-link govuk-link--no-underline govuk-link--no-visited-state">Endpoints</a></li>
+                            <li>–– <a href="#examples" class="govuk-link govuk-link--no-underline govuk-link--no-visited-state">Example usage</a></li>
+                        </ol>
+                    </nav>
+
+                    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                    <h2 id="authentication" class="govuk-heading-m">Authentication</h2>
+                    <p class="govuk-body">
+                        All API requests require authentication using a <strong>bearer token</strong>.
+                    </p>
+                    <ol class="govuk-list govuk-list--number">
+                        <li>Obtain your API bearer token from your administrator or the API management portal.</li>
+                        <li>Include the token in the <code>Authorization</code> header of your HTTP requests:</li>
+                    </ol>
+                    <pre><code class="language-http">Authorization: Bearer &lt;your-token-here&gt;</code></pre>
+                    <p class="govuk-body">
+                        If your token is missing or invalid, the API will return a <code>401 Unauthorized</code> response.
+                    </p>
+
+                    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                    <h2 id="endpoints" class="govuk-heading-m">Endpoints</h2>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li><code class="language-http">GET /api/v1/services</code> – List all services</li>
+                        <li><code class="language-http">GET /api/v1/services/{id}</code> – Get a single service by ID</li>
+                        <li><code class="language-http">GET /api/v1/taxonomy</code> – List all taxonomy categories</li>
+                        <li><code class="language-http">GET /api/v1/taxonomy/{type}</code> – List all items for a taxonomy type</li>
+                        <li><code class="language-http">GET /api/v1/register</code> – Get register metadata</li>
+                    </ul>
+
+                    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                    <h2 id="examples" class="govuk-heading-m">Example usage</h2>
+                    
+                    <h3 class="govuk-heading-s">Get all services</h3>
+                    <div class="codeblock" data-codeblock="get-all-services">
+                        <div class="codeblock-header">
+                            <div class="codeblock-tabs" role="tablist">
+                                <button class="codeblock-tab active" data-lang="js" aria-selected="true" role="tab">JavaScript</button>
+                                <button class="codeblock-tab" data-lang="curl" aria-selected="false" role="tab">cURL</button>
+                                <button class="codeblock-tab" data-lang="csharp" aria-selected="false" role="tab">C#</button>
+                                <button class="codeblock-tab" data-lang="python" aria-selected="false" role="tab">Python</button>
+                                <button class="codeblock-tab" data-lang="r" aria-selected="false" role="tab">R</button>
+                            </div>
+                            <button class="codeblock-copy" title="Copy code" aria-label="Copy code" data-copy-for="get-all-services">
+                                <span class="material-symbols-outlined">content_copy</span>
+                            </button>
+                        </div>
+                        <pre class="codeblock-pre active" data-lang="js"><code class="language-js codeblock-code" id="get-all-services-js">const token = 'your-token-here';
+const response = await fetch('https://service-register.education.gov.uk/api/v1/services', {
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+});
+const services = await response.json();</code></pre>
+                        <pre class="codeblock-pre" data-lang="curl" style="display:none;"><code class="language-bash codeblock-code" id="get-all-services-curl">curl -H "Authorization: Bearer your-token-here" \
+  https://service-register.education.gov.uk/api/v1/services</code></pre>
+                        <pre class="codeblock-pre" data-lang="csharp" style="display:none;"><code class="language-csharp codeblock-code" id="get-all-services-csharp">using var client = new HttpClient();
+client.DefaultRequestHeaders.Authorization = 
+    new AuthenticationHeaderValue("Bearer", "your-token-here");
+
+var response = await client.GetAsync(
+    "https://service-register.education.gov.uk/api/v1/services");
+var services = await response.Content.ReadFromJsonAsync&lt;List&lt;Service&gt;&gt;();</code></pre>
+                        <pre class="codeblock-pre" data-lang="python" style="display:none;"><code class="language-python codeblock-code" id="get-all-services-python">import requests
+
+headers = {'Authorization': 'Bearer your-token-here'}
+response = requests.get(
+    'https://service-register.education.gov.uk/api/v1/services',
+    headers=headers
+)
+services = response.json()</code></pre>
+                        <pre class="codeblock-pre" data-lang="r" style="display:none;"><code class="language-r codeblock-code" id="get-all-services-r">library(httr)
+
+response <- GET(
+  "https://service-register.education.gov.uk/api/v1/services",
+  add_headers(Authorization = "Bearer your-token-here")
+)
+services <- content(response, "parsed")</code></pre>
+                    </div>
+
+                    <h3 class="govuk-heading-s govuk-!-margin-top-6">Get a single service by ID</h3>
+                    <div class="codeblock" data-codeblock="get-single-service">
+                        <div class="codeblock-header">
+                            <div class="codeblock-tabs" role="tablist">
+                                <button class="codeblock-tab active" data-lang="js" aria-selected="true" role="tab">JavaScript</button>
+                                <button class="codeblock-tab" data-lang="curl" aria-selected="false" role="tab">cURL</button>
+                                <button class="codeblock-tab" data-lang="csharp" aria-selected="false" role="tab">C#</button>
+                                <button class="codeblock-tab" data-lang="python" aria-selected="false" role="tab">Python</button>
+                                <button class="codeblock-tab" data-lang="r" aria-selected="false" role="tab">R</button>
+                            </div>
+                            <button class="codeblock-copy" title="Copy code" aria-label="Copy code" data-copy-for="get-single-service">
+                                <span class="material-symbols-outlined">content_copy</span>
+                            </button>
+                        </div>
+                        <pre class="codeblock-pre active" data-lang="js"><code class="language-js codeblock-code" id="get-single-service-js">const token = 'your-token-here';
+const serviceId = '123';
+const response = await fetch(
+    `https://service-register.education.gov.uk/api/v1/services/${serviceId}`, {
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+});
+const service = await response.json();</code></pre>
+                        <pre class="codeblock-pre" data-lang="curl" style="display:none;"><code class="language-bash codeblock-code" id="get-single-service-curl">curl -H "Authorization: Bearer your-token-here" \
+  https://service-register.education.gov.uk/api/v1/services/123</code></pre>
+                        <pre class="codeblock-pre" data-lang="csharp" style="display:none;"><code class="language-csharp codeblock-code" id="get-single-service-csharp">using var client = new HttpClient();
+client.DefaultRequestHeaders.Authorization = 
+    new AuthenticationHeaderValue("Bearer", "your-token-here");
+
+var serviceId = "123";
+var response = await client.GetAsync(
+    $"https://service-register.education.gov.uk/api/v1/services/{serviceId}");
+var service = await response.Content.ReadFromJsonAsync&lt;Service&gt;();</code></pre>
+                        <pre class="codeblock-pre" data-lang="python" style="display:none;"><code class="language-python codeblock-code" id="get-single-service-python">import requests
+
+service_id = '123'
+headers = {'Authorization': 'Bearer your-token-here'}
+response = requests.get(
+    f'https://service-register.education.gov.uk/api/v1/services/{service_id}',
+    headers=headers
+)
+service = response.json()</code></pre>
+                        <pre class="codeblock-pre" data-lang="r" style="display:none;"><code class="language-r codeblock-code" id="get-single-service-r">library(httr)
+
+service_id <- "123"
+response <- GET(
+  sprintf("https://service-register.education.gov.uk/api/v1/services/%s", service_id),
+  add_headers(Authorization = "Bearer your-token-here")
+)
+service <- content(response, "parsed")</code></pre>
+                    </div>
+
+                    <h3 class="govuk-heading-s govuk-!-margin-top-6">Get taxonomy categories</h3>
+                    <div class="codeblock" data-codeblock="get-taxonomy">
+                        <div class="codeblock-header">
+                            <div class="codeblock-tabs" role="tablist">
+                                <button class="codeblock-tab active" data-lang="js" aria-selected="true" role="tab">JavaScript</button>
+                                <button class="codeblock-tab" data-lang="curl" aria-selected="false" role="tab">cURL</button>
+                                <button class="codeblock-tab" data-lang="csharp" aria-selected="false" role="tab">C#</button>
+                                <button class="codeblock-tab" data-lang="python" aria-selected="false" role="tab">Python</button>
+                                <button class="codeblock-tab" data-lang="r" aria-selected="false" role="tab">R</button>
+                            </div>
+                            <button class="codeblock-copy" title="Copy code" aria-label="Copy code" data-copy-for="get-taxonomy">
+                                <span class="material-symbols-outlined">content_copy</span>
+                            </button>
+                        </div>
+                        <pre class="codeblock-pre active" data-lang="js"><code class="language-js codeblock-code" id="get-taxonomy-js">const token = 'your-token-here';
+const response = await fetch(
+    'https://service-register.education.gov.uk/api/v1/taxonomy', {
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+});
+const categories = await response.json();</code></pre>
+                        <pre class="codeblock-pre" data-lang="curl" style="display:none;"><code class="language-bash codeblock-code" id="get-taxonomy-curl">curl -H "Authorization: Bearer your-token-here" \
+  https://service-register.education.gov.uk/api/v1/taxonomy</code></pre>
+                        <pre class="codeblock-pre" data-lang="csharp" style="display:none;"><code class="language-csharp codeblock-code" id="get-taxonomy-csharp">using var client = new HttpClient();
+client.DefaultRequestHeaders.Authorization = 
+    new AuthenticationHeaderValue("Bearer", "your-token-here");
+
+var response = await client.GetAsync(
+    "https://service-register.education.gov.uk/api/v1/taxonomy");
+var categories = await response.Content.ReadFromJsonAsync&lt;List&lt;Category&gt;&gt;();</code></pre>
+                        <pre class="codeblock-pre" data-lang="python" style="display:none;"><code class="language-python codeblock-code" id="get-taxonomy-python">import requests
+
+headers = {'Authorization': 'Bearer your-token-here'}
+response = requests.get(
+    'https://service-register.education.gov.uk/api/v1/taxonomy',
+    headers=headers
+)
+categories = response.json()</code></pre>
+                        <pre class="codeblock-pre" data-lang="r" style="display:none;"><code class="language-r codeblock-code" id="get-taxonomy-r">library(httr)
+
+response <- GET(
+  "https://service-register.education.gov.uk/api/v1/taxonomy",
+  add_headers(Authorization = "Bearer your-token-here")
+)
+categories <- content(response, "parsed")</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+// Tab switching for all codeblocks
+function setupCodeBlocks() {
+  document.querySelectorAll('.codeblock').forEach(function(block) {
+    const tabs = block.querySelectorAll('.codeblock-tab');
+    const pres = block.querySelectorAll('.codeblock-pre');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        // Remove active from all tabs
+        tabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        // Hide all pres
+        pres.forEach(p => p.classList.remove('active'));
+        pres.forEach(p => p.style.display = 'none');
+        // Show selected
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        const lang = tab.getAttribute('data-lang');
+        const pre = block.querySelector('.codeblock-pre[data-lang="' + lang + '"]');
+        if (pre) {
+          pre.classList.add('active');
+          pre.style.display = 'block';
+          const code = pre.querySelector('code');
+          if (window.hljs && code) hljs.highlightElement(code);
+        }
+      });
+    });
+  });
+}
+
+// Copy button for all codeblocks
+function setupCopyButtons() {
+  document.querySelectorAll('.codeblock-copy').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const blockName = btn.getAttribute('data-copy-for');
+      const block = document.querySelector('.codeblock[data-codeblock="' + blockName + '"]');
+      const activePre = block.querySelector('.codeblock-pre.active');
+      const activeCode = activePre ? activePre.querySelector('code') : null;
+      if (activeCode) {
+        const code = activeCode.textContent;
+        navigator.clipboard.writeText(code).then(function() {
+          btn.classList.add('copied');
+          btn.innerHTML = '<span class="material-symbols-outlined">check</span>';
+          setTimeout(function() {
+            btn.classList.remove('copied');
+            btn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
+          }, 2000);
+        });
+      }
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.codeblock-pre code').forEach((el) => {
+    if (window.hljs) hljs.highlightElement(el);
+  });
+  setupCodeBlocks();
+  setupCopyButtons();
+});
+</script>
+{% endblock %}

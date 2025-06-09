@@ -1,0 +1,39 @@
+    {% extends "layouts/layout.html" %}
+    {% set title = "Categories" %}
+    {% set containerClass = "govuk-width-container" %}
+
+    {% set mainClasses = "govuk-!-padding-top-0" %}
+
+    {% block content %}
+            <nav class="govuk-breadcrumbs" aria-label="Breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" href="/">Home</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" href="/services">Services</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item" aria-current="page">Categories</li>
+                </ol>
+            </nav>
+
+            <h1 class="govuk-heading-xl govuk-!-margin-top-5">Browse by category</h1>
+            <p>Browse services by how they are categorised.</p>
+            <div class="dfe-grid-container">
+                {% for category in categories | sort(attribute='name') %}
+                    <div class="dfe-card">
+                        <div class="dfe-card-container">
+                            <h2 class="govuk-heading-m">
+                                <a href="/services/categories/{{ category.id }}" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">{{ category.name }}</a>
+                            </h2>
+                            {% if category.description %}
+                            <p class="govuk-body">{{ category.description }}</p>
+                            {% endif %}
+                            {% if categoryCounts[category.id] %}
+                            <p class="govuk-body-s">Items in this category: {{ categoryCounts[category.id] }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+    {% endblock %}

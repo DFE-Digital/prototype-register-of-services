@@ -11,6 +11,7 @@
             <p class="govuk-body-l">Browse services by how they are categorised.</p>
             <div class="dfe-grid-container">
                 {% for category in categories | sort(attribute='name') %}
+                {% if category.id != 'CH' and category.id != 'EP' and category.id != 'LS' and category.id != 'PO' %}
                     <div class="dfe-card">
                         <div class="dfe-card-container">
                             <h2 class="govuk-heading-m">
@@ -24,6 +25,7 @@
                             {% endif %}
                         </div>
                     </div>
+                {% endif %}
                 {% endfor %}
             </div>
     {% endblock %}

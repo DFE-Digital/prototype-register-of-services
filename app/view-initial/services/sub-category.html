@@ -1,0 +1,57 @@
+{% extends "layouts/layout.html" %}
+{% set title = category.name + " - Service Register" %}
+{% set mainClasses = "govuk-!-padding-top-0" %}
+{% set containerClass = "govuk-width-container" %}
+
+{% block content %}
+    <nav class="govuk-breadcrumbs" aria-label="Breadcrumbs">
+        <ol class="govuk-breadcrumbs__list">
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" href="/">Home</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" href="/services">Services</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" href="/services/categories">Categories</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item" aria-current="page">{{ category.name }}</li>
+        </ol>
+    </nav>
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <h1 class="govuk-heading-xl govuk-!-margin-top-5">{{ category.name }}</h1>
+            {% if category.description %}
+            <p class="govuk-body">{{ category.description }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-top-6">
+        <div class="govuk-grid-column-full">
+            <div class="dfe-grid-container">
+
+                {% if category.id == 'PH' %}
+    {% set sorted_items = items | sort(attribute='order', reverse=false) %}
+{% else %}
+    {% set sorted_items = items | sort(attribute='name') %}
+{% endif %}
+
+                {% for item in sorted_items %}
+                <div class="dfe-card">
+                    <div class="dfe-card-container">
+                        <h2 class="govuk-heading-m">
+                            <a href="/services/categories/{{ category.id }}/items/{{ item.id }}" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">{{ item.name }}</a>
+                        </h2>
+                        {% if item.description %}
+                        <p class="govuk-body">{{ item.description }}</p>
+                        {% endif %}
+                        <p class="govuk-body-s">Services: {{ item.serviceCount | default(0) }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

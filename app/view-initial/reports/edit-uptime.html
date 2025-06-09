@@ -1,0 +1,69 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Edit Uptime (%) for " + service.name %}
+{% set serviceNav = "Reports" %}
+
+{% block content %}
+  <div class="govuk-width-container">
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-quarter">
+        <nav class="dfe-vertical-nav">
+          <a href="/reports/services/{{ service.id }}" class="govuk-back-link govuk-!-margin-top-0 govuk-!-margin-bottom-9">Back to service</a>
+          <h2 class="govuk-heading-s">Report sections</h2>
+          <ul class="dfe-vertical-nav__section">
+            <li class="dfe-vertical-nav__section-item">
+              <a class="dfe-vertical-nav__link" href="#">Customer experience</a>
+            </li>
+            <li class="dfe-vertical-nav__section-item dfe-vertical-nav__section-item--current">
+              <a class="dfe-vertical-nav__link" href="#">Availability & performance</a>
+            </li>
+            <li class="dfe-vertical-nav__section-item">
+              <a class="dfe-vertical-nav__link" href="#">Usage & adoption</a>
+            </li>
+            <li class="dfe-vertical-nav__section-item">
+              <a class="dfe-vertical-nav__link" href="#">Operational health</a>
+            </li>
+            <li class="dfe-vertical-nav__section-item">
+              <a class="dfe-vertical-nav__link" href="#">Security & risk</a>
+            </li>
+            <li class="dfe-vertical-nav__section-item">
+              <a class="dfe-vertical-nav__link" href="#">Financial & business impact</a>
+            </li>
+            <li class="dfe-vertical-nav__section-item">
+              <a class="dfe-vertical-nav__link" href="#">Milestones</a>
+            </li>
+
+        
+          </ul>
+        </nav>
+      </div>
+      <div class="govuk-grid-column-three-quarters">
+        <span class="govuk-caption-l">{{ x | date('add', -1, 'month') | date('MMMM YYYY') }} service report</span>
+        <h1 class="govuk-heading-xl">{{ service.name }}</h1>
+
+        <div class="dashboard-section">
+          <h2 class="govuk-heading-l">Service Uptime (%)</h2>
+
+          <p class="govuk-body">This is the percentage of time the service was available during the month. Target is 99.5%.</p>
+
+          <form method="post">
+            <div class="govuk-form-group">
+              <label class="govuk-label" for="uptime">
+        Uptime, in percent
+      </label>
+              <div class="govuk-input__wrapper">
+                <input class="govuk-input govuk-input--width-5" id="uptime" name="uptime" type="text" spellcheck="false" value="{{ service.reporting_metrics.availability_performance.uptime or '' }}">
+                <div class="govuk-input__suffix" aria-hidden="true">%</div>
+              </div>
+            </div>
+
+            <div class="govuk-button-group">
+              <button class="govuk-button" type="submit">Save</button>
+              <a href="/reports/services/{{ service.id }}" class="govuk-link">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

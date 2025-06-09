@@ -1,0 +1,75 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Use register data" %}
+{% set serviceNav = "Data" %}
+{% set nav = 'data' %}
+
+{% block content %}
+    <section class="data-hero">
+        <div class="govuk-width-container">
+
+            <div class="govuk-grid-row">
+
+                <div class="govuk-grid-column-one-quarter">
+                    {% include "data/_nav.html" %}
+                </div>
+
+                <div class="govuk-grid-column-three-quarters">
+                    <h1 class="govuk-heading-xl">Use register data</h1>
+                    <p class="govuk-body-l">Access and integrate with the Register of Services. Download data, connect via API, or use our integrations to power your own tools and analysis.</p>
+
+                    <h2 class="govuk-heading-l">Integrate in code</h2>
+                    <p class="govuk-body">Access the register programmatically with our REST API. Ideal for developers and system integrators.</p>
+
+                    <div class="dfe-grid-container govuk-!-margin-top-6">
+                         <div class="dfe-card">
+                            <div class="dfe-card-container">
+                                 <h2 class="govuk-heading-m">
+                                    <a href="/data/schema" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">Schema</a>
+                                </h2>
+                                <p class="govuk-body">The scheme describes all the fields and data types for the register of services.</p>
+                            </div>
+                        </div>
+                        <div class="dfe-card">
+                            <div class="dfe-card-container">
+                                <h2 class="govuk-heading-m">
+                                    <a href="/data/api" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">Rest API</a>
+                                </h2>
+                                <p class="govuk-body">Access the register programmatically with our REST API. Ideal for developers and system integrators.</p>
+                            </div>
+                        </div>
+                        <div class="dfe-card">
+                            <div class="dfe-card-container">
+                                 <h2 class="govuk-heading-m">
+                                    <a href="/data/json-download" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">JSON download</a>
+                                </h2>
+                                <p class="govuk-body">Download the complete register as a JSON file for use in your own applications or data pipelines.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="govuk-heading-l govuk-!-margin-top-6">Using desktop apps</h2>
+                    <p class="govuk-body">Access the data in popular desktop applications.</p>
+
+                    <div class="dfe-grid-container govuk-!-margin-top-6">
+                        <div class="dfe-card">
+                            <div class="dfe-card-container">
+                                <h2 class="govuk-heading-m">
+                                    <a href="/data/excel" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">Excel download</a>
+                                </h2>
+                                <p class="govuk-body">Download the full register as an Excel spreadsheet for offline analysis or reporting.</p>
+                            </div>
+                        </div>
+                        <div class="dfe-card">
+                            <div class="dfe-card-container">
+                                <h2 class="govuk-heading-m">
+                                    <a href="/data/powerbi" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">PowerBI integration</a>
+                                </h2>
+                                <p class="govuk-body">Connect to the register directly from PowerBI for live dashboards and reporting.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    {% endblock %}

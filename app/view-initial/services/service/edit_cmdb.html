@@ -1,0 +1,31 @@
+{% extends "layouts/layout.html" %}
+{% set title = service.name + " - Edit CMDB ID" %}
+{% set serviceNav = "Services" %}
+{% set nav = 'technical' %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-quarter">
+        {% include 'services/service/_nav.html' %}
+      </div>
+      <div class="govuk-grid-column-three-quarters">
+        <span class="govuk-caption-l">Technical configuration</span>
+        <h1 class="govuk-heading-xl">Edit CMDB ID</h1>
+        <form method="post" action="/services/service/{{ service.id }}/edit/cmdb">
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="cmdb_id">CMDB ID</label>
+            <div id="cmdb_id-hint" class="govuk-hint">
+    The ID of the corresponding CMDB entry for syncing information.
+          </div>
+            <input class="govuk-input" id="cmdb_id" name="cmdb_id" type="text" aria-describedby="cmdb_id-hint" value="{{ service.otherIds.cmdb if service.otherIds and service.otherIds.cmdb else '' }}">
+          </div>
+          <div class="govuk-button-group">
+            <button type="submit" class="govuk-button">Save changes</button>
+            <a href="/services/service/{{ service.id }}/edit/technical" class="govuk-button govuk-button--secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

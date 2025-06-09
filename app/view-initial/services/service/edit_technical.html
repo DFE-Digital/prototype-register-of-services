@@ -1,0 +1,114 @@
+{% extends "layouts/layout.html" %}
+{% set title = service.name + " - Technical Configuration" %}
+{% set serviceNav = "Services" %}
+{% set nav = 'technical' %}
+
+{% block content %}
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter">
+      {% include 'services/service/_nav.html' %}
+    </div>
+    <div class="govuk-grid-column-three-quarters">
+      <h1 class="govuk-heading-xl">Technical configuration</h1>
+
+      <!-- Technical Configuration Card -->
+      <div class="govuk-summary-card">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">CMDB configuration and sync</h2>
+        </div>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">CMDB ID</dt>
+              <dd class="govuk-summary-list__value">{{ service.otherIds.cmdb if service.otherIds and service.otherIds.cmdb else 'Not provided' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/services/service/{{ service.id }}/edit/cmdb">Change<span class="govuk-visually-hidden"> CMDB ID</span></a>
+              </dd>
+            </div>
+            {% if service.otherIds and service.otherIds.cmdb %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">CMDB name</dt>
+              <dd class="govuk-summary-list__value">{{ service.name }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <span class="govuk-visually-hidden">CMDB name is synced from service name</span>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Last sync</dt>
+              <dd class="govuk-summary-list__value">{{ x | date('add', -439.35, 'hours') | date('D MMMM YYYY HH:mm') }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a href="#" class="govuk-link" onclick="openModal('sync-cmdb'); return false;">Check for updates<span class="govuk-visually-hidden"> CMDB Data</span></a>
+              </dd>
+            </div>
+            {% endif %}
+          </dl>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Sync Modal -->
+<div class="modal-container" id="sync-cmdb-modal" role="dialog" aria-modal="true" aria-labelledby="sync-cmdb-title" tabindex="-1">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="sync-cmdb-title">Check CMDB Data</h2>
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="govuk-body">This will check for any mismatches between the service data in the Service Register and the CMDB.</p>
+      <p class="govuk-body">You will be able to review any differences and choose which data to update.</p>
+      
+      <div style="display: flex; gap: 1em; margin-top: 2em;">
+        <a href="/services/service/{{ service.id }}/sync-check" class="govuk-button">Start check</a>
+        <button class="govuk-button govuk-button--secondary" type="button" onclick="closeModal('sync-cmdb')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openModal(modalId) {
+    const modal = document.getElementById(modalId + '-modal');
+    if (modal) {
+      modal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      modal.querySelector('.modal-content').classList.add('show');
+      modal.querySelector('.modal-close').focus();
+    }
+  }
+
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId + '-modal');
+    if (modal) {
+      modal.classList.remove('show');
+      document.body.style.overflow = '';
+      modal.querySelector('.modal-content').classList.remove('show');
+    }
+  }
+
+  // Initialize modals
+  document.addEventListener('DOMContentLoaded', function () {
+    const modals = document.querySelectorAll('.modal-container');
+    modals.forEach(modal => {
+      const closeBtn = modal.querySelector('.modal-close');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          modal.classList.remove('show');
+          document.body.style.overflow = '';
+          modal.querySelector('.modal-content').classList.remove('show');
+        });
+      }
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('show');
+          document.body.style.overflow = '';
+          modal.querySelector('.modal-content').classList.remove('show');
+        }
+      });
+    });
+  });
+</script>
+{% endblock %} 

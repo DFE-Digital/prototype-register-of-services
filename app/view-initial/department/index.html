@@ -1,0 +1,241 @@
+{% extends "layouts/layout.html" %}
+{% set title = "Department" %}
+{% set serviceNav = "Department" %}
+{% set nav = 'deptartment' %}
+
+{% block content %}
+    <!-- Material Symbols stylesheet -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-xl">Department view of services</h1>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <!-- Left column - Custom folder navigation -->
+            <div class="govuk-grid-column-one-third">
+                <div class="folder-tree" id="folder-tree" role="tree">
+                    <ul class="tree-root">
+                        {% for division in dfe.department %}
+                            <li class="tree-division" role="treeitem" aria-expanded="false">
+                                <span class="tree-toggle folder-closed division-toggle" data-type="division" tabindex="0" aria-label="Expand {{ division.division }}" role="button">
+                                    <span class="material-symbols-outlined toggle-icon">add_box</span>
+                                    {{ division.division }}
+                                </span>
+                                {% if division.stage and division.stage[0] %}
+                                    <ul class="tree-stage-list" style="display:none;">
+                                        {% set stages = division.stage[0] %}
+                                        {% for stage_name, services in stages %}
+                                            {% if services and services.length > 0 %}
+                                                <li class="tree-stage" role="treeitem" aria-expanded="false">
+                                                    <span class="tree-toggle folder-closed stage-toggle" data-type="stage" tabindex="0" aria-label="Expand {{ stage_name|replace('-', ' ')|title }}" role="button">
+                                                        <span class="material-symbols-outlined toggle-icon">add_box</span>
+                                                        {{ stage_name|replace('-', ' ')|title }}
+                                                    </span>
+                                                    <ul class="tree-service-list" style="display:none;">
+                                                        {% for service in services %}
+                                                            <li class="tree-service" role="treeitem" tabindex="0" data-division="{{ division.division }}" data-stage="{{ stage_name }}" data-service='{{ service|tojson }}'>
+                                                                <span class="tree-leaf">📄 {{ service.title }}</span>
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!-- Right column - Service details -->
+            <div class="govuk-grid-column-two-thirds">
+                <div id="service-details" class="service-details-panel">
+                    <div class="govuk-body">
+                        <p class="govuk-body-l">Select a division or service to view details</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .folder-tree {
+            font-family: inherit;
+            font-size: 1em;
+            background: #f8f8f8;
+            padding: 1em;
+            border-radius: 4px;
+            min-height: 400px;
+        }
+        .tree-root, .tree-stage-list, .tree-service-list {
+            list-style: none;
+            margin: 0;
+            padding-left: 1em;
+        }
+        .tree-division > .tree-toggle,
+        .tree-stage > .tree-toggle {
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.2em;
+            outline: none;
+        }
+        .tree-leaf {
+            cursor: pointer;
+            margin-left: 1.2em;
+            display: inline-block;
+        }
+        .tree-service.selected > .tree-leaf,
+        .tree-division.selected > .tree-toggle {
+            background: #005ea5;
+            color: #fff;
+            border-radius: 3px;
+            padding: 0.1em 0.4em;
+        }
+        .tree-toggle:focus {
+            outline: 2px solid #005ea5;
+            outline-offset: 2px;
+        }
+        .toggle-icon {
+            font-size: 20px;
+            margin-right: 0.3em;
+            vertical-align: middle;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Prepare division data for summary (simple for loop, no map/zip)
+            window.divisionData = {};
+            {% for division in dfe.department %}
+                window.divisionData[{{ division.division|tojson }}] = {
+                    description: {{ division.description|default('')|tojson }},
+                    stages: {
+                        {% if division.stage and division.stage[0] %}
+                            {% set stages = division.stage[0] %}
+                            {% for stage_name, services in stages %}
+                                {{ stage_name|replace('-', ' ')|title|tojson }}: {{ services|length }}{% if not loop.last %},{% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    }
+                };
+            {% endfor %}
+
+            // Event delegation for toggling
+            document.getElementById('folder-tree').addEventListener('click', function(e) {
+                const toggle = e.target.closest('.tree-toggle');
+                if (toggle) {
+                    // Find the closest parent <li>
+                    const li = toggle.closest('li');
+                    // Find the first <ul> child of this <li>
+                    const nextUl = li ? li.querySelector(':scope > ul') : null;
+                    const icon = toggle.querySelector('.toggle-icon');
+                    if (nextUl) {
+                        if (nextUl.style.display === 'none' || nextUl.style.display === '') {
+                            nextUl.style.display = 'block';
+                            toggle.classList.remove('folder-closed');
+                            toggle.classList.add('folder-open');
+                            li.setAttribute('aria-expanded', 'true');
+                            if (icon) icon.textContent = 'indeterminate_check_box';
+                        } else {
+                            nextUl.style.display = 'none';
+                            toggle.classList.remove('folder-open');
+                            toggle.classList.add('folder-closed');
+                            li.setAttribute('aria-expanded', 'false');
+                            if (icon) icon.textContent = 'add_box';
+                        }
+                        e.stopPropagation();
+                        return;
+                    }
+                    // Division selection (no next UL)
+                    if (toggle.classList.contains('division-toggle')) {
+                        document.querySelectorAll('.tree-division.selected').forEach(function(sel) {
+                            sel.classList.remove('selected');
+                        });
+                        li.classList.add('selected');
+                        // Show division details
+                        const divisionName = toggle.textContent.trim();
+                        let divisionDesc = '';
+                        let stageSummary = '';
+                        if (window.divisionData && window.divisionData[divisionName]) {
+                            const divObj = window.divisionData[divisionName];
+                            divisionDesc = divObj.description ? `<p class='govuk-body'>${divObj.description}</p>` : '';
+                            if (divObj.stages) {
+                                stageSummary = '<ul class="govuk-list govuk-list--bullet">';
+                                for (const [stage, count] of Object.entries(divObj.stages)) {
+                                    stageSummary += `<li>${stage}: ${count}</li>`;
+                                }
+                                stageSummary += '</ul>';
+                            }
+                        }
+                        let html = `
+                            <h2 class="govuk-heading-m">${divisionName}</h2>
+                            ${divisionDesc}
+                            <h3 class="govuk-heading-s">Stage summary</h3>
+                            ${stageSummary}
+                        `;
+                        document.getElementById('service-details').innerHTML = html;
+                        e.stopPropagation();
+                    }
+                }
+            });
+            // Keyboard navigation for toggles and services
+            document.getElementById('folder-tree').addEventListener('keydown', function(e) {
+                const key = e.key;
+                const current = document.activeElement;
+                if (current.classList.contains('tree-toggle') || current.classList.contains('tree-service')) {
+                    if (key === 'ArrowDown') {
+                        let next = current.parentElement.nextElementSibling;
+                        while (next && !next.querySelector('[tabindex="0"]')) next = next.nextElementSibling;
+                        if (next) next.querySelector('[tabindex="0"]').focus();
+                        e.preventDefault();
+                    } else if (key === 'ArrowUp') {
+                        let prev = current.parentElement.previousElementSibling;
+                        while (prev && !prev.querySelector('[tabindex="0"]')) prev = prev.previousElementSibling;
+                        if (prev) prev.querySelector('[tabindex="0"]').focus();
+                        e.preventDefault();
+                    } else if (key === 'ArrowRight' && current.classList.contains('tree-toggle')) {
+                        const nextUl = current.parentElement.querySelector('ul');
+                        if (nextUl && nextUl.style.display === 'none') {
+                            current.click();
+                        }
+                        e.preventDefault();
+                    } else if (key === 'ArrowLeft' && current.classList.contains('tree-toggle')) {
+                        const nextUl = current.parentElement.querySelector('ul');
+                        if (nextUl && nextUl.style.display !== 'none') {
+                            current.click();
+                        }
+                        e.preventDefault();
+                    } else if (key === 'Enter' || key === ' ') {
+                        current.click();
+                        e.preventDefault();
+                    }
+                }
+            });
+            // Service selection logic
+            document.querySelectorAll('.tree-service').forEach(function(serviceLi) {
+                serviceLi.addEventListener('click', function(e) {
+                    document.querySelectorAll('.tree-service.selected').forEach(function(sel) {
+                        sel.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    const service = JSON.parse(this.dataset.service);
+                    const division = this.dataset.division;
+                    const stage = this.dataset.stage;
+                    let html = `
+                        <h2 class="govuk-heading-m">${division} - ${stage.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</h2>
+                        <div class="service-card">
+                            <h3 class="govuk-heading-s">${service.title}</h3>
+                            <p class="govuk-body">${service.description}</p>
+                            <a href="/service/${service.slug}" class="govuk-link">View service details</a>
+                        </div>
+                    `;
+                    document.getElementById('service-details').innerHTML = html;
+                    e.stopPropagation();
+                });
+            });
+        });
+    </script>
+{% endblock %}

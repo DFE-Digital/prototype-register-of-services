@@ -1,0 +1,41 @@
+<nav class="dfe-vertical-nav">
+
+    <ul class="dfe-vertical-nav__section">
+
+        <li class="dfe-vertical-nav__section-item {% if nav == 'data' %}dfe-vertical-nav__section-item--current{% endif %}">
+            <a class="dfe-vertical-nav__link" href="/data">Use register data</a>
+        </li>
+
+      
+
+    </ul>
+
+    <h2 class="dfe-vertical-nav--section-header govuk-heading-s">Code integrations</h2>
+    <ul class="dfe-vertical-nav__section">
+  <li class="dfe-vertical-nav__section-item {% if nav == 'schema' %}dfe-vertical-nav__section-item--current{% endif %}">
+            <a class="dfe-vertical-nav__link" href="/data/schema">Service schema</a>
+        </li>
+        <li class="dfe-vertical-nav__section-item {% if nav == 'api' %}dfe-vertical-nav__section-item--current{% endif %}">
+            <a class="dfe-vertical-nav__link" href="/data/api">Rest API</a>
+        </li>
+
+        <li class="dfe-vertical-nav__section-item {% if nav == 'json' %}dfe-vertical-nav__section-item--current{% endif %}">
+            <a class="dfe-vertical-nav__link" href="/data/json-download">JSON download</a>
+        </li>
+
+    </ul>
+
+    <h2 class="dfe-vertical-nav--section-header govuk-heading-s">App integrations</h2>
+    <ul class="dfe-vertical-nav__section">
+
+        <li class="dfe-vertical-nav__section-item {% if nav == 'excel' %}dfe-vertical-nav__section-item--current{% endif %}">
+            <a class="dfe-vertical-nav__link" href="/data/excel">Excel</a>
+        </li>
+
+        <li class="dfe-vertical-nav__section-item {% if nav == 'powerbi' %}dfe-vertical-nav__section-item--current{% endif %}">
+            <a class="dfe-vertical-nav__link" href="/data/powerbi">PowerBI</a>
+        </li>
+
+    </ul>
+
+</nav>

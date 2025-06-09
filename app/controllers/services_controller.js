@@ -72,7 +72,7 @@ const servicesController = {
             const toArray = v => v === undefined ? [] : Array.isArray(v) ? v : [v];
 
             // Extract filter query params (including sort, sort_dir, show, and page)
-            let { SP, UG, SA, PH, CH, TE, LS, EP, q, sort, sort_dir, show, page } = req.query;
+            let { SP, UG, SA, PH, CH, TE, LS, EP, PF, q, sort, sort_dir, show, page } = req.query;
 
             // Parse as arrays for multi-select
             const selected_patterns = toArray(SP);
@@ -81,6 +81,7 @@ const servicesController = {
             const selected_technologies = toArray(TE);
             const selected_archetypes = toArray(SA);
             const selected_channels = toArray(CH);
+            const selected_portfolios = toArray(PF);
             // If you have filters for life stages and education phases, add:
             const selected_life_stages = toArray(LS);
             const selected_education_phases = toArray(EP);
@@ -95,6 +96,9 @@ const servicesController = {
             page = page && !isNaN(parseInt(page, 10)) ? parseInt(page, 10) : 1;
 
             // Filtering logic (multi-value support)
+            if (selected_portfolios.length) {
+                services = services.filter(service => selected_portfolios.includes(service.portfolio));
+            }
             if (selected_patterns.length) {
                 services = services.filter(service => {
                     const cat = service.categories.find(c => c.type === 'service_patterns');
@@ -313,6 +317,8 @@ const servicesController = {
                 selected_channels,
                 selected_service_lines,
                 selected_owners,
+                selected_portfolios,
+                selected_education_phases,
                 // For backward compatibility (single value)
                 selected_pattern: SP || '',
                 selected_user_group: UG || '',
@@ -1348,6 +1354,51 @@ const servicesController = {
         services[idx].reporting_metrics.availability_performance.uptime = uptime;
         fs.writeFileSync(servicesPath, JSON.stringify(services, null, 2), 'utf8');
         res.redirect(`/reports/services/${serviceId}`);
+    },
+
+    getServiceData: async (req, res) => {
+        try {
+            const api = new API();
+            const serviceId = req.params.serviceId;
+            const service = api.getService(serviceId);
+            if (!service) {
+                return res.status(404).render('error', { message: 'Service not found', error: null });
+            }
+            const taxonomy = require('../common/data/taxonomy.json');
+            res.render('services/service/data', { service, taxonomy });
+        } catch (error) {
+            res.status(500).render('error', { message: 'Error loading service data page', error });
+        }
+    },
+
+    getServicePeople: async (req, res) => {
+        try {
+            const api = new API();
+            const serviceId = req.params.serviceId;
+            const service = api.getService(serviceId);
+            if (!service) {
+                return res.status(404).render('error', { message: 'Service not found', error: null });
+            }
+            const taxonomy = require('../common/data/taxonomy.json');
+            res.render('services/service/people', { service, taxonomy });
+        } catch (error) {
+            res.status(500).render('error', { message: 'Error loading service people page', error });
+        }
+    },
+
+    getServiceResources: async (req, res) => {
+        try {
+            const api = new API();
+            const serviceId = req.params.serviceId;
+            const service = api.getService(serviceId);
+            if (!service) {
+                return res.status(404).render('error', { message: 'Service not found', error: null });
+            }
+            const taxonomy = require('../common/data/taxonomy.json');
+            res.render('services/service/resources', { service, taxonomy });
+        } catch (error) {
+            res.status(500).render('error', { message: 'Error loading service resources page', error });
+        }
     },
 
 };

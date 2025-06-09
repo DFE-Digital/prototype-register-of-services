@@ -1,0 +1,19 @@
+ <nav class="app-sub-navigation" aria-label="Application menu">
+                <ul class="app-sub-navigation__list">
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" {% if serviceItemNav == "Overview" %}aria-current="page"{% endif %} href="/services/service/{{ service.id }}">Overview</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" {% if serviceItemNav == "Taxonomy" %}aria-current="page"{% endif %} href="/services/service/{{ service.id }}/taxonomy">Taxonomy</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" {% if serviceItemNav == "Assurance" %}aria-current="page"{% endif %} href="/services/service/{{ service.id }}/assurance">Assurance</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" {% if serviceItemNav == "Resources" %}aria-current="page"{% endif %} href="/services/service/{{ service.id }}/resources">Resources</a>
+                    </li>
+                    <li class="app-sub-navigation__item">
+                        <a class="app-sub-navigation__link" {% if serviceItemNav == "Contacts" %}aria-current="page"{% endif %} href="/services/service/{{ service.id }}/people">Contacts</a>
+                    </li>
+                </ul>
+            </nav>
