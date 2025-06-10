@@ -544,7 +544,8 @@
       {
         "type": "service_patterns",
         "values": [
-          "SP_15"
+          "SP_15",
+          "SP_3"
         ]
       },
       {
@@ -780,7 +781,7 @@
       {
         "type": "service_patterns",
         "values": [
-          "SP_15"
+          "SP_15", "SP_3"
         ]
       },
       {
@@ -1025,7 +1026,7 @@
       {
         "type": "service_patterns",
         "values": [
-          "SP_15"
+          "SP_15", "SP_3"
         ]
       },
       {
@@ -1270,7 +1271,7 @@
       {
         "type": "service_patterns",
         "values": [
-          "SP_15"
+          "SP_15", "SP_14"
         ]
       },
       {
@@ -1319,7 +1320,7 @@
       },
       {
         "type": "technologies",
-        "values": []
+        "values": ["SP_5"]
       },
       {
         "type": "policy",
@@ -2018,7 +2019,7 @@
       },
       {
         "type": "technologies",
-        "values": []
+        "values": ["TE_4", "TE_2"]
       },
       {
         "type": "policy",
@@ -6872,7 +6873,7 @@
       {
         "type": "service_patterns",
         "values": [
-          "SP_15"
+          "SP_15", "SP_3"
         ]
       },
       {
@@ -8840,7 +8841,7 @@
       {
         "type": "service_patterns",
         "values": [
-          "SP_15"
+          "SP_15", "SP_14"
         ]
       },
       {
@@ -9046,7 +9047,7 @@
       {
         "type": "service_patterns",
         "values": [
-          "SP_15"
+          "SP_15","SP_14"
         ]
       },
       {
@@ -10391,7 +10392,7 @@
       {
         "type": "service_patterns",
         "values": [
-          "SP_15"
+          "SP_15", "SP_14"
         ]
       },
       {
